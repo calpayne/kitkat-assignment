@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Clubs</string>
+    <string name="app_logo_description">App icon logo</string>
+    <string name="login_with_google">Login with Google</string>
 </resources>
