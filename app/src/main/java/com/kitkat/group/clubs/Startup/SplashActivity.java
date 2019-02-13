@@ -1,8 +1,11 @@
-package com.kitkat.group.clubs;
+package com.kitkat.group.clubs.Startup;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import com.kitkat.group.clubs.Authentication.LoginActivity;
+import com.kitkat.group.clubs.R;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -14,14 +17,14 @@ public class SplashActivity extends AppCompatActivity {
         Thread myThread = new Thread() {
             @Override
             public void run() {
-                try {
-                    sleep(1500);
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            try {
+                sleep(1500);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                startActivity(intent);
+                finish();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             }
         };
         myThread.start();
