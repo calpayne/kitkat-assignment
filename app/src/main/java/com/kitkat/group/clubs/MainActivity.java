@@ -1,11 +1,20 @@
 package com.kitkat.group.clubs;
 
+<<<<<<< HEAD
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+=======
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+>>>>>>> feature
 import android.util.Log;
 import android.view.MenuItem;
 
@@ -28,9 +37,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+<<<<<<< HEAD
         Log.d(TAG, "onCreate: Started MainActivity.");
 
         BottomNavigationView navigation =  findViewById(R.id.navigation);
+=======
+        Log.d(TAG, "onCreate: started MainActivity");
+
+        BottomNavigationView navigation = findViewById(R.id.navigation);
+>>>>>>> feature
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         fm.beginTransaction().add(R.id.fragment_container, fragment3, "3").hide(fragment3).commit();
@@ -40,20 +55,32 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
+<<<<<<< HEAD
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
+=======
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch(item.getItemId()) {
+>>>>>>> feature
                 case R.id.navigation_home:
                     fm.beginTransaction().hide(active).show(fragment1).commit();
                     active = fragment1;
                     return true;
+<<<<<<< HEAD
 
+=======
+>>>>>>> feature
                 case R.id.navigation_clubs:
                     fm.beginTransaction().hide(active).show(fragment2).commit();
                     active = fragment2;
                     return true;
+<<<<<<< HEAD
 
+=======
+>>>>>>> feature
                 case R.id.navigation_user:
                     fm.beginTransaction().hide(active).show(fragment3).commit();
                     active = fragment3;
