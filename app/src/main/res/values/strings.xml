@@ -2,4 +2,10 @@
     <string name="app_name">Clubs</string>
     <string name="app_logo_description">App icon logo</string>
     <string name="login_with_google">Login with Google</string>
+    <string name="title_home">Home</string>
+    <string name="title_clubs">Clubs</string>
+    <string name="title_user">User</string>
+    <string name="nav_bar_home">Home</string>
+    <string name="nav_bar_clubs">Clubs</string>
+    <string name="nav_bar_user">User</string>
 </resources>
