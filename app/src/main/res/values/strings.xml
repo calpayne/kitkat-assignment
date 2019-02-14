@@ -8,4 +8,6 @@
     <string name="nav_bar_home">Home</string>
     <string name="nav_bar_clubs">Clubs</string>
     <string name="nav_bar_user">User</string>
+    <string name="login_with_google">Sign in with Google</string>
+    <string name="logout_text">Logout</string>
 </resources>
