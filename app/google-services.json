@@ -15,6 +15,46 @@
       },
       "oauth_client": [
         {
+          "client_id": "489827070205-9al3dcvu643alsippk42hvm24bui3vbb.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kitkat.group.clubs",
+            "certificate_hash": "07ba1326c9ce5ed026d97eb3122707d09399aa7c"
+          }
+        },
+        {
+          "client_id": "489827070205-e07uh23rcbjfg6dv2mndgk87tnru5918.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kitkat.group.clubs",
+            "certificate_hash": "560dd1897a7c839f375cd172df40f4a640d66de6"
+          }
+        },
+        {
+          "client_id": "489827070205-0i0ku0d3if712d480l85rjiceeh99dt7.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kitkat.group.clubs",
+            "certificate_hash": "4c94116183e0d3ea0b1c905e6bb2ce26102f2947"
+          }
+        },
+        {
+          "client_id": "489827070205-ctgss5bathuav9i7voon5h0ahdr2d55t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kitkat.group.clubs",
+            "certificate_hash": "018cbdb8946609997087824051c315bc4448d25c"
+          }
+        },
+        {
+          "client_id": "489827070205-ghf789ghgkpgj3e9crr3uj8glkpohv04.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kitkat.group.clubs",
+            "certificate_hash": "f9940d0c0ead168e8fae75e6fb2a85fc037fa9c4"
+          }
+        },
+        {
           "client_id": "489827070205-18ofketch7nn2ssms8856f98jb3e86kh.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +69,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "489827070205-18ofketch7nn2ssms8856f98jb3e86kh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
