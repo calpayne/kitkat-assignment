@@ -19,12 +19,20 @@
         android:text="?"
         />
 
-    <FrameLayout
-        android:layout_marginTop="55dp"
+    <RelativeLayout
+        android:layout_marginTop="56dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
 
-    </FrameLayout>
+        <Button
+            android:id="@+id/btn_clubs_create"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:text="+" />
+
+    </RelativeLayout>
 
 </RelativeLayout>
