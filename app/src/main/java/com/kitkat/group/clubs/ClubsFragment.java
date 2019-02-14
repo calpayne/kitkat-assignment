@@ -1,4 +1,4 @@
-package com.kitkat.group.clubs.Fragments;
+package com.kitkat.group.clubs;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,8 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.kitkat.group.clubs.R;
 
 /**
  * Created by Glenn on 13/02/2019.

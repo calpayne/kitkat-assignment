@@ -1,4 +1,4 @@
-package com.kitkat.group.clubs.Fragments;
+package com.kitkat.group.clubs;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,25 +7,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.kitkat.group.clubs.R;
-
 /**
  * Created by Glenn on 13/02/2019.
  */
 
-public class HomeFragment extends Fragment {
+public class UserFragment extends Fragment {
 
-    private static final String TAG = "HomeFragment";
+    private static final String TAG = "UserFragment";
 
-    public HomeFragment() {
+    public UserFragment() {
         // Empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView: started HomeFragment");
+        Log.d(TAG, "onCreateView: started UserFragment");
 
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_user, container, false);
 
         return view;
     }
