@@ -22,7 +22,7 @@ public class CreateClubActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_club);
 
-        databaseRef = FirebaseDatabase.getInstance().getReference();
+        databaseRef = FirebaseDatabase.getInstance().getReference("clubs");
         clubName = (EditText) findViewById(R.id.clubName);
         clubDesc = (EditText) findViewById(R.id.clubDesc);
     }
@@ -31,6 +31,7 @@ public class CreateClubActivity extends AppCompatActivity {
         FirebaseUser fa = FirebaseAuth.getInstance().getCurrentUser();
         Club club = new Club(clubName.getText().toString(), clubDesc.getText().toString(), fa.getUid());
 
-        databaseRef.child("clubs").child(databaseRef.getKey()).setValue(club);
+        String id = databaseRef.push().getKey();
+        databaseRef.child(id).setValue(club);
     }
 }
