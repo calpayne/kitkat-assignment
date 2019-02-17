@@ -55,6 +55,14 @@
           }
         },
         {
+          "client_id": "489827070205-9ol3kr3itfblvoa93pfttjocfgt4jbpv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kitkat.group.clubs",
+            "certificate_hash": "4b83b1f09d5a939ca23ed8503a77b606612f295d"
+          }
+        },
+        {
           "client_id": "489827070205-18ofketch7nn2ssms8856f98jb3e86kh.apps.googleusercontent.com",
           "client_type": 3
         }

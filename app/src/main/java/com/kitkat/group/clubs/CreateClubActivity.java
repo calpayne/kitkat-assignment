@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -22,16 +23,22 @@ public class CreateClubActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_club);
 
-        databaseRef = FirebaseDatabase.getInstance().getReference("clubs");
+        databaseRef = FirebaseDatabase.getInstance().getReference();
         clubName = findViewById(R.id.clubName);
         clubDesc = findViewById(R.id.clubDesc);
     }
 
     public void createClub(View view) {
-        FirebaseUser fa = FirebaseAuth.getInstance().getCurrentUser();
-        Club club = new Club(clubName.getText().toString(), clubDesc.getText().toString(), fa.getUid());
-        databaseRef.push().setValue("test");
+        if (clubName.getText().toString().isEmpty() || clubDesc.getText().toString().isEmpty()) {
+            Toast.makeText(CreateClubActivity.this, "You can't leave the club name or description boxes empty", Toast.LENGTH_SHORT).show();
+        } else {
+            FirebaseUser fa = FirebaseAuth.getInstance().getCurrentUser();
+            Club club = new Club(clubName.getText().toString(), clubDesc.getText().toString(), fa.getUid());
 
-        //databaseRef.push().setValue(club);
+            String id = databaseRef.push().getKey();
+
+            databaseRef.child("clubs").child(id).setValue(club);
+            Toast.makeText(CreateClubActivity.this, "Club added", Toast.LENGTH_SHORT).show();
+        }
     }
 }
