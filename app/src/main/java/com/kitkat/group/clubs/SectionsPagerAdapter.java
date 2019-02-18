@@ -1,4 +1,4 @@
-package uk.ac.tees.t7014713.mine.Fragments;
+package com.kitkat.group.clubs;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

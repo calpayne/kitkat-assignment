@@ -9,4 +9,7 @@
     <string name="nav_bar_user">User</string>
     <string name="login_with_google">Sign in with Google</string>
     <string name="logout_text">Logout</string>
+    <string name="user_settings_TnC">Terms and Conditions</string>
+    <string name="user_settings_DA">Delete Account</string>
+    <string name="user_settings_SO">Sign Out</string>
 </resources>
