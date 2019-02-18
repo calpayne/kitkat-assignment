@@ -40,6 +40,10 @@ public class CreateClubActivity extends AppCompatActivity {
 
             databaseRef.child("clubs").child(id).setValue(club);
             Toast.makeText(CreateClubActivity.this, "Club added", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+            finish();
         }
     }
 
