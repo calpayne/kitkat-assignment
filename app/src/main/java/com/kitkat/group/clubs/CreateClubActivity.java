@@ -1,5 +1,6 @@
 package com.kitkat.group.clubs;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -40,5 +41,11 @@ public class CreateClubActivity extends AppCompatActivity {
             databaseRef.child("clubs").child(id).setValue(club);
             Toast.makeText(CreateClubActivity.this, "Club added", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void goBack(View view) {
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
