@@ -8,19 +8,19 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Terms and Condition"
+        android:text="@string/user_settings_TnC"
         android:textSize="20sp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete Account"
+        android:text="@string/user_settings_DA"
         android:textSize="20sp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign Out"
+        android:text="@string/user_settings_SO"
         android:textSize="20sp" />
 
 </LinearLayout>
