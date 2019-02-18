@@ -10,7 +10,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="50dp"
-        android:text="SEARCH HERE"/>
+        android:hint="SEARCH..."/>
 
     <Button
         android:layout_width="50dp"
@@ -27,11 +27,11 @@
 
         <Button
             android:id="@+id/btn_clubs_create"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:text="+" />
+            android:text="Create Club" />
 
     </RelativeLayout>
 
