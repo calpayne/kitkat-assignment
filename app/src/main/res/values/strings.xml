@@ -9,4 +9,8 @@
     <string name="nav_bar_user">User</string>
     <string name="login_with_google">Sign in with Google</string>
     <string name="logout_text">Logout</string>
-    </resources>
+    <string name="create_club">Create a Club</string>
+    <string name="club_name">Club Name</string>
+    <string name="club_desc">Club Description</string>
+    <string name="go_back">Go Back</string>
+</resources>
