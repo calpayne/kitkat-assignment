@@ -10,7 +10,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="50dp"
-        android:text="SEARCH HERE"/>
+        android:hint="SEARCH..."/>
 
     <Button
         android:layout_width="50dp"
@@ -19,8 +19,8 @@
         android:text="?"
         />
 
-    <FrameLayout
-        android:layout_marginTop="55dp"
+    <RelativeLayout
+        android:layout_marginTop="56dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
@@ -29,7 +29,9 @@
             android:id="@+id/btn_clubs_create"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Button" />
-    </FrameLayout>
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:text="Create Club" />
 
+    </RelativeLayout>
 </RelativeLayout>

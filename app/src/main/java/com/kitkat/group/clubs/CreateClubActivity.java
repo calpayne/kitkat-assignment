@@ -1,11 +1,14 @@
 package com.kitkat.group.clubs;
-
+    
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -16,6 +19,7 @@ import com.kitkat.group.clubs.data.Club;
 public class CreateClubActivity extends AppCompatActivity {
 
     private DatabaseReference databaseRef;
+    private static final String TAG = "CreateClubActivity";
     private EditText clubName;
     private EditText clubDesc;
 
@@ -24,6 +28,8 @@ public class CreateClubActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_club);
 
+        Log.d(TAG, "onCreate: started CreateClubActivity");
+  
         databaseRef = FirebaseDatabase.getInstance().getReference();
         clubName = findViewById(R.id.clubName);
         clubDesc = findViewById(R.id.clubDesc);
