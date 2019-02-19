@@ -20,6 +20,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:onClick="logout"
         android:text="@string/user_settings_SO"
         android:textSize="20sp" />
 
