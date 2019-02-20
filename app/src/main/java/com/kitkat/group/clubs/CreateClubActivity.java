@@ -1,6 +1,8 @@
 package com.kitkat.group.clubs;
     
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.kitkat.group.clubs.data.Club;
@@ -47,12 +50,20 @@ public class CreateClubActivity extends AppCompatActivity {
 
             String id = databaseRef.push().getKey();
 
-            databaseRef.child("clubs").child(id).setValue(club);
-            Toast.makeText(CreateClubActivity.this, "Club added", Toast.LENGTH_SHORT).show();
+            databaseRef.child("clubs").child(id).setValue(club, new DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
+                    if (databaseError != null) {
+                        Toast.makeText(CreateClubActivity.this, "Something went wrong and your club couldn't be added", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(CreateClubActivity.this, "Club added", Toast.LENGTH_SHORT).show();
+                    }
 
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-            finish();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
         }
     }
 
