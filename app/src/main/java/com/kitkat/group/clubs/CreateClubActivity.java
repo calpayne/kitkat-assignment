@@ -19,6 +19,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
 import com.kitkat.group.clubs.data.Club;
 
+import java.util.ArrayList;
+
 public class CreateClubActivity extends AppCompatActivity {
 
     private DatabaseReference databaseRef;
@@ -44,16 +46,24 @@ public class CreateClubActivity extends AppCompatActivity {
         if (clubName.getText().toString().isEmpty() || clubDesc.getText().toString().isEmpty()) {
             Toast.makeText(CreateClubActivity.this, "You can't leave the club name or description boxes empty", Toast.LENGTH_SHORT).show();
         } else {
-            FirebaseUser fa = FirebaseAuth.getInstance().getCurrentUser();
+            final FirebaseUser fa = FirebaseAuth.getInstance().getCurrentUser();
 
             Club club = new Club(clubName.getText().toString(), clubDesc.getText().toString(), null, fa.getUid(), isPublic.isChecked(), ServerValue.TIMESTAMP);
-            String id = databaseRef.push().getKey();
+            final String id = databaseRef.push().getKey();
             databaseRef.child("clubs").child(id).setValue(club, new DatabaseReference.CompletionListener() {
                 @Override
                 public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
                     if (databaseError != null) {
                         Toast.makeText(CreateClubActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                     } else {
+                        ArrayList<String> members = new ArrayList();
+                        members.add(fa.getUid());
+                        databaseRef.child("clubs-members").child(id).setValue(members);
+
+                        ArrayList<String> clubs = new ArrayList();
+                        clubs.add(id);
+                        databaseRef.child("members-clubs").child(fa.getUid()).setValue(clubs);
+
                         Toast.makeText(CreateClubActivity.this, "Club added", Toast.LENGTH_SHORT).show();
                     }
 
