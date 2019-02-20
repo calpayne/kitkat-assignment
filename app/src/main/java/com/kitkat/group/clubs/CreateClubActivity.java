@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ public class CreateClubActivity extends AppCompatActivity {
     private static final String TAG = "CreateClubActivity";
     private EditText clubName;
     private EditText clubDesc;
+    private Switch isPublic;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,7 @@ public class CreateClubActivity extends AppCompatActivity {
         databaseRef = FirebaseDatabase.getInstance().getReference();
         clubName = findViewById(R.id.clubName);
         clubDesc = findViewById(R.id.clubDesc);
+        isPublic = findViewById(R.id.isPublic);
     }
 
     public void createClub(View view) {
@@ -40,7 +43,7 @@ public class CreateClubActivity extends AppCompatActivity {
             Toast.makeText(CreateClubActivity.this, "You can't leave the club name or description boxes empty", Toast.LENGTH_SHORT).show();
         } else {
             FirebaseUser fa = FirebaseAuth.getInstance().getCurrentUser();
-            Club club = new Club(clubName.getText().toString(), clubDesc.getText().toString(), fa.getUid());
+            Club club = new Club(clubName.getText().toString(), clubDesc.getText().toString(), null, fa.getUid(), isPublic.isChecked());
 
             String id = databaseRef.push().getKey();
 

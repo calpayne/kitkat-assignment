@@ -16,4 +16,5 @@
     <string name="club_name">Club Name</string>
     <string name="club_desc">Club Description</string>
     <string name="go_back">Go Back</string>
+    <string name="public_club">Public Club?</string>
 </resources>

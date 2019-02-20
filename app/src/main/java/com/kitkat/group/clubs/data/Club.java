@@ -6,19 +6,20 @@ package com.kitkat.group.clubs.data;
 
 public class Club {
 
-    private String clubName;
-    private String clubDescription;
-    private String clubOwner;
+    private String clubName, clubDescription, clubLocation, clubOwner;
+    private boolean isPublic;
     //private List<Member> members;
 
     public Club() {
 
     }
 
-    public Club(String clubName, String clubDescription, String clubOwner) {
+    public Club(String clubName, String clubDescription, String clubLocation, String clubOwner, boolean isPublic) {
         this.clubDescription = clubDescription;
         this.clubName = clubName;
+        this.clubLocation = clubLocation;
         this.clubOwner = clubOwner;
+        this.isPublic = isPublic;
     }
 
     public String getClubName() {
@@ -29,8 +30,16 @@ public class Club {
         return clubDescription;
     }
 
+    public String getClubLocation() {
+        return clubLocation;
+    }
+
     public String getClubOwner() {
         return clubOwner;
+    }
+
+    public boolean isPublic() {
+        return isPublic;
     }
 
 }
