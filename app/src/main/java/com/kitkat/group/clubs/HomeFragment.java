@@ -16,7 +16,6 @@ import android.widget.Button;
 public class HomeFragment extends Fragment {
 
     private static final String TAG = "HomeFragment";
-    public Button nfcbutton;
 
     public HomeFragment() {
         // Empty public constructor
@@ -27,17 +26,6 @@ public class HomeFragment extends Fragment {
         Log.d(TAG, "onCreateView: started HomeFragment");
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
-
-        nfcbutton = (Button) view.findViewById(R.id.nfcbutton);
-        nfcbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), SenderActivity.class);
-                //intent.putExtra("text",text);
-                startActivity(intent);
-            }
-        });
-
         return view;
     }
 }
