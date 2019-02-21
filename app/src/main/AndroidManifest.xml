@@ -21,6 +21,10 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".CreateClubActivity" />
+        <activity
+            android:name=".ViewClubActivity"
+            android:label="@string/title_activity_view_club"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

@@ -16,4 +16,7 @@
     <string name="club_name">Club Name</string>
     <string name="club_desc">Club Description</string>
     <string name="go_back">Go Back</string>
+    <string name="title_activity_view_club">View a Club</string>
+    <string name="action_settings">Settings</string>
+    <string name="clubDetails">Test text</string>
 </resources>
