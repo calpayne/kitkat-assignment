@@ -14,7 +14,7 @@ import android.widget.Button;
  */
 
 public class ClubsFragment extends Fragment {
-    public Button nfcbutton;
+
     private static final String TAG = "ClubsFragment";
 
     public ClubsFragment() {
@@ -26,16 +26,6 @@ public class ClubsFragment extends Fragment {
         Log.d(TAG, "onCreateView: started ClubsFragment");
 
         View view = inflater.inflate(R.layout.fragment_clubs, container, false);
-        nfcbutton = (Button) view.findViewById(R.id.nfcbutton);
-        nfcbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent(getActivity(), SenderActivity.class);
-                //intent.putExtra("text",text);
-                startActivity(intent);
-            }
-        });
         return view;
     }
 }

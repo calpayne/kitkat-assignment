@@ -1,15 +1,21 @@
 package com.kitkat.group.clubs;
 
+import android.*;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.nfc.NfcAdapter;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.kitkat.group.clubs.OutcomingNfcManager;
+
 
 public class SenderActivity extends AppCompatActivity implements OutcomingNfcManager.NfcActivity {
 
@@ -20,10 +26,19 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
     private NfcAdapter nfcAdapter;
     private OutcomingNfcManager outcomingNfccallback;
 
+    //Runtime permission
+    private TextView resultView;
+    private View requestView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sender);
+
+        resultView = findViewById(R.id.resultView);
+        requestView = findViewById(R.id.requestView);
+
+//        requestView.setOnClickListener(view -> myMethod());
 
         if (!isNfcSupported()) {
             Toast.makeText(this, "Nfc is not supported on this device", Toast.LENGTH_SHORT).show();
@@ -39,7 +54,11 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
         this.outcomingNfccallback = new OutcomingNfcManager(this);
         this.nfcAdapter.setOnNdefPushCompleteCallback(outcomingNfccallback, this);
         this.nfcAdapter.setNdefPushMessageCallback(outcomingNfccallback, this);
+
+
+
     }
+
 
     private void initViews() {
         this.tvOutcomingMessage = findViewById(R.id.tv_out_message);
