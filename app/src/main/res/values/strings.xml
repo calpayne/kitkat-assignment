@@ -17,4 +17,5 @@
     <string name="club_desc">Club Description</string>
     <string name="go_back">Go Back</string>
     <string name="public_club">Public Club?</string>
+    <string name="upload_image">Choose Club Logo</string>
 </resources>

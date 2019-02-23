@@ -1,6 +1,8 @@
 package com.kitkat.group.clubs;
     
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -11,23 +13,32 @@ import android.widget.Switch;
 import android.widget.Toast;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ServerValue;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.kitkat.group.clubs.data.Club;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class CreateClubActivity extends AppCompatActivity {
 
     private DatabaseReference databaseRef;
+    private StorageReference storageRef;
     private static final String TAG = "CreateClubActivity";
+    private static final int GALLERY_INTENT = 2;
+    private final String clubID = UUID.randomUUID().toString();
     private EditText clubName;
     private EditText clubDesc;
     private Switch isPublic;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +48,39 @@ public class CreateClubActivity extends AppCompatActivity {
         Log.d(TAG, "onCreate: started CreateClubActivity");
   
         databaseRef = FirebaseDatabase.getInstance().getReference();
+        storageRef = FirebaseStorage.getInstance().getReference();
         clubName = findViewById(R.id.clubName);
         clubDesc = findViewById(R.id.clubDesc);
         isPublic = findViewById(R.id.isPublic);
+        progressDialog = new ProgressDialog(this);
+    }
+
+    public void uploadLogo(View view) {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+
+        startActivityForResult(intent, GALLERY_INTENT);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == GALLERY_INTENT && resultCode == RESULT_OK) {
+            progressDialog.setMessage("Uploading...");
+            progressDialog.show();
+
+            Uri uri = data.getData();
+
+            StorageReference filePath = storageRef.child("club-logos").child(clubID);
+            filePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(CreateClubActivity.this, "Upload done", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                }
+            });
+        }
     }
 
     public void createClub(View view) {
@@ -49,20 +90,14 @@ public class CreateClubActivity extends AppCompatActivity {
             final FirebaseUser fa = FirebaseAuth.getInstance().getCurrentUser();
 
             Club club = new Club(clubName.getText().toString(), clubDesc.getText().toString(), null, fa.getUid(), isPublic.isChecked(), ServerValue.TIMESTAMP);
-            final String id = databaseRef.push().getKey();
-            databaseRef.child("clubs").child(id).setValue(club, new DatabaseReference.CompletionListener() {
+            databaseRef.child("clubs").child(clubID).setValue(club, new DatabaseReference.CompletionListener() {
                 @Override
                 public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
                     if (databaseError != null) {
                         Toast.makeText(CreateClubActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                     } else {
-                        ArrayList<String> members = new ArrayList();
-                        members.add(fa.getUid());
-                        databaseRef.child("clubs-members").child(id).setValue(members);
-
-                        ArrayList<String> clubs = new ArrayList();
-                        clubs.add(id);
-                        databaseRef.child("members-clubs").child(fa.getUid()).setValue(clubs);
+                        databaseRef.child("clubs-members").child(clubID).push().setValue(fa.getUid());
+                        databaseRef.child("members-clubs").child(fa.getUid()).push().setValue(clubID);
 
                         Toast.makeText(CreateClubActivity.this, "Club added", Toast.LENGTH_SHORT).show();
                     }
