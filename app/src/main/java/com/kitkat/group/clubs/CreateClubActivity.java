@@ -25,7 +25,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.kitkat.group.clubs.data.Club;
 
-import java.util.ArrayList;
 import java.util.UUID;
 
 public class CreateClubActivity extends AppCompatActivity {
@@ -35,6 +34,7 @@ public class CreateClubActivity extends AppCompatActivity {
     private static final String TAG = "CreateClubActivity";
     private static final int GALLERY_INTENT = 2;
     private final String clubID = UUID.randomUUID().toString();
+    private Uri image;
     private EditText clubName;
     private EditText clubDesc;
     private Switch isPublic;
@@ -70,7 +70,7 @@ public class CreateClubActivity extends AppCompatActivity {
             progressDialog.setMessage("Uploading...");
             progressDialog.show();
 
-            Uri uri = data.getData();
+            image = data.getData();
 
             StorageReference filePath = storageRef.child("club-logos").child(clubID);
             filePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -86,6 +86,8 @@ public class CreateClubActivity extends AppCompatActivity {
     public void createClub(View view) {
         if (clubName.getText().toString().isEmpty() || clubDesc.getText().toString().isEmpty()) {
             Toast.makeText(CreateClubActivity.this, "You can't leave the club name or description boxes empty", Toast.LENGTH_SHORT).show();
+        } else if (image == null) {
+            Toast.makeText(CreateClubActivity.this, "You need to add a club logo", Toast.LENGTH_SHORT).show();
         } else {
             final FirebaseUser fa = FirebaseAuth.getInstance().getCurrentUser();
 
