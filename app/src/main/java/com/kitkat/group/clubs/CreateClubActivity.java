@@ -73,7 +73,7 @@ public class CreateClubActivity extends AppCompatActivity {
             image = data.getData();
 
             StorageReference filePath = storageRef.child("club-logos").child(clubID);
-            filePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            filePath.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     Toast.makeText(CreateClubActivity.this, "Upload done", Toast.LENGTH_SHORT).show();
@@ -98,8 +98,8 @@ public class CreateClubActivity extends AppCompatActivity {
                     if (databaseError != null) {
                         Toast.makeText(CreateClubActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                     } else {
-                        databaseRef.child("clubs-members").child(clubID).push().setValue(fa.getUid());
-                        databaseRef.child("members-clubs").child(fa.getUid()).push().setValue(clubID);
+                        databaseRef.child("clubs-members").child(clubID).child(fa.getUid()).setValue(true);
+                        databaseRef.child("members-clubs").child(fa.getUid()).child(clubID).setValue(true);
 
                         Toast.makeText(CreateClubActivity.this, "Club added", Toast.LENGTH_SHORT).show();
                     }
