@@ -84,10 +84,17 @@ public class CreateClubActivity extends AppCompatActivity {
     }
 
     public void createClub(View view) {
+        progressDialog.setMessage("Creating club...");
+        progressDialog.show();
+
         if (clubName.getText().toString().isEmpty() || clubDesc.getText().toString().isEmpty()) {
             Toast.makeText(CreateClubActivity.this, "You can't leave the club name or description boxes empty", Toast.LENGTH_SHORT).show();
         } else if (image == null) {
             Toast.makeText(CreateClubActivity.this, "You need to add a club logo", Toast.LENGTH_SHORT).show();
+        } else if (clubName.getText().toString().length() < 3 || clubName.getText().toString().length() > 25) {
+            Toast.makeText(CreateClubActivity.this, "Your club name needs to be between 3 and 25 characters", Toast.LENGTH_SHORT).show();
+        } else if (clubDesc.getText().toString().length() < 3 || clubDesc.getText().toString().length() > 100) {
+            Toast.makeText(CreateClubActivity.this, "Your club description needs to be between 3 and 100 characters", Toast.LENGTH_SHORT).show();
         } else {
             final FirebaseUser fa = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -104,6 +111,7 @@ public class CreateClubActivity extends AppCompatActivity {
                         Toast.makeText(CreateClubActivity.this, "Club added", Toast.LENGTH_SHORT).show();
                     }
 
+                    progressDialog.dismiss();
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
