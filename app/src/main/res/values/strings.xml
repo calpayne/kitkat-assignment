@@ -18,4 +18,6 @@
     <string name="go_back">Go Back</string>
     <string name="public_club">Public Club?</string>
     <string name="upload_image">Choose Club Logo</string>
+    <string name="clubs">Clubs</string>
+    <string name="search">Search</string>
 </resources>
