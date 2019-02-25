@@ -31,45 +31,51 @@ public class ViewClubActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         db = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference instance = db.child("clubs");
 
         //DocumentReference docRef = db.collection("cities").document(getIntent().getStringExtra("clubId"));
 
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()){
-                    Log.d(VTAG,"No data found");
-                }
-                DataSnapshot ds = dataSnapshot.child("clubs").child(getIntent().getStringExtra("clubId"));
+                DataSnapshot ds = dataSnapshot.child(getIntent().getStringExtra("clubId"));
                     club = new Club(
                             ds.child("clubName").getValue(String.class),
                             ds.child("clubDescription").getValue(String.class),
                             ds.child("clubOwner").getValue(String.class)
                     );
+                System.out.println(ds.child("clubName").getValue(String.class));
+                System.out.println(ds.child("clubDescription").getValue(String.class));
+                System.out.println(ds.child("clubOwner").getValue(String.class));
+
+                if(club == null)
+                    System.out.println("Club instance is null.");
+                else
+                    System.out.print(club.toString());
+
+                //ImageView imageView = (ImageView) findViewById(R.id.clubImage);
+                //imageView.setImage();
+
+                TextView textView = (TextView) findViewById(R.id.textView);
+                textView.setText(club.getClubDescription());
+
+                FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+                fab.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Snackbar.make(view, club.getClubOwner(), Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+                });
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Database error.");
                 Log.e(VTAG, "onCancelled", databaseError.toException());
             }
         };
-        db.addListenerForSingleValueEvent(valueEventListener);
-
-        this.setTitle(club.getClubName());
-
-        //ImageView imageView = (ImageView) findViewById(R.id.clubImage);
-        //imageView.setImage();
-
-        TextView textView = (TextView) findViewById(R.id.textView);
-        textView.setText(club.getClubDescription());
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, club.getClubOwner(), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        instance.addListenerForSingleValueEvent(valueEventListener);
+        this.setTitle(instance.child(getIntent().getStringExtra("clubId")).child("clubName").getKey());
     }
 
 
