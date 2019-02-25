@@ -3,6 +3,7 @@ package com.kitkat.group.clubs;
 import android.app.Activity;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.kitkat.group.clubs.data.Club;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -33,7 +36,7 @@ public class ClubListAdapter extends ArrayAdapter {
         this.data = data;
     }
 
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.listview_row, null,true);
 
@@ -41,8 +44,19 @@ public class ClubListAdapter extends ArrayAdapter {
         clubNameText.setText(data.get(position).getClubName());
 
         final ImageView imageView = rowView.findViewById(R.id.club_logo);
+        storageRef.child(data.get(position).getClubID()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.with(context).load(uri).into(imageView);
+            }
+        });
+
+        rowView.setOnClickListener(new View.OnClickListener() {
+            public void onClick(final View v) {
+                Log.d("ONCLICK-DEBUG", data.get(position).getClubID());
+            }
+        });
 
         return rowView;
-
     };
 }

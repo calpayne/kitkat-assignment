@@ -19,7 +19,6 @@ public class ClubListActivity extends AppCompatActivity {
 
     private DatabaseReference databaseRef;
     private ArrayList<Club> clubs;
-    //private ArrayList<String> clubs;
     private ListView clubsListView;
 
     @Override
@@ -61,41 +60,5 @@ public class ClubListActivity extends AppCompatActivity {
 
             }
         });
-
-        /*
-        clubs = new ArrayList<>();
-        final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, clubs);
-        clubsListView = findViewById(R.id.clubs_list);
-        clubsListView.setAdapter(arrayAdapter);
-
-        databaseRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Club data = dataSnapshot.getValue(Club.class);
-                clubs.add(data.getClubName().toString());
-                arrayAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                arrayAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-        */
     }
 }
