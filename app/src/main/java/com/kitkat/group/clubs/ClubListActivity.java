@@ -5,13 +5,17 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.kitkat.group.clubs.data.Club;
 
 import java.util.ArrayList;
@@ -21,6 +25,7 @@ public class ClubListActivity extends AppCompatActivity {
     private DatabaseReference databaseRef;
     private ArrayList<Club> clubs;
     private ListView clubsListView;
+    private EditText searchText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +37,7 @@ public class ClubListActivity extends AppCompatActivity {
         final ClubListAdapter listAdapter = new ClubListAdapter(this, clubs);
         clubsListView = findViewById(R.id.clubs_list);
         clubsListView.setAdapter(listAdapter);
+        searchText = findViewById(R.id.editText);
 
         databaseRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -79,5 +85,32 @@ public class ClubListActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void search(View view) {
+        if (searchText.getText().toString().isEmpty()) {
+            Toast.makeText(ClubListActivity.this, "You can't leave the search box empty", Toast.LENGTH_SHORT).show();
+        } else {
+            databaseRef.orderByChild("clubName").equalTo(searchText.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Club data = null;
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        data = ds.getValue(Club.class);
+                    }
+
+                    if (data == null) {
+                        Toast.makeText(ClubListActivity.this, "None found", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(ClubListActivity.this, "Found ID: " + data.getClubID() + " Name: " + data.getClubName(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 }
