@@ -57,7 +57,7 @@ public class CreateClubActivity extends AppCompatActivity {
 
     public void uploadLogo(View view) {
         Intent intent = new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
+        intent.setType("image/png");
 
         startActivityForResult(intent, GALLERY_INTENT);
     }
@@ -84,9 +84,6 @@ public class CreateClubActivity extends AppCompatActivity {
     }
 
     public void createClub(View view) {
-        progressDialog.setMessage("Creating club...");
-        progressDialog.show();
-
         if (clubName.getText().toString().isEmpty() || clubDesc.getText().toString().isEmpty()) {
             Toast.makeText(CreateClubActivity.this, "You can't leave the club name or description boxes empty", Toast.LENGTH_SHORT).show();
         } else if (image == null) {
@@ -96,9 +93,11 @@ public class CreateClubActivity extends AppCompatActivity {
         } else if (clubDesc.getText().toString().length() < 3 || clubDesc.getText().toString().length() > 100) {
             Toast.makeText(CreateClubActivity.this, "Your club description needs to be between 3 and 100 characters", Toast.LENGTH_SHORT).show();
         } else {
+            progressDialog.setMessage("Creating club...");
+            progressDialog.show();
             final FirebaseUser fa = FirebaseAuth.getInstance().getCurrentUser();
 
-            Club club = new Club(clubName.getText().toString(), clubDesc.getText().toString(), null, fa.getUid(), isPublic.isChecked(), ServerValue.TIMESTAMP);
+            Club club = new Club(clubID, clubName.getText().toString(), clubDesc.getText().toString(), null, fa.getUid(), isPublic.isChecked(), ServerValue.TIMESTAMP);
             databaseRef.child("clubs").child(clubID).setValue(club, new DatabaseReference.CompletionListener() {
                 @Override
                 public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {

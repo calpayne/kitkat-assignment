@@ -4,8 +4,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.google.firebase.database.ChildEventListener;
@@ -20,7 +18,8 @@ import java.util.ArrayList;
 public class ClubListActivity extends AppCompatActivity {
 
     private DatabaseReference databaseRef;
-    private ArrayList<String> clubs;
+    private ArrayList<Club> clubs;
+    //private ArrayList<String> clubs;
     private ListView clubsListView;
 
     @Override
@@ -28,7 +27,42 @@ public class ClubListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_club_list);
 
+        clubs = new ArrayList<>();
         databaseRef = FirebaseDatabase.getInstance().getReference("clubs");
+        final ClubListAdapter listAdapter = new ClubListAdapter(this, clubs);
+        clubsListView = findViewById(R.id.clubs_list);
+        clubsListView.setAdapter(listAdapter);
+
+        databaseRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Club data = dataSnapshot.getValue(Club.class);
+                clubs.add(data);
+                listAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                listAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        /*
         clubs = new ArrayList<>();
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, clubs);
         clubsListView = findViewById(R.id.clubs_list);
@@ -62,5 +96,6 @@ public class ClubListActivity extends AppCompatActivity {
 
             }
         });
+        */
     }
 }

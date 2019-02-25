@@ -13,7 +13,7 @@ import static java.text.DateFormat.getDateTimeInstance;
 
 public class Club {
 
-    private String clubName, clubDescription, clubLocation, clubOwner;
+    private String clubID, clubName, clubDescription, clubLocation, clubOwner;
     private boolean isPublic;
     private Map<String, String> timestamp;
 
@@ -21,13 +21,22 @@ public class Club {
 
     }
 
-    public Club(String clubName, String clubDescription, String clubLocation, String clubOwner, boolean isPublic, Map<String, String> timestamp) {
+    public Club(String clubID, String clubName, String clubDescription, String clubLocation, String clubOwner, boolean isPublic, Map<String, String> timestamp) {
+        this.clubID = clubID;
         this.clubDescription = clubDescription;
         this.clubName = clubName;
         this.clubLocation = clubLocation;
         this.clubOwner = clubOwner;
         this.isPublic = isPublic;
         this.timestamp = timestamp;
+    }
+
+    public String getClubID() {
+        return clubID;
+    }
+
+    public void setClubID(String clubID) {
+        this.clubID = clubID;
     }
 
     public String getClubName() {
