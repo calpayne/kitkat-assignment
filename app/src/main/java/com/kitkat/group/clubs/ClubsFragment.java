@@ -43,7 +43,7 @@ public class ClubsFragment extends Fragment {
             @Override
             public void onClick(View v){
                 Intent intent = new Intent(getActivity(), ViewClubActivity.class);
-                intent.putExtra("clubId","LZBoAs8iC_KTLvzngVv");
+                intent.putExtra("clubId","d57561cb-f66b-4263-88d8-800d5d84b341");
                 startActivity(intent);
             }
         });
