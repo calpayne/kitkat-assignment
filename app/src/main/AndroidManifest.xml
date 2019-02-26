@@ -4,10 +4,7 @@
 
     <uses-permission android:name="android.permission.NFC" />
     <uses-feature android:name="android.hardware.nfc" android:required="true" />
-
-    <uses-feature
-        android:name="android.hardware.nfc"
-        android:required="true" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -33,6 +30,12 @@
                 <data android:mimeType="text/plain"/>
             </intent-filter>
         </activity>
+        <activity android:name=".CreateClubActivity" />
+        <activity
+            android:name=".ViewClubActivity"
+            android:label="@string/title_activity_view_club"
+            android:theme="@style/AppTheme"></activity>
+        <activity android:name=".ClubListActivity"></activity>
     </application>
 
 </manifest>

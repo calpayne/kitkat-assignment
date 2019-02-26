@@ -13,6 +13,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,7 +48,6 @@ public class UserFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_user, container, false);
 
         nfcbutton = view.findViewById(R.id.nfcbutton);
-
         nfcbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,8 +56,16 @@ public class UserFragment extends Fragment {
 
             }
         });
+      
+        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPagerId);
+        setupViewPager(viewPager);
+
+        TabLayout tabs = (TabLayout) view.findViewById(R.id.tabsId);
+        tabs.setupWithViewPager(viewPager);
+
         return view;
     }
+  
     public void NfcPermission(){
         nfcAdapter = NfcAdapter.getDefaultAdapter(getActivity());
         if (!nfcAdapter.isEnabled())
@@ -82,6 +91,13 @@ public class UserFragment extends Fragment {
             startActivity(intent);
         }
 
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        SectionsPagerAdapter adapter = new SectionsPagerAdapter(getChildFragmentManager());
+        adapter.addFragment(new ActivityFragment(), "Activity");
+        adapter.addFragment(new SettingsFragment(), "Settings");
+        viewPager.setAdapter(adapter);
     }
 
 }
