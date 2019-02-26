@@ -1,5 +1,7 @@
 package com.kitkat.group.clubs;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -26,6 +28,7 @@ public class ClubListActivity extends AppCompatActivity {
     private ArrayList<Club> clubs;
     private ListView clubsListView;
     private EditText searchText;
+    private Activity context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class ClubListActivity extends AppCompatActivity {
         clubsListView = findViewById(R.id.clubs_list);
         clubsListView.setAdapter(listAdapter);
         searchText = findViewById(R.id.editText);
+        context = this;
 
         databaseRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -102,7 +106,9 @@ public class ClubListActivity extends AppCompatActivity {
                     if (data == null) {
                         Toast.makeText(ClubListActivity.this, "None found", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(ClubListActivity.this, "Found ID: " + data.getClubID() + " Name: " + data.getClubName(), Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(context, ViewClubActivity.class);
+                        intent.putExtra("clubId",data.getClubID());
+                        startActivity(intent);
                     }
                 }
 

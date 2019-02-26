@@ -1,6 +1,7 @@
 package com.kitkat.group.clubs;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -47,13 +48,15 @@ public class ClubListAdapter extends ArrayAdapter {
         storageRef.child(data.get(position).getClubID()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Picasso.with(context).load(uri).into(imageView);
+            Picasso.with(context).load(uri).into(imageView);
             }
         });
 
         rowView.setOnClickListener(new View.OnClickListener() {
             public void onClick(final View v) {
-                Log.d("ONCLICK-DEBUG", data.get(position).getClubID());
+            Intent intent = new Intent(context, ViewClubActivity.class);
+            intent.putExtra("clubId",data.get(position).getClubID());
+            context.startActivity(intent);
             }
         });
 

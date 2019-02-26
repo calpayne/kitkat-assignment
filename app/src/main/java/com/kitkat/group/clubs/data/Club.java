@@ -21,6 +21,12 @@ public class Club {
 
     }
 
+    public Club(String clubName, String clubDescription, String clubOwner) {
+        this.clubDescription = clubDescription;
+        this.clubName = clubName;
+        this.clubOwner = clubOwner;
+    }
+
     public Club(String clubID, String clubName, String clubDescription, String clubLocation, String clubOwner, boolean isPublic, Map<String, String> timestamp) {
         this.clubID = clubID;
         this.clubDescription = clubDescription;

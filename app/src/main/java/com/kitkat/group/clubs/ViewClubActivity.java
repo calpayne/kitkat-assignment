@@ -44,7 +44,7 @@ public class ViewClubActivity extends AppCompatActivity {
                             ds.child("clubDescription").getValue(String.class),
                             ds.child("clubOwner").getValue(String.class)
                     );
-                System.out.println(ds.child("clubName").getValue(String.class));
+                System.out.println(ds.child("clubName"));
                 System.out.println(ds.child("clubDescription").getValue(String.class));
                 System.out.println(ds.child("clubOwner").getValue(String.class));
 
@@ -56,6 +56,7 @@ public class ViewClubActivity extends AppCompatActivity {
                 //ImageView imageView = (ImageView) findViewById(R.id.clubImage);
                 //imageView.setImage();
 
+                setTitle(club.getClubName());
                 TextView textView = (TextView) findViewById(R.id.textView);
                 textView.setText(club.getClubDescription());
 
@@ -75,7 +76,6 @@ public class ViewClubActivity extends AppCompatActivity {
             }
         };
         instance.addListenerForSingleValueEvent(valueEventListener);
-        this.setTitle(instance.child(getIntent().getStringExtra("clubId")).child("clubName").getKey());
     }
 
 
