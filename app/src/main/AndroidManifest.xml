@@ -25,6 +25,7 @@
             android:name=".ViewClubActivity"
             android:label="@string/title_activity_view_club"
             android:theme="@style/AppTheme"></activity>
+        <activity android:name=".ClubListActivity"></activity>
     </application>
 
 </manifest>
