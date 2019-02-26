@@ -7,23 +7,17 @@ package com.kitkat.group.clubs.data;
 public class Member {
 
     private String memberRef;
-    private String memberName;
 
     public Member() {
 
     }
 
-    public Member(String memberRef, String memberName) {
-        this.memberName = memberName;
+    public Member(String memberRef) {
         this.memberRef = memberRef;
     }
 
     public String getMemberRef() {
         return memberRef;
-    }
-
-    public String getMemberName() {
-        return memberName;
     }
 
 }

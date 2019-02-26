@@ -21,6 +21,7 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity" />
         <activity android:name=".CreateClubActivity" />
+        <activity android:name=".ClubListActivity"></activity>
     </application>
 
 </manifest>
