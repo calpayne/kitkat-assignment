@@ -39,12 +39,12 @@ public class ViewClubActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 DataSnapshot ds = dataSnapshot.child(getIntent().getStringExtra("clubId"));
-                    club = new Club(
-                            ds.child("clubName").getValue(String.class),
-                            ds.child("clubDescription").getValue(String.class),
-                            ds.child("clubOwner").getValue(String.class)
-                    );
-                System.out.println(ds.child("clubName"));
+                club = new Club(
+                        ds.child("clubName").getValue(String.class),
+                        ds.child("clubDescription").getValue(String.class),
+                        ds.child("clubOwner").getValue(String.class)
+                );
+                System.out.println(ds.child("clubName").getValue(String.class));
                 System.out.println(ds.child("clubDescription").getValue(String.class));
                 System.out.println(ds.child("clubOwner").getValue(String.class));
 
