@@ -30,15 +30,11 @@ import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class UserFragment extends Fragment {
 
-    public Button nfcbutton;
-    public int NFC_CODE=0;
     private static final String TAG = "UserFragment";
-    private NfcAdapter nfcAdapter;
 
     public UserFragment() {
         // Empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,16 +42,6 @@ public class UserFragment extends Fragment {
 
 
         View view = inflater.inflate(R.layout.fragment_user, container, false);
-
-        nfcbutton = view.findViewById(R.id.nfcbutton);
-        nfcbutton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                NfcPermission();
-
-            }
-        });
       
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPagerId);
         setupViewPager(viewPager);
@@ -64,33 +50,6 @@ public class UserFragment extends Fragment {
         tabs.setupWithViewPager(viewPager);
 
         return view;
-    }
-  
-    public void NfcPermission(){
-        nfcAdapter = NfcAdapter.getDefaultAdapter(getActivity());
-        if (!nfcAdapter.isEnabled())
-        {
-            new AlertDialog.Builder(getActivity())
-                    .setTitle("NFC Permission")
-                    .setMessage("Go to settings and turn on NFC")
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            startActivity(new Intent(Settings.ACTION_NFC_SETTINGS));
-                        }
-                    })
-                    .setNegativeButton(android.R.string.no, null)
-                    .show();
-
-//            Toast.makeText(getApplicationContext(), "Please activate NFC and press Back to return to the application!", Toast.LENGTH_LONG).show();
-
-
-        }
-        if(nfcAdapter.isEnabled()){
-            Intent intent = new Intent(getActivity(), SenderActivity.class);
-            startActivity(intent);
-        }
-
     }
 
     private void setupViewPager(ViewPager viewPager) {
