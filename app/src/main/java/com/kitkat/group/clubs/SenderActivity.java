@@ -35,8 +35,6 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sender);
 
-        resultView = findViewById(R.id.resultView);
-        requestView = findViewById(R.id.requestView);
 
 //        requestView.setOnClickListener(view -> myMethod());
 

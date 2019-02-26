@@ -2,18 +2,25 @@ package com.kitkat.group.clubs;
 
 import android.*;
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
+
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 /**
  * Created by Glenn on 13/02/2019.
@@ -21,15 +28,14 @@ import android.widget.Button;
 
 public class UserFragment extends Fragment {
 
-
     public Button nfcbutton;
+    public int NFC_CODE=0;
     private static final String TAG = "UserFragment";
-
+    private NfcAdapter nfcAdapter;
 
     public UserFragment() {
         // Empty public constructor
     }
-
 
 
     @Override
@@ -39,75 +45,44 @@ public class UserFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_user, container, false);
 
-
         nfcbutton = view.findViewById(R.id.nfcbutton);
 
+        nfcbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        //Handling button press
-        nfcbutton.setOnClickListener(v -> {
-
-
-            //Checking for runtime permisssion
-            if(ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.NFC) != PackageManager.PERMISSION_GRANTED) {
-
-
-
-                //TO DO: alter box (for user)
-
-
-
-                //Setting permissions
-                String[] permissions = new String[1];
-                permissions[0] = Manifest.permission.NFC;
-
-
-                //Requesting permission
-                ActivityCompat.requestPermissions(getActivity(), permissions, 1 );
-
-
-
-            } else {
-
-
-                //Switching from this fragment to Sender Activity
-                Intent intent = new Intent(getActivity(), SenderActivity.class);
-                startActivity(intent);
-
+                NfcPermission();
 
             }
-
-
         });
-
-
         return view;
     }
+    public void NfcPermission(){
+        nfcAdapter = NfcAdapter.getDefaultAdapter(getActivity());
+        if (!nfcAdapter.isEnabled())
+        {
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("NFC Permission")
+                    .setMessage("Go to settings and turn on NFC")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent(Settings.ACTION_NFC_SETTINGS));
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, null)
+                    .show();
+
+//            Toast.makeText(getApplicationContext(), "Please activate NFC and press Back to return to the application!", Toast.LENGTH_LONG).show();
 
 
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-
-
-        //Handling the runtime permission
-        String permission = permissions[0];
-        if(android.Manifest.permission.NFC.equals(permission)) {
-            if(grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-
-                //Switching from this fragment to Sender Activity
-                Intent intent = new Intent(getActivity(), SenderActivity.class);
-                startActivity(intent);
-
-
-            }
+        }
+        if(nfcAdapter.isEnabled()){
+            Intent intent = new Intent(getActivity(), SenderActivity.class);
+            startActivity(intent);
         }
 
-
-
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-
-
 }
+
