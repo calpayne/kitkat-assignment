@@ -33,5 +33,13 @@
             android:layout_alignParentEnd="true"
             android:text="Create Club" />
 
+        <Button
+            android:id="@+id/btn_test_profile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toStartOf="@+id/btn_clubs_create"
+            android:text="Test Club Profile" />
+
     </RelativeLayout>
 </RelativeLayout>

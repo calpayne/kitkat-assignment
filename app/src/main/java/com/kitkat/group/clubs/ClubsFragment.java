@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.google.firebase.database.DatabaseReference;
+
 /**
  * Created by Glenn on 13/02/2019.
  */
@@ -35,6 +37,17 @@ public class ClubsFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        Button btn2 = (Button) view.findViewById(R.id.btn_test_profile);
+        btn2.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                Intent intent = new Intent(getActivity(), ViewClubActivity.class);
+                intent.putExtra("clubId","d57561cb-f66b-4263-88d8-800d5d84b341");
+                startActivity(intent);
+            }
+        });
+
 
         return view;
     }
