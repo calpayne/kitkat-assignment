@@ -58,17 +58,21 @@ public class Club {
     public String getClubLocation() {
         return clubLocation;
     }
-
+  
     public void setClubLocation(String clubLocation) {
         this.clubLocation = clubLocation;
+    }
+  
+    public void setClubOwner(String clubOwner) {
+        this.clubOwner = clubOwner;
     }
 
     public String getClubOwner() {
         return clubOwner;
     }
 
-    public void setClubOwner(String clubOwner) {
-        this.clubOwner = clubOwner;
+    public boolean isPublic() {
+        return isPublic;
     }
 
     public boolean getIsPublic() {

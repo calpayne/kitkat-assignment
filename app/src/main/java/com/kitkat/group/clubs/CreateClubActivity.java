@@ -84,6 +84,9 @@ public class CreateClubActivity extends AppCompatActivity {
     }
 
     public void createClub(View view) {
+        progressDialog.setMessage("Creating club...");
+        progressDialog.show();
+
         if (clubName.getText().toString().isEmpty() || clubDesc.getText().toString().isEmpty()) {
             Toast.makeText(CreateClubActivity.this, "You can't leave the club name or description boxes empty", Toast.LENGTH_SHORT).show();
         } else if (image == null) {
@@ -98,6 +101,7 @@ public class CreateClubActivity extends AppCompatActivity {
             final FirebaseUser fa = FirebaseAuth.getInstance().getCurrentUser();
 
             Club club = new Club(clubID, clubName.getText().toString(), clubDesc.getText().toString(), null, fa.getUid(), isPublic.isChecked(), ServerValue.TIMESTAMP);
+
             databaseRef.child("clubs").child(clubID).setValue(club, new DatabaseReference.CompletionListener() {
                 @Override
                 public void onComplete(@Nullable DatabaseError databaseError, @NonNull DatabaseReference databaseReference) {
