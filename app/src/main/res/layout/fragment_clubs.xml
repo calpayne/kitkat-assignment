@@ -5,6 +5,7 @@
     android:layout_height="match_parent" >
 
     <EditText
+        android:id="@+id/searchText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
@@ -13,6 +14,7 @@
         android:hint="SEARCH..."/>
 
     <Button
+        android:id="@+id/search_clubs_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentEnd="true"
@@ -33,13 +35,12 @@
             android:layout_alignParentEnd="true"
             android:text="Create Club" />
 
-        <Button
-            android:id="@+id/btn_test_profile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_toStartOf="@+id/btn_clubs_create"
-            android:text="Test Club Profile" />
+        <ListView
+            android:id="@+id/clubs_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
 
     </RelativeLayout>
 </RelativeLayout>
