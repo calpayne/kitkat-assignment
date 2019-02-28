@@ -1,6 +1,7 @@
 package com.kitkat.group.clubs;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -27,8 +28,9 @@ public class ClubListActivity extends AppCompatActivity {
     private DatabaseReference databaseRef;
     private ArrayList<Club> clubs;
     private ListView clubsListView;
+    private ClubListAdapter listAdapter;
     private EditText searchText;
-    private Activity context;
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,87 +38,67 @@ public class ClubListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_club_list);
 
         clubs = new ArrayList<>();
-        databaseRef = FirebaseDatabase.getInstance().getReference("clubs");
-        final ClubListAdapter listAdapter = new ClubListAdapter(this, clubs);
+        databaseRef = FirebaseDatabase.getInstance().getReference();
+        listAdapter = new ClubListAdapter(this, clubs);
         clubsListView = findViewById(R.id.clubs_list);
         clubsListView.setAdapter(listAdapter);
         searchText = findViewById(R.id.editText);
-        context = this;
 
-        databaseRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Club data = dataSnapshot.getValue(Club.class);
-                clubs.add(data);
-                listAdapter.notifyDataSetChanged();
-            }
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading all clubs...");
+        progressDialog.show();
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Club data = dataSnapshot.getValue(Club.class);
+        loadIntoListView(null);
+    }
 
-                for (Club c : clubs) {
-                    if (c.getClubID().equalsIgnoreCase(data.getClubID())) {
-                        c.setClubName(data.getClubName());
-                        break;
-                    }
-                }
+    public void loadIntoListView(String search) {
+        clubs.clear();
+        listAdapter.clear();
+        listAdapter.notifyDataSetChanged();
 
-                listAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                Club data = dataSnapshot.getValue(Club.class);
-
-                for (Club c : clubs) {
-                    if (c.getClubID().equalsIgnoreCase(data.getClubID())) {
-                        clubs.remove(c);
-                        break;
-                    }
-                }
-
-                listAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+        if (search == null) {
+            databaseRef.child("clubs").addListenerForSingleValueEvent(new ClubListListener());
+        } else {
+            databaseRef.child("clubs").orderByChild("clubName").equalTo(searchText.getText().toString()).addListenerForSingleValueEvent(new ClubListListener());
+        }
     }
 
     public void search(View view) {
         if (searchText.getText().toString().isEmpty()) {
-            Toast.makeText(ClubListActivity.this, "You can't leave the search box empty", Toast.LENGTH_SHORT).show();
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("Loading all clubs...");
+            progressDialog.show();
+
+            loadIntoListView(null);
         } else {
-            databaseRef.orderByChild("clubName").equalTo(searchText.getText().toString()).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Club data = null;
-                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                        data = ds.getValue(Club.class);
-                    }
+            progressDialog.setMessage("Searching clubs...");
+            progressDialog.show();
 
-                    if (data == null) {
-                        Toast.makeText(ClubListActivity.this, "None found", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Intent intent = new Intent(context, ViewClubActivity.class);
-                        intent.putExtra("clubId",data.getClubID());
-                        startActivity(intent);
-                    }
-                }
+            loadIntoListView(searchText.getText().toString());
+        }
+    }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
+    private class ClubListListener implements ValueEventListener {
 
-                }
-            });
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            Club data = null;
+            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                data = ds.getValue(Club.class);
+                clubs.add(data);
+                listAdapter.notifyDataSetChanged();
+            }
+
+            progressDialog.dismiss();
+
+            if (data == null) {
+                Toast.makeText(ClubListActivity.this, "None found", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
         }
     }
 }
