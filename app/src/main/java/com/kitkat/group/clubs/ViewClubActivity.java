@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,14 +33,19 @@ public class ViewClubActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         db = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference instance = db.child("clubs");
+        DatabaseReference instance = db;
 
         //DocumentReference docRef = db.collection("cities").document(getIntent().getStringExtra("clubId"));
 
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                DataSnapshot ds = dataSnapshot.child(getIntent().getStringExtra("clubId"));
+
+                final FirebaseUser fa = FirebaseAuth.getInstance().getCurrentUser();
+                String clubId = getIntent().getStringExtra("clubId");
+
+                DataSnapshot ds = dataSnapshot.child("clubs")
+                                              .child(clubId);
                 club = new Club(
                         ds.child("clubName").getValue(String.class),
                         ds.child("clubDescription").getValue(String.class),
@@ -64,8 +71,19 @@ public class ViewClubActivity extends AppCompatActivity {
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Snackbar.make(view, club.getClubOwner(), Snackbar.LENGTH_LONG)
-                                .setAction("Action", null).show();
+
+                        if(dataSnapshot.child("members-clubs").child(fa.getUid()).exists()){
+                            db.child("members-clubs").child(fa.getUid()).removeValue();
+                            db.child("clubs-members").child(clubId).removeValue();
+                            Snackbar.make(view, club.getClubOwner(), Snackbar.LENGTH_LONG)
+                                    .setAction("Left Club.", null).show();
+                        }else{
+                            db.child("members-clubs").child(fa.getUid()).child(clubId).setValue(true);
+                            db.child("clubs-members").child(clubId).child(fa.getUid()).setValue(true);
+                            Snackbar.make(view, club.getClubOwner(), Snackbar.LENGTH_LONG)
+                                    .setAction("Joined Club", null).show();
+                        }
+
                     }
                 });
             }
@@ -75,7 +93,7 @@ public class ViewClubActivity extends AppCompatActivity {
                 Log.e(VTAG, "onCancelled", databaseError.toException());
             }
         };
-        instance.addListenerForSingleValueEvent(valueEventListener);
+        db.addListenerForSingleValueEvent(valueEventListener);
     }
 
 
