@@ -73,8 +73,8 @@ public class ViewClubActivity extends AppCompatActivity {
                     public void onClick(View view) {
 
                         if(dataSnapshot.child("members-clubs").child(fa.getUid()).exists()){
-                            db.child("members-clubs").child(fa.getUid()).removeValue();
-                            db.child("clubs-members").child(clubId).removeValue();
+                            db.child("members-clubs").child(fa.getUid()).child(clubId).removeValue();
+                            db.child("clubs-members").child(clubId).child(fa.getUid()).removeValue();
                             Snackbar.make(view, club.getClubOwner(), Snackbar.LENGTH_LONG)
                                     .setAction("Left Club.", null).show();
                         }else{
