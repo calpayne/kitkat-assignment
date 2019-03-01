@@ -46,11 +46,8 @@ public class ViewClubActivity extends AppCompatActivity {
 
                 DataSnapshot ds = dataSnapshot.child("clubs")
                                               .child(clubId);
-                club = new Club(
-                        ds.child("clubName").getValue(String.class),
-                        ds.child("clubDescription").getValue(String.class),
-                        ds.child("clubOwner").getValue(String.class)
-                );
+                club = ds.getValue(Club.class);
+                
                 System.out.println(ds.child("clubName").getValue(String.class));
                 System.out.println(ds.child("clubDescription").getValue(String.class));
                 System.out.println(ds.child("clubOwner").getValue(String.class));
