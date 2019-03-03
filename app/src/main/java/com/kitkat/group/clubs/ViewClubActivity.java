@@ -19,7 +19,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.collection.LLRBNode;
 import com.kitkat.group.clubs.data.Club;
 
 public class ViewClubActivity extends AppCompatActivity {
@@ -49,11 +48,8 @@ public class ViewClubActivity extends AppCompatActivity {
 
                 DataSnapshot ds = dataSnapshot.child("clubs")
                                               .child(clubId);
-                club = new Club(
-                        ds.child("clubName").getValue(String.class),
-                        ds.child("clubDescription").getValue(String.class),
-                        ds.child("clubOwner").getValue(String.class)
-                );
+                club = ds.getValue(Club.class);
+
                 System.out.println(ds.child("clubName").getValue(String.class));
                 System.out.println(ds.child("clubDescription").getValue(String.class));
                 System.out.println(ds.child("clubOwner").getValue(String.class));
@@ -103,7 +99,7 @@ public class ViewClubActivity extends AppCompatActivity {
                 Log.e(VTAG, "onCancelled", databaseError.toException());
             }
         };
-        db.addValueEventListener(valueEventListener);
+        db.addListenerForSingleValueEvent(valueEventListener);
     }
 
 
