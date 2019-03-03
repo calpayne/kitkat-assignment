@@ -1,5 +1,7 @@
 package com.kitkat.group.clubs;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -17,6 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.collection.LLRBNode;
 import com.kitkat.group.clubs.data.Club;
 
 public class ViewClubActivity extends AppCompatActivity {
@@ -68,20 +71,27 @@ public class ViewClubActivity extends AppCompatActivity {
                 textView.setText(club.getClubDescription());
 
                 FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+                if(dataSnapshot.child("clubs-members").child(clubId).child(fa.getUid()).exists()){
+                    fab.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+                }
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
                         if(dataSnapshot.child("members-clubs").child(fa.getUid()).exists()){
-                            db.child("members-clubs").child(fa.getUid()).removeValue();
-                            db.child("clubs-members").child(clubId).removeValue();
-                            Snackbar.make(view, club.getClubOwner(), Snackbar.LENGTH_LONG)
-                                    .setAction("Left Club.", null).show();
+                            db.child("members-clubs").child(fa.getUid()).child(clubId).removeValue();
+                            db.child("clubs-members").child(clubId).child(fa.getUid()).removeValue();
+
+                            fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
+                            Snackbar.make(view, "Left Club.", Snackbar.LENGTH_LONG)
+                                    .setAction("Leave Club.", null).show();
                         }else{
                             db.child("members-clubs").child(fa.getUid()).child(clubId).setValue(true);
-                            db.child("clubs-members").child(clubId).child(fa.getUid()).setValue(true);
-                            Snackbar.make(view, club.getClubOwner(), Snackbar.LENGTH_LONG)
-                                    .setAction("Joined Club", null).show();
+                            db.child("clubs-members").child(clubId).child(fa.getUid() ).setValue(true);
+
+                            fab.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+                            Snackbar.make(view, "Joined Club", Snackbar.LENGTH_LONG)
+                                    .setAction("Join Club", null).show();
                         }
 
                     }
@@ -93,7 +103,7 @@ public class ViewClubActivity extends AppCompatActivity {
                 Log.e(VTAG, "onCancelled", databaseError.toException());
             }
         };
-        db.addListenerForSingleValueEvent(valueEventListener);
+        db.addValueEventListener(valueEventListener);
     }
 
 

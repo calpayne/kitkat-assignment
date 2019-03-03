@@ -34,8 +34,8 @@
         <activity
             android:name=".ViewClubActivity"
             android:label="@string/title_activity_view_club"
-            android:theme="@style/AppTheme"></activity>
-        <activity android:name=".ClubListActivity"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ClubListActivity"/>
     </application>
 
 </manifest>
