@@ -67,9 +67,11 @@ public class ViewClubActivity extends AppCompatActivity {
                 textView.setText(club.getClubDescription());
 
                 FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-                if(dataSnapshot.child("clubs-members").child(clubId).child(fa.getUid()).exists()){
+                if(dataSnapshot.child("clubs-members").child(clubId).child(fa.getUid()).exists())
                     fab.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
-                }
+                else
+                    fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
+                
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -99,7 +101,7 @@ public class ViewClubActivity extends AppCompatActivity {
                 Log.e(VTAG, "onCancelled", databaseError.toException());
             }
         };
-        db.addListenerForSingleValueEvent(valueEventListener);
+        db.addValueEventListener(valueEventListener);
     }
 
 
