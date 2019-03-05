@@ -39,4 +39,6 @@
     <string name="upload_image">Choose Club Logo</string>
     <string name="clubs">Clubs</string>
     <string name="search">Search</string>
+    <string name="username">Username</string>
+    <string name="continue_text">Continue</string>
 </resources>
