@@ -71,12 +71,14 @@ public class ViewClubActivity extends AppCompatActivity {
                     fab.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
                 else
                     fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
-                
+
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
-                        if(dataSnapshot.child("members-clubs").child(fa.getUid()).exists()){
+                        if(dataSnapshot.child("members-clubs").child(fa.getUid()).child(clubId).exists() ||
+                           dataSnapshot.child("clubs-members").child(clubId).child(fa.getUid()).exists()){
+
                             db.child("members-clubs").child(fa.getUid()).child(clubId).removeValue();
                             db.child("clubs-members").child(clubId).child(fa.getUid()).removeValue();
 
