@@ -3,7 +3,11 @@
     package="com.kitkat.group.clubs">
 
     <uses-permission android:name="android.permission.NFC" />
-    <uses-feature android:name="android.hardware.nfc" android:required="true" />
+
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="true" />
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -17,17 +21,26 @@
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".SenderActivity"/>
+        <activity android:name=".SenderActivity"
+                    android:configChanges="orientation"
+                    android:screenOrientation="portrait"/>
+        <activity android:name=".ReceiverActivity"
+                    android:configChanges="orientation"
+                    android:screenOrientation="portrait">
+        <activity android:name=".SenderActivity" />
         <activity android:name=".ReceiverActivity">
             <intent-filter>
-                <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="text/plain"/>
+                <action android:name="android.nfc.action.NDEF_DISCOVERED" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
         <activity android:name=".CreateClubActivity" />
@@ -36,6 +49,9 @@
             android:label="@string/title_activity_view_club"
             android:theme="@style/AppTheme" />
         <activity android:name=".ClubListActivity"/>
+        <activity android:name=".ClubListActivity" />
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".ViewClubMembersActivity"></activity>
     </application>
 
 </manifest>
