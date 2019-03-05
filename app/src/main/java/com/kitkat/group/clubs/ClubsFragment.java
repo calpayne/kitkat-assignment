@@ -11,6 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+
+import com.google.android.gms.vision.barcode.Barcode;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by Glenn on 13/02/2019.
@@ -22,6 +27,8 @@ public class ClubsFragment extends Fragment {
 
     public static final int REQUEST_CODE = 100;
     public static final int PERMISSIONS_REQUESTED = 200;
+
+    EditText searchClub;
 
     public ClubsFragment() {
         // Empty public constructor
@@ -52,6 +59,7 @@ public class ClubsFragment extends Fragment {
             }
         });
 
+        searchClub = (EditText) view.findViewById(R.id.searchClub);
         Button btn3 = (Button) view.findViewById(R.id.btn_scan_qr);
         if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -67,5 +75,21 @@ public class ClubsFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "onActivityResult: started onActivityResult");
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            if(data != null) {
+                final Barcode barcode = data.getParcelableExtra("barcode");
+                searchClub.post(new Runnable() {
+                    @Override
+                    public void run(){
+                        searchClub.setText(barcode.displayValue);
+                    }
+                });
+            }
+        }
     }
 }

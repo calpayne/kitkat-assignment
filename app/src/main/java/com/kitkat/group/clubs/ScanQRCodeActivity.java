@@ -1,15 +1,16 @@
 package com.kitkat.group.clubs;
 
-import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Vibrator;
-import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
@@ -20,37 +21,43 @@ import java.io.IOException;
 
 public class ScanQRCodeActivity extends AppCompatActivity {
 
+    private static final String TAG = "ScanQRCodeActivity";
+
     SurfaceView surfaceView;
     CameraSource cameraSource;
-    TextView textView;
     BarcodeDetector barcodeDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate: started " + TAG);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_qrcode);
 
         surfaceView = (SurfaceView) findViewById(R.id.camera_preview);
-        textView = (TextView) findViewById(R.id.textView);
+        surfaceView.setZOrderMediaOverlay(true);
 
         barcodeDetector = new BarcodeDetector.Builder(this)
-                .setBarcodeFormats(Barcode.QR_CODE).build();
+                .setBarcodeFormats(Barcode.QR_CODE)
+                .build();
+
+        if(!barcodeDetector.isOperational()) {
+            Toast.makeText(getApplicationContext(), "Sorry, couldn't setup the Barcode Detector", Toast.LENGTH_SHORT).show();
+            this.finish();
+        }
 
         cameraSource = new CameraSource.Builder(this, barcodeDetector)
-                .setRequestedPreviewSize(640, 480).build();
+                .setFacing(CameraSource.CAMERA_FACING_BACK)
+                .setRequestedFps(24)
+                .setAutoFocusEnabled(true)
+                .setRequestedPreviewSize(1920, 1024)
+                .build();
 
         surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder surfaceHolder) {
-                if (ActivityCompat.checkSelfPermission(getApplicationContext(),
+                if (ContextCompat.checkSelfPermission(getApplicationContext(),
                         android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
                     return;
                 }
                 try {
@@ -79,20 +86,13 @@ public class ScanQRCodeActivity extends AppCompatActivity {
 
             @Override
             public void receiveDetections(Detector.Detections<Barcode> detections) {
-                SparseArray<Barcode> qrCode = detections.getDetectedItems();
+                final SparseArray<Barcode> qrCode = detections.getDetectedItems();
 
-                if (qrCode.size() != 0) {
-                    textView.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            /**
-                             *   Vibrator vibrator = (Vibrator)getApplicationContext()
-                             *          .getSystemService(Context.VIBRATOR_SERVICE);
-                             *   vibrator.vibrate(1000); -->
-                             */
-                            textView.setText(qrCode.valueAt(0).displayValue);
-                        }
-                    });
+                if (qrCode.size() > 0) {
+                    Intent intent = new Intent();
+                    intent.putExtra("barcode", qrCode.valueAt(0));
+                    setResult(RESULT_OK, intent);
+                    finish();
                 }
             }
         });
