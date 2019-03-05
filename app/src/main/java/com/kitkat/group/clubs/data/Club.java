@@ -77,10 +77,6 @@ public class Club {
         return clubOwner;
     }
 
-    public boolean isPublic() {
-        return isPublic;
-    }
-
     public boolean getIsPublic() {
         return isPublic;
     }
