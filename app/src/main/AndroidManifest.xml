@@ -22,8 +22,12 @@
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".SenderActivity"/>
-        <activity android:name=".ReceiverActivity">
+        <activity android:name=".SenderActivity"
+                    android:configChanges="orientation"
+                    android:screenOrientation="portrait"/>
+        <activity android:name=".ReceiverActivity"
+                    android:configChanges="orientation"
+                    android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED"/>
                 <category android:name="android.intent.category.DEFAULT"/>
