@@ -39,7 +39,7 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
 //        requestView.setOnClickListener(view -> myMethod());
 
         if (!isNfcSupported()) {
-            Toast.makeText(this, "Nfc is not supported on this device", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Nfc is not supported on this device", Toast.LENGTH_LONG).show();
             finish();
         }
         if (!nfcAdapter.isEnabled()) {
@@ -52,7 +52,6 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
         this.outcomingNfccallback = new OutcomingNfcManager(this);
         this.nfcAdapter.setOnNdefPushCompleteCallback(outcomingNfccallback, this);
         this.nfcAdapter.setNdefPushMessageCallback(outcomingNfccallback, this);
-
 
 
     }
@@ -80,6 +79,7 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
         this.tvOutcomingMessage.setText(outMessage);
     }
 
+    //Screen rotation
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
@@ -92,8 +92,11 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
         super.onRestoreInstanceState(savedInstanceState);
         tvOutcomingMessage.setText(savedInstanceState.getString("my_text"));
     }
+    //Screen Rotation
+
     @Override
     public String getOutcomingMessage() {
+
         return this.tvOutcomingMessage.getText().toString();
     }
 

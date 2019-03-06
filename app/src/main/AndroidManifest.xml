@@ -21,19 +21,20 @@
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".SenderActivity" />
-        <activity android:name=".ReceiverActivity">
+        <activity android:name=".SenderActivity"
+                    android:configChanges="orientation"
+                    android:screenOrientation="portrait"/>
+        <activity android:name=".ReceiverActivity"
+                    android:configChanges="orientation"
+                    android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
-
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
@@ -42,9 +43,9 @@
             android:name=".ViewClubActivity"
             android:label="@string/title_activity_view_club"
             android:theme="@style/AppTheme" />
+        <activity android:name=".ClubListActivity"/>
         <activity android:name=".ClubListActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ViewClubMembersActivity"></activity>
     </application>
-
 </manifest>
