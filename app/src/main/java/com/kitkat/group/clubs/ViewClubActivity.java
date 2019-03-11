@@ -20,6 +20,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kitkat.group.clubs.data.Club;
+import com.kitkat.group.clubs.data.ClubUser;
 
 public class ViewClubActivity extends AppCompatActivity {
 
@@ -86,8 +87,8 @@ public class ViewClubActivity extends AppCompatActivity {
                             Snackbar.make(view, "Left Club.", Snackbar.LENGTH_LONG)
                                     .setAction("Leave Club.", null).show();
                         }else{
-                            db.child("members-clubs").child(fa.getUid()).child(clubId).setValue(true);
-                            db.child("clubs-members").child(clubId).child(fa.getUid() ).setValue(true);
+                            db.child("members-clubs").child(fa.getUid()).child(clubId).setValue(ClubUser.getInstance().getUsername());
+                            db.child("clubs-members").child(clubId).child(fa.getUid() ).setValue(ClubUser.getInstance().getUsername());
 
                             fab.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
                             Snackbar.make(view, "Joined Club", Snackbar.LENGTH_LONG)

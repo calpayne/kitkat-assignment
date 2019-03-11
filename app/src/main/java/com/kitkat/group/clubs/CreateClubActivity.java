@@ -24,6 +24,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.kitkat.group.clubs.data.Club;
+import com.kitkat.group.clubs.data.ClubUser;
 
 import java.util.UUID;
 
@@ -108,8 +109,8 @@ public class CreateClubActivity extends AppCompatActivity {
                     if (databaseError != null) {
                         Toast.makeText(CreateClubActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                     } else {
-                        databaseRef.child("clubs-members").child(clubID).child(fa.getUid()).setValue(true);
-                        databaseRef.child("members-clubs").child(fa.getUid()).child(clubID).setValue(true);
+                        databaseRef.child("clubs-members").child(clubID).child(fa.getUid()).setValue(ClubUser.getInstance().getUsername());
+                        databaseRef.child("members-clubs").child(fa.getUid()).child(clubID).setValue(ClubUser.getInstance().getUsername());
 
                         Toast.makeText(CreateClubActivity.this, "Club added", Toast.LENGTH_SHORT).show();
                     }

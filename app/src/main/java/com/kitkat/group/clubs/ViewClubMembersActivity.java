@@ -11,7 +11,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,7 +38,7 @@ public class ViewClubMembersActivity extends AppCompatActivity {
         membersListView = findViewById(R.id.members_list);
         membersListView.setAdapter(listAdapter);
 
-        loadIntoListView("018fa686-3f8d-426d-86d3-a758d4921bd4");
+        loadIntoListView("4af04db6-6e24-406c-8b5d-353e1eb5a1d8");
     }
 
     private void loadIntoListView(String clubId) {
@@ -51,7 +50,7 @@ public class ViewClubMembersActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String data = null;
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    data = ds.getKey();
+                    data = ds.getValue(String.class);
 
                     members.add(data);
                     listAdapter.notifyDataSetChanged();

@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.kitkat.group.clubs.data.ClubUser;
 
 import java.util.Arrays;
 import java.util.List;
@@ -49,6 +50,7 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent;
 
                 if (ds.exists() && ds.getValue(String.class) != null) {
+                    ClubUser.getInstance().setUsername(ds.getValue(String.class));
                     intent = new Intent(getApplicationContext(), MainActivity.class);
                 } else {
                     intent = new Intent(getApplicationContext(), RegisterActivity.class);
