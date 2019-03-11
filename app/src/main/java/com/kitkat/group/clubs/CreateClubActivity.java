@@ -110,7 +110,7 @@ public class CreateClubActivity extends AppCompatActivity {
                         Toast.makeText(CreateClubActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                     } else {
                         databaseRef.child("clubs-members").child(clubID).child(fa.getUid()).setValue(ClubUser.getInstance().getUsername());
-                        databaseRef.child("members-clubs").child(fa.getUid()).child(clubID).setValue(ClubUser.getInstance().getUsername());
+                        databaseRef.child("members-clubs").child(fa.getUid()).child(clubID).setValue(clubName.getText().toString());
 
                         Toast.makeText(CreateClubActivity.this, "Club added", Toast.LENGTH_SHORT).show();
                     }
