@@ -31,7 +31,7 @@ public class ClubListAdapter extends ArrayAdapter {
     private ArrayList<Club> data;
 
     public ClubListAdapter(@NonNull Activity context, ArrayList<Club> data) {
-        super(context,R.layout.listview_row , data);
+        super(context, R.layout.listview_row, data);
         storageRef = FirebaseStorage.getInstance().getReference("club-logos");
         this.context = context;
         this.data = data;
