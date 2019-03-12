@@ -48,15 +48,15 @@ public class ClubListAdapter extends ArrayAdapter {
         storageRef.child(data.get(position).getClubID()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-            Picasso.with(context).load(uri).into(imageView);
+                Picasso.with(context).load(uri).into(imageView);
             }
         });
 
         rowView.setOnClickListener(new View.OnClickListener() {
             public void onClick(final View v) {
-            Intent intent = new Intent(context, ViewClubActivity.class);
-            intent.putExtra("clubId",data.get(position).getClubID());
-            context.startActivity(intent);
+                Intent intent = new Intent(context, ViewClubActivity.class);
+                intent.putExtra("clubId",data.get(position).getClubID());
+                context.startActivity(intent);
             }
         });
 

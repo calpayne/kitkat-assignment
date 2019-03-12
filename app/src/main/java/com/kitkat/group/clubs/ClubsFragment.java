@@ -120,7 +120,7 @@ public class ClubsFragment extends Fragment {
                 } else {
                     data = ds.getValue(Club.class);
                 }
-                
+
                 clubs.add(data);
                 listAdapter.notifyDataSetChanged();
             }
