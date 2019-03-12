@@ -1,5 +1,6 @@
 package com.kitkat.group.clubs;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -66,6 +67,14 @@ public class ViewClubActivity extends AppCompatActivity {
                 setTitle(club.getClubName());
                 TextView textView = (TextView) findViewById(R.id.textView);
                 textView.setText(club.getClubDescription());
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(ViewClubActivity.this, ViewClubMembersActivity.class);
+                        intent.putExtra("clubId",club.getClubID());
+                        startActivity(intent);
+                    }
+                });
 
                 FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
                 if(dataSnapshot.child("clubs-members").child(clubId).child(fa.getUid()).exists())

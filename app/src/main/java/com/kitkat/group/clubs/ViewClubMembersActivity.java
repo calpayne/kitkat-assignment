@@ -38,7 +38,7 @@ public class ViewClubMembersActivity extends AppCompatActivity {
         membersListView = findViewById(R.id.members_list);
         membersListView.setAdapter(listAdapter);
 
-        loadIntoListView("4af04db6-6e24-406c-8b5d-353e1eb5a1d8");
+        loadIntoListView(getIntent().getStringExtra("clubId"));
     }
 
     private void loadIntoListView(String clubId) {
@@ -70,7 +70,7 @@ public class ViewClubMembersActivity extends AppCompatActivity {
         private ArrayList<String> data;
 
         public MemberListAdapter(@NonNull Activity context, ArrayList<String> data) {
-            super(context,R.layout.listview_row , data);
+            super(context,R.layout.listview_row, data);
             this.context = context;
             this.data = data;
         }
