@@ -96,7 +96,8 @@ public class ClubsFragment extends Fragment {
             if (search == null) {
                 databaseRef.child("clubs").addListenerForSingleValueEvent(new ClubListListener(false));
             } else {
-                databaseRef.child("clubs").orderByChild("clubName").startAt(searchText.getText().toString()).endAt(searchText.getText().toString() + "\uf8ff").addListenerForSingleValueEvent(new ClubListListener(false));
+                databaseRef.child("clubs").orderByChild("clubNameSearch").startAt(searchText.getText().toString().toLowerCase())
+                        .endAt(searchText.getText().toString().toLowerCase() + "\uf8ff").addListenerForSingleValueEvent(new ClubListListener(false));
             }
         }
     }

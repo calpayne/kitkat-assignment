@@ -13,7 +13,7 @@ import static java.text.DateFormat.getDateTimeInstance;
 
 public class Club {
 
-    private String clubID, clubName, clubDescription, clubLocation, clubOwner;
+    private String clubID, clubName, clubNameSearch, clubDescription, clubLocation, clubOwner;
     private boolean isPublic;
     private Map<String, String> timestamp;
 
@@ -24,6 +24,7 @@ public class Club {
     public Club(String clubName, String clubDescription, String clubOwner) {
         this.clubDescription = clubDescription;
         this.clubName = clubName;
+        clubNameSearch = clubName.toLowerCase();
         this.clubOwner = clubOwner;
     }
 
@@ -31,6 +32,7 @@ public class Club {
         this.clubID = clubID;
         this.clubDescription = clubDescription;
         this.clubName = clubName;
+        clubNameSearch = clubName.toLowerCase();
         this.clubLocation = clubLocation;
         this.clubOwner = clubOwner;
         this.isPublic = isPublic;
@@ -45,12 +47,17 @@ public class Club {
         this.clubID = clubID;
     }
 
+    public String getClubNameSearch() {
+        return clubNameSearch;
+    }
+
     public String getClubName() {
         return clubName;
     }
 
     public void setClubName(String clubName) {
         this.clubName = clubName;
+        this.clubNameSearch = clubName.toLowerCase();
     }
 
     public String getClubDescription() {
