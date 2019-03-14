@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.kitkat.group.clubs">
 
     <uses-permission android:name="android.permission.NFC" />
-
-    <uses-feature
-        android:name="android.hardware.nfc"
-        android:required="true" />
-
+    <uses-feature android:name="android.hardware.nfc" android:required="true" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -17,7 +14,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning"
+        android:fullBackupContent="">
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -44,8 +43,7 @@
             android:label="@string/title_activity_view_club"
             android:theme="@style/AppTheme" />
         <activity android:name=".ClubListActivity"/>
-        <activity android:name=".ClubListActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".ViewClubMembersActivity"></activity>
+        <activity android:name=".ViewClubMembersActivity"/>
     </application>
 </manifest>

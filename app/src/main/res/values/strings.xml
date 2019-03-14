@@ -11,14 +11,16 @@
     <string name="logout_text">Logout</string>
     <string name="message_beaming_complete">Beaming complete</string>
     <string name="hint_your_message">Your message</string>
-    <string name="label_your_message">Outgoing NFC message:</string>
-    <string name="title_btn_set">Set Message</string>
+    <string name="label_your_message">VERIFICATION</string>
+    <string name="title_btn_set">Verify</string>
     <!--Runtime Permission-->
     <string name="show_camera">Show camera preview</string>
     <string name="camera_unavailable"><b>Camera could not be opened.</b>\nThis occurs when the camera is not available (for example it is already in use) or if the system has denied access (for example when camera access has been disabled).</string>
     <string name="intro">This sample shows a basic implementation for requesting permissions at runtime.\nClick the button below to request the Camera permission and open a full-screen camera preview.</string>
     <string name="open_camera_preview">Open Camera Preview</string>
-    <string name="intro_message"></string>
+    <string name="intro_message">HI</string>
+    <string name="NfcButton">NFC</string>
+    <string name="errorFix">Image</string>
     <string name="camera_access_required">Camera access is required to display the camera preview.</string>
     <string name="ok">OK</string>
     <string name="camera_permission_not_available">Permission is not available. Requesting camera permission.</string>
@@ -38,6 +40,10 @@
     <string name="public_club">Public Club?</string>
     <string name="upload_image">Choose Club Logo</string>
     <string name="clubs">Clubs</string>
+    <string name="clubName">Club Name :</string>
+    <string name="clubId">Club Id :</string>
+    <string name="userId">User Id :</string>
+    <string name="userName">User Name :</string>
     <string name="search">Search</string>
     <string name="username">Username</string>
     <string name="continue_text">Continue</string>

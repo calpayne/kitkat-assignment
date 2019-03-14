@@ -35,6 +35,7 @@
                 android:id="@+id/clubImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:contentDescription="@string/errorFix"
                 app:srcCompat="@drawable/icon_logo" />
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -50,5 +51,15 @@
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@android:drawable/star_big_off" />
+
+    <Button
+        android:id="@+id/nfcbutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="430dp"
+        android:layout_marginStart="150dp"
+        android:text="@string/NfcButton" />
 
 </android.support.design.widget.CoordinatorLayout>
