@@ -1,4 +1,4 @@
-package com.kitkat.group.clubs;
+package com.kitkat.group.clubs.nfc;
 
 /**
  * Created by SHAKTHI on 18/02/2019.

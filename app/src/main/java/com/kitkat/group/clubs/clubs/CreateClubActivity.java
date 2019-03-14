@@ -1,4 +1,4 @@
-package com.kitkat.group.clubs;
+package com.kitkat.group.clubs.clubs;
     
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -23,6 +23,8 @@ import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.kitkat.group.clubs.MainActivity;
+import com.kitkat.group.clubs.R;
 import com.kitkat.group.clubs.data.Club;
 import com.kitkat.group.clubs.data.ClubUser;
 

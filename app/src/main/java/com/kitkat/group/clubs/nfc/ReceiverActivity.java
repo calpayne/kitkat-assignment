@@ -1,4 +1,4 @@
-package com.kitkat.group.clubs;
+package com.kitkat.group.clubs.nfc;
 
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.kitkat.group.clubs.R;
 
 public class ReceiverActivity extends AppCompatActivity {
 
