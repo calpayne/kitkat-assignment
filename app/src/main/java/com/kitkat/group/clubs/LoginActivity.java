@@ -13,6 +13,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.kitkat.group.clubs.data.ClubUser;
 
 import java.util.Arrays;
 import java.util.List;
@@ -20,17 +26,44 @@ import java.util.List;
 public class LoginActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 123;
+    private DatabaseReference databaseRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        databaseRef = FirebaseDatabase.getInstance().getReference();
+
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            startActivity(intent);
-            finish();
+            redirect();
         }
+    }
+
+    private void redirect() {
+        final FirebaseUser fa = FirebaseAuth.getInstance().getCurrentUser();
+
+        databaseRef.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                DataSnapshot ds = dataSnapshot.child(fa.getUid());
+                Intent intent;
+
+                if (ds.exists() && ds.getValue(String.class) != null) {
+                    ClubUser.getInstance().setUsername(ds.getValue(String.class));
+                    intent = new Intent(getApplicationContext(), MainActivity.class);
+                } else {
+                    intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                }
+
+                startActivity(intent);
+                finish();
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void login(View view) {
@@ -52,17 +85,8 @@ public class LoginActivity extends AppCompatActivity {
             IdpResponse response = IdpResponse.fromResultIntent(data);
 
             if (resultCode == RESULT_OK) {
-                // Successfully signed in
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                startActivity(intent);
-                finish();
-                // ...
+                redirect();
             } else {
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
-                // ...
                 Toast.makeText(LoginActivity.this, "Sign in failed", Toast.LENGTH_SHORT).show();
             }
         }

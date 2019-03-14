@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.kitkat.group.clubs.nfc.SenderActivity;
-
 /**
  * Created by Glenn on 17/02/2019.
  */

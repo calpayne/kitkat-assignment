@@ -13,6 +13,10 @@ public class Member {
 
     }
 
+    public Member(String memberRef) {
+        this.memberRef = memberRef;
+    }
+
     public Member(String memberRef, String memberName) {
         this.memberName = memberName;
         this.memberRef = memberRef;
