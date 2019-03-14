@@ -72,6 +72,7 @@ public class ViewClubActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         Intent intent = new Intent(ViewClubActivity.this, ViewClubMembersActivity.class);
                         intent.putExtra("clubId",club.getClubID());
+                        intent.putExtra("isAdmin","true");
                         startActivity(intent);
                     }
                 });

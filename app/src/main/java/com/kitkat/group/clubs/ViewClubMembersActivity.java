@@ -17,15 +17,18 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.kitkat.group.clubs.data.Member;
 
 import java.util.ArrayList;
 
 public class ViewClubMembersActivity extends AppCompatActivity {
 
     private DatabaseReference databaseRef;
-    private ArrayList<String> members;
+    private ArrayList<Member> members;
     private ListView membersListView;
     private MemberListAdapter listAdapter;
+    private boolean isAdmin;
+    private String clubId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +41,10 @@ public class ViewClubMembersActivity extends AppCompatActivity {
         membersListView = findViewById(R.id.members_list);
         membersListView.setAdapter(listAdapter);
 
-        loadIntoListView(getIntent().getStringExtra("clubId"));
+        isAdmin = getIntent().getStringExtra("isAdmin").equalsIgnoreCase("true");
+        clubId = getIntent().getStringExtra("clubId");
+
+        loadIntoListView(clubId);
     }
 
     private void loadIntoListView(String clubId) {
@@ -50,9 +56,7 @@ public class ViewClubMembersActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String data = null;
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                    data = ds.getValue(String.class);
-
-                    members.add(data);
+                    members.add(new Member(ds.getKey(), ds.getValue(String.class)));
                     listAdapter.notifyDataSetChanged();
                 }
             }
@@ -67,9 +71,9 @@ public class ViewClubMembersActivity extends AppCompatActivity {
     private class MemberListAdapter extends ArrayAdapter {
 
         private final Activity context;
-        private ArrayList<String> data;
+        private ArrayList<Member> data;
 
-        public MemberListAdapter(@NonNull Activity context, ArrayList<String> data) {
+        public MemberListAdapter(@NonNull Activity context, ArrayList<Member> data) {
             super(context,R.layout.listview_row, data);
             this.context = context;
             this.data = data;
@@ -80,7 +84,19 @@ public class ViewClubMembersActivity extends AppCompatActivity {
             View rowView = inflater.inflate(R.layout.listview_row, null,true);
 
             TextView clubNameText = rowView.findViewById(R.id.club_name);
-            clubNameText.setText(data.get(position));
+            clubNameText.setText(data.get(position).getMemberName());
+
+            if (isAdmin) {
+                clubNameText.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        databaseRef.child("members-clubs").child(data.get(position).getMemberRef()).child(clubId).removeValue();
+                        databaseRef.child("clubs-members").child(clubId).child(data.get(position).getMemberRef()).removeValue();
+                        data.remove(position);
+                        notifyDataSetChanged();
+                    }
+                });
+            }
 
             ImageView imageView = rowView.findViewById(R.id.club_logo);
             imageView.setEnabled(false);
