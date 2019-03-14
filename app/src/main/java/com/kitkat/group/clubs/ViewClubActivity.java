@@ -10,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -106,6 +105,17 @@ public class ViewClubActivity extends AppCompatActivity {
 
                     }
                 });
+
+                FloatingActionButton qrCode = (FloatingActionButton) findViewById(R.id.fab2);
+                qrCode.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getApplicationContext(), GeneratedQRCode.class);
+                        String clubId = ds.child("clubID").getValue(String.class);
+                        intent.putExtra("clubId", clubId);
+                        startActivity(intent);
+                    }
+                });
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -115,6 +125,4 @@ public class ViewClubActivity extends AppCompatActivity {
         };
         db.addValueEventListener(valueEventListener);
     }
-
-
 }

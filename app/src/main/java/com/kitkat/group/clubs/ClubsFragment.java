@@ -2,9 +2,12 @@ package com.kitkat.group.clubs;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +27,11 @@ import com.kitkat.group.clubs.data.Club;
 
 import java.util.ArrayList;
 
+import com.google.android.gms.vision.barcode.Barcode;
+import com.google.firebase.database.DatabaseReference;
+
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by Admin on 13/02/2019.
  */
@@ -36,6 +44,11 @@ public class ClubsFragment extends Fragment {
     private ListView clubsListView;
     private ClubListAdapter listAdapter;
     private EditText searchText;
+
+    public static final int REQUEST_CODE = 100;
+    public static final int PERMISSIONS_REQUESTED = 200;
+
+    EditText searchClub;
 
     public ClubsFragment() {
         // Empty public constructor
@@ -79,6 +92,21 @@ public class ClubsFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 loadIntoListView(FirebaseAuth.getInstance().getCurrentUser().getUid(), true);
+            }
+        });
+
+        searchClub = (EditText) view.findViewById(R.id.searchClub);
+        Button btn3 = (Button) view.findViewById(R.id.btn_scan_qr);
+        if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{android.Manifest.permission.CAMERA}, PERMISSIONS_REQUESTED);
+        }
+        btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ScanQRCodeActivity.class);
+                startActivityForResult(intent, REQUEST_CODE);
             }
         });
 
@@ -134,6 +162,21 @@ public class ClubsFragment extends Fragment {
         @Override
         public void onCancelled(@NonNull DatabaseError databaseError) {
 
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "onActivityResult: started onActivityResult");
+        if(requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            if(data != null) {
+                final Barcode barcode = data.getParcelableExtra("barcode");
+
+                Intent intent = new Intent(getActivity(), ViewClubActivity.class);
+                intent.putExtra("clubId", barcode.displayValue);
+                getActivity().startActivity(intent);
+                getActivity().finish();
+            }
         }
     }
 }

@@ -10,6 +10,12 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission
+        android:name="android.permission.CAMERA" />
+
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    
     <application
         android:allowBackup="true"
         android:exported="true"
@@ -17,10 +23,14 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="com.google.android.gms.vision.DEPENDENCIES"
+            android:value="barcode" />
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -38,14 +48,19 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateClubActivity" />
+        <activity android:name=".CreateClubActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ViewClubActivity"
             android:label="@string/title_activity_view_club"
             android:theme="@style/AppTheme" />
         <activity android:name=".ClubListActivity"/>
-        <activity android:name=".ClubListActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".ViewClubMembersActivity"></activity>
+        <activity android:name=".ViewClubMembersActivity" />
+        <activity
+            android:name=".ScanQRCodeActivity" />
+        <activity
+            android:name=".GeneratedQRCode" />
     </application>
 </manifest>
