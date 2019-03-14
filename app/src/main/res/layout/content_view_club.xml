@@ -14,4 +14,5 @@
         android:layout_height="wrap_content"
         android:text="@string/clubDetails"
         tools:text="@string/clubDetails" />
+
 </android.support.v4.widget.NestedScrollView>

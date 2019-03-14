@@ -1,5 +1,6 @@
 package com.kitkat.group.clubs;
 
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kitkat.group.clubs.data.Club;
+import com.kitkat.group.clubs.data.ClubUser;
 
 public class ViewClubActivity extends AppCompatActivity {
 
@@ -65,6 +67,14 @@ public class ViewClubActivity extends AppCompatActivity {
                 setTitle(club.getClubName());
                 TextView textView = (TextView) findViewById(R.id.textView);
                 textView.setText(club.getClubDescription());
+                textView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(ViewClubActivity.this, ViewClubMembersActivity.class);
+                        intent.putExtra("clubId",club.getClubID());
+                        startActivity(intent);
+                    }
+                });
 
                 FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
                 if(dataSnapshot.child("clubs-members").child(clubId).child(fa.getUid()).exists())
@@ -86,8 +96,8 @@ public class ViewClubActivity extends AppCompatActivity {
                             Snackbar.make(view, "Left Club.", Snackbar.LENGTH_LONG)
                                     .setAction("Leave Club.", null).show();
                         }else{
-                            db.child("members-clubs").child(fa.getUid()).child(clubId).setValue(true);
-                            db.child("clubs-members").child(clubId).child(fa.getUid() ).setValue(true);
+                            db.child("members-clubs").child(fa.getUid()).child(clubId).setValue(club.getClubName());
+                            db.child("clubs-members").child(clubId).child(fa.getUid()).setValue(ClubUser.getInstance().getUsername());
 
                             fab.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
                             Snackbar.make(view, "Joined Club", Snackbar.LENGTH_LONG)

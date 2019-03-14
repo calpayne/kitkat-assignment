@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.kitkat.group.clubs.data.ClubUser;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -46,6 +47,7 @@ public class RegisterActivity extends AppCompatActivity {
                     if (databaseError != null) {
                         Toast.makeText(RegisterActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                     } else {
+                        ClubUser.getInstance().setUsername(username.getText().toString());
                         Toast.makeText(RegisterActivity.this, "Successfully registered", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);

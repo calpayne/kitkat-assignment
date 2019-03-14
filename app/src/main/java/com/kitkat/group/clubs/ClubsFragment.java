@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -53,10 +54,9 @@ public class ClubsFragment extends Fragment {
         clubsListView.setAdapter(listAdapter);
         searchText = view.findViewById(R.id.searchText);
 
-        loadIntoListView(null);
+        loadIntoListView(null, false);
 
-        Button btn1 = (Button) view.findViewById(R.id.btn_clubs_create);
-        btn1.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.btn_clubs_create).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CreateClubActivity.class);
@@ -64,40 +64,64 @@ public class ClubsFragment extends Fragment {
             }
         });
 
-        Button btn2 = (Button) view.findViewById(R.id.search_clubs_button);
-        btn2.setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.search_clubs_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (searchText.getText().toString().isEmpty()) {
-                    loadIntoListView(null);
+                    loadIntoListView(null, false);
                 } else {
-                    loadIntoListView(searchText.getText().toString());
+                    loadIntoListView(searchText.getText().toString(), false);
                 }
+            }
+        });
+
+        view.findViewById(R.id.btn_my_clubs).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadIntoListView(FirebaseAuth.getInstance().getCurrentUser().getUid(), true);
             }
         });
 
         return view;
     }
 
-    public void loadIntoListView(String search) {
+    public void loadIntoListView(String search, boolean myClubs) {
         clubs.clear();
         listAdapter.clear();
         listAdapter.notifyDataSetChanged();
 
-        if (search == null) {
-            databaseRef.child("clubs").addListenerForSingleValueEvent(new ClubListListener());
+        if (myClubs) {
+            databaseRef.child("members-clubs").child(search).addListenerForSingleValueEvent(new ClubListListener(true));
         } else {
-            databaseRef.child("clubs").orderByChild("clubName").startAt(searchText.getText().toString()).endAt(searchText.getText().toString() + "\uf8ff").addListenerForSingleValueEvent(new ClubListListener());
+            if (search == null) {
+                databaseRef.child("clubs").addListenerForSingleValueEvent(new ClubListListener(false));
+            } else {
+                databaseRef.child("clubs").orderByChild("clubNameSearch").startAt(searchText.getText().toString().toLowerCase())
+                        .endAt(searchText.getText().toString().toLowerCase() + "\uf8ff").addListenerForSingleValueEvent(new ClubListListener(false));
+            }
         }
     }
 
     private class ClubListListener implements ValueEventListener {
 
+        private boolean ownClubs;
+
+        public ClubListListener(boolean ownClubs) {
+            this.ownClubs = ownClubs;
+        }
+
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             Club data = null;
             for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                data = ds.getValue(Club.class);
+                if (ownClubs) {
+                    data = new Club();
+                    data.setClubID(ds.getKey());
+                    data.setClubName(ds.getValue(String.class));
+                } else {
+                    data = ds.getValue(Club.class);
+                }
+
                 clubs.add(data);
                 listAdapter.notifyDataSetChanged();
             }
