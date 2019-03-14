@@ -3,7 +3,6 @@ package com.kitkat.group.clubs;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -13,14 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.android.gms.vision.barcode.Barcode;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -36,8 +30,6 @@ public class ClubsFragment extends Fragment {
     public static final int PERMISSIONS_REQUESTED = 200;
 
     EditText searchClub;
-
-    DatabaseReference databaseReference;
 
     public ClubsFragment() {
         // Empty public constructor
@@ -97,14 +89,6 @@ public class ClubsFragment extends Fragment {
                 intent.putExtra("clubId", barcode.displayValue);
                 getActivity().startActivity(intent);
                 getActivity().finish();
-
-                /**
-                searchClub.post(new Runnable() {
-                    @Override
-                    public void run(){
-                        searchClub.setText(barcode.displayValue);
-                    }
-                }); */
             }
         }
     }

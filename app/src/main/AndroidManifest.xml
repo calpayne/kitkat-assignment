@@ -13,11 +13,6 @@
     <uses-permission
         android:name="android.permission.CAMERA" />
 
-    <!--
-    <uses-permission
-        android:name="android.permission.VIBRATE" />
-    -->
-  
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     
@@ -53,7 +48,9 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateClubActivity" />
+        <activity android:name=".CreateClubActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ViewClubActivity"
             android:label="@string/title_activity_view_club"
