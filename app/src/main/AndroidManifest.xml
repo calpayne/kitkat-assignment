@@ -27,19 +27,18 @@
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
-        <activity android:name=".SplashActivity">
+        <activity android:name=".auth.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" />
+        <activity android:name=".auth.LoginActivity" />
         <activity android:name=".MainActivity" />
-        <activity android:name=".SenderActivity"
+        <activity android:name=".nfc.SenderActivity"
                     android:configChanges="orientation"
                     android:screenOrientation="portrait"/>
-        <activity android:name=".ReceiverActivity"
+        <activity android:name=".nfc.ReceiverActivity"
                     android:configChanges="orientation"
                     android:screenOrientation="portrait">
             <intent-filter>
@@ -48,19 +47,16 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
-        <activity android:name=".CreateClubActivity"
-            android:configChanges="orientation"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ViewClubActivity"
-            android:label="@string/title_activity_view_club"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".ClubListActivity"/>
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".ViewClubMembersActivity" />
         <activity
             android:name=".ScanQRCodeActivity" />
         <activity
             android:name=".GeneratedQRCode" />
+        <activity android:name=".clubs.CreateClubActivity" />
+        <activity
+            android:name=".clubs.ViewClubActivity"
+            android:label="@string/title_activity_view_club"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".auth.RegisterActivity" />
+        <activity android:name=".clubs.ViewClubMembersActivity"></activity>
     </application>
 </manifest>

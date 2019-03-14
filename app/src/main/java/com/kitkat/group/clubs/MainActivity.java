@@ -17,6 +17,8 @@ import android.view.View;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.kitkat.group.clubs.auth.LoginActivity;
+import com.kitkat.group.clubs.clubs.ClubsFragment;
 
 public class MainActivity extends AppCompatActivity {
 
