@@ -16,6 +16,7 @@ import android.widget.Button;
 
 /**
  * Created by Glenn on 17/02/2019.
+ * (Do not remove)
  */
 
 public class SettingsFragment extends Fragment {

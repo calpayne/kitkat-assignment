@@ -19,8 +19,8 @@
     <string name="intro">This sample shows a basic implementation for requesting permissions at runtime.\nClick the button below to request the Camera permission and open a full-screen camera preview.</string>
     <string name="open_camera_preview">Open Camera Preview</string>
     <string name="intro_message">HI</string>
+    <string name="error">Image</string>
     <string name="NfcButton">NFC</string>
-    <string name="errorFix">Image</string>
     <string name="camera_access_required">Camera access is required to display the camera preview.</string>
     <string name="ok">OK</string>
     <string name="camera_permission_not_available">Permission is not available. Requesting camera permission.</string>

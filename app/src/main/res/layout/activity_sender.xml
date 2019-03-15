@@ -116,7 +116,7 @@
         android:layout_alignStart="@+id/tv_clubName"
         android:layout_below="@+id/tv_userName"
         android:layout_marginTop="33dp"
-        android:text="@string/errorFix" />
+        android:text="@string/error" />
 
 </RelativeLayout>
 
