@@ -127,8 +127,8 @@ public class ViewClubActivity extends AppCompatActivity {
                         Snackbar.make(view, "Left Club.", Snackbar.LENGTH_LONG)
                                 .setAction("Leave Club.", null).show();
                     }else{
-                        db.child("members-clubs").child(fa.getUid()).child(clubId).setValue(true);
-                        db.child("clubs-members").child(clubId).child(fa.getUid() ).setValue(true);
+                        db.child("members-clubs").child(fa.getUid()).child(clubId).setValue(club.getClubName());
+                        db.child("clubs-members").child(clubId).child(fa.getUid() ).setValue(ClubUser.getInstance().getUsername());
                         fab.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
                         Snackbar.make(view, "Joined Club", Snackbar.LENGTH_LONG)
                                 .setAction("Join Club", null).show();
