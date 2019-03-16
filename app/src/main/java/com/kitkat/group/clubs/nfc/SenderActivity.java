@@ -19,7 +19,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.kitkat.group.clubs.OutcomingNfcManager;
+import com.kitkat.group.clubs.nfc.OutcomingNfcManager;
 import com.kitkat.group.clubs.data.Club;
 
 

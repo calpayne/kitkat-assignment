@@ -31,6 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.kitkat.group.clubs.R;
 import com.kitkat.group.clubs.data.Club;
 import com.kitkat.group.clubs.data.ClubUser;
+import com.kitkat.group.clubs.nfc.SenderActivity;
 
 public class ViewClubActivity extends AppCompatActivity {
 
@@ -100,14 +101,11 @@ public class ViewClubActivity extends AppCompatActivity {
                 setTitle(club.getClubName());
                 TextView textView = findViewById(R.id.textView);
                 textView.setText(club.getClubDescription());
-                textView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(ViewClubActivity.this, ViewClubMembersActivity.class);
-                        intent.putExtra("clubId",club.getClubID());
-                        intent.putExtra("isAdmin","true");
-                        startActivity(intent);
-                    }
+                textView.setOnClickListener(view -> {
+                    Intent intent = new Intent(ViewClubActivity.this, ViewClubMembersActivity.class);
+                    intent.putExtra("clubId",club.getClubID());
+                    intent.putExtra("isAdmin","true");
+                    startActivity(intent);
                 });
 
                 FloatingActionButton fab = findViewById(R.id.fab);
