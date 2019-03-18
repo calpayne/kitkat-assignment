@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.kitkat.group.clubs">
-
-    <uses-permission android:name="android.permission.NFC" />
-    <uses-feature android:name="android.hardware.nfc" android:required="true" />
-    <uses-permission android:name="android.permission.INTERNET" />
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.kitkat.group.clubs" >
 
     <uses-permission
+        android:name="android.permission.NFC" />
+    <uses-feature
+        android:name="android.hardware.nfc"
+        android:required="true" />
+    <uses-permission
+        android:name="android.permission.INTERNET" />
+    <uses-permission
         android:name="android.permission.CAMERA" />
-
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-    <uses-permission
-        android:name="android.permission.CAMERA" />
-
-    <uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    
     <application
         android:allowBackup="true"
         android:exported="true"
@@ -30,21 +27,23 @@
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
-        <activity android:name=".auth.SplashActivity">
+        <activity android:name=".auth.SplashActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".auth.LoginActivity" />
-        <activity android:name=".MainActivity" />
+        <activity
+            android:name=".auth.LoginActivity" />
+        <activity
+            android:name=".MainActivity" />
         <activity android:name=".nfc.SenderActivity"
                     android:configChanges="orientation"
-                    android:screenOrientation="portrait"/>
+                    android:screenOrientation="portrait" />
         <activity android:name=".nfc.ReceiverActivity"
                     android:configChanges="orientation"
-                    android:screenOrientation="portrait">
+                    android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.nfc.action.NDEF_DISCOVERED" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -55,12 +54,15 @@
             android:name=".ScanQRCodeActivity" />
         <activity
             android:name=".GeneratedQRCode" />
-        <activity android:name=".clubs.CreateClubActivity" />
+        <activity
+            android:name=".clubs.CreateClubActivity" />
         <activity
             android:name=".clubs.ViewClubActivity"
             android:label="@string/title_activity_view_club"
             android:theme="@style/AppTheme" />
-        <activity android:name=".auth.RegisterActivity" />
-        <activity android:name=".clubs.ViewClubMembersActivity"></activity>
+        <activity
+            android:name=".auth.RegisterActivity" />
+        <activity
+            android:name=".clubs.ViewClubMembersActivity" />
     </application>
 </manifest>
