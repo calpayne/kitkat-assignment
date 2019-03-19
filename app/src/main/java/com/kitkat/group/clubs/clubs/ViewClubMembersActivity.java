@@ -84,7 +84,7 @@ public class ViewClubMembersActivity extends AppCompatActivity {
             LayoutInflater inflater = context.getLayoutInflater();
             View rowView = inflater.inflate(R.layout.listview_row, null,true);
 
-            TextView clubNameText = rowView.findViewById(R.id.club_name);
+            TextView clubNameText = rowView.findViewById(R.id.row_name);
             clubNameText.setText(data.get(position).getMemberName());
 
             if (isAdmin) {
@@ -99,7 +99,7 @@ public class ViewClubMembersActivity extends AppCompatActivity {
                 });
             }
 
-            ImageView imageView = rowView.findViewById(R.id.club_logo);
+            ImageView imageView = rowView.findViewById(R.id.row_image);
             imageView.setEnabled(false);
             imageView.setVisibility(View.INVISIBLE);
 
