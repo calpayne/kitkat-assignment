@@ -30,15 +30,15 @@
         <meta-data
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
-        <activity android:name=".auth.SplashActivity">
+        <activity android:name=".auth.SplashActivity" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".auth.LoginActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".auth.LoginActivity" android:screenOrientation="portrait" />
+        <activity android:name=".MainActivity" android:screenOrientation="portrait" />
         <activity android:name=".nfc.SenderActivity"
                     android:configChanges="orientation"
                     android:screenOrientation="portrait"/>
@@ -52,15 +52,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ScanQRCodeActivity" />
+            android:name=".ScanQRCodeActivity" android:screenOrientation="portrait" />
         <activity
-            android:name=".GeneratedQRCode" />
-        <activity android:name=".clubs.CreateClubActivity" />
+            android:name=".GeneratedQRCode" android:screenOrientation="portrait" />
+        <activity android:name=".clubs.CreateClubActivity" android:screenOrientation="portrait" />
         <activity
             android:name=".clubs.ViewClubActivity"
             android:label="@string/title_activity_view_club"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".auth.RegisterActivity" />
-        <activity android:name=".clubs.ViewClubMembersActivity"></activity>
+            android:theme="@style/AppTheme" android:screenOrientation="portrait" />
+        <activity android:name=".auth.RegisterActivity" android:screenOrientation="portrait" />
+        <activity android:name=".clubs.ViewClubMembersActivity" android:screenOrientation="portrait" />
     </application>
 </manifest>
