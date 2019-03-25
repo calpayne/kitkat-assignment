@@ -103,8 +103,8 @@ public class ViewClubActivity extends AppCompatActivity {
                 textView.setText(club.getClubDescription());
                 textView.setOnClickListener(view -> {
                     Intent intent = new Intent(ViewClubActivity.this, ViewClubMembersActivity.class);
-                    intent.putExtra("clubId",club.getClubID());
-                    intent.putExtra("isAdmin","true");
+                    intent.putExtra("clubId", club.getClubID());
+                    intent.putExtra("isAdmin", club.getClubOwner().equalsIgnoreCase(fa.getUid()) ? "true" : "false");
                     startActivity(intent);
                 });
 
