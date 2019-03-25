@@ -1,6 +1,7 @@
 package com.kitkat.group.clubs.clubs;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,13 +13,17 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.kitkat.group.clubs.R;
 import com.kitkat.group.clubs.data.Member;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -73,9 +78,11 @@ public class ViewClubMembersActivity extends AppCompatActivity {
 
         private final Activity context;
         private ArrayList<Member> data;
+        private StorageReference storageRef;
 
         public MemberListAdapter(@NonNull Activity context, ArrayList<Member> data) {
             super(context,R.layout.listview_row, data);
+            storageRef = FirebaseStorage.getInstance().getReference("member-avatars");
             this.context = context;
             this.data = data;
         }
@@ -99,9 +106,13 @@ public class ViewClubMembersActivity extends AppCompatActivity {
                 });
             }
 
-            ImageView imageView = rowView.findViewById(R.id.row_image);
-            imageView.setEnabled(false);
-            imageView.setVisibility(View.INVISIBLE);
+            final ImageView imageView = rowView.findViewById(R.id.row_image);
+            storageRef.child(data.get(position).getMemberRef()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Picasso.with(context).load(uri).into(imageView);
+                }
+            });
 
             return rowView;
         };
