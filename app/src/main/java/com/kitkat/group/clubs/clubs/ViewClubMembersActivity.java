@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -94,7 +95,7 @@ public class ViewClubMembersActivity extends AppCompatActivity {
             TextView clubNameText = rowView.findViewById(R.id.row_name);
             clubNameText.setText(data.get(position).getMemberName());
 
-            if (isAdmin) {
+            if (isAdmin && !data.get(position).getMemberRef().equalsIgnoreCase(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                 clubNameText.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
