@@ -13,6 +13,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -189,5 +192,26 @@ public class ViewClubActivity extends AppCompatActivity {
 
     }
 
+    /**
+     *  Unfinshed - displays the settings menu with Club's QR and Manage
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_view_club, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_manage:
+                break;
+            case R.id.action_generate_qr:
+                break;
+            default:
+                //unknown error
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
