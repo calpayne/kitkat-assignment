@@ -49,4 +49,6 @@
     <string name="my_clubs">My Clubs</string>
     <string name="action_generate_qr">Club\'s QR</string>
     <string name="action_manage">Manage</string>
+    <string name="navigation_drawer_open">Open Navigation Drawer</string>
+    <string name="navigation_drawer_close">Close Navigation Drawer</string>
 </resources>

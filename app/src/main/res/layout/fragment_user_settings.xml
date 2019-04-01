@@ -34,4 +34,7 @@
         android:textColor="@color/colorPrimary"
         android:background="@null" />
 
+
+    /** Add a drawertab layout */
+
 </LinearLayout>
