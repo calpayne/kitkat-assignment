@@ -57,10 +57,11 @@ public class SettingsFragment extends Fragment {
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
 
         try {
-            BitMatrix bitMatrix = multiFormatWriter.encode(FirebaseAuth.getInstance().getCurrentUser().getUid(), BarcodeFormat.QR_CODE, 500, 500);
+            BitMatrix bitMatrix = multiFormatWriter.encode(FirebaseAuth.getInstance().getCurrentUser().getUid().toString(), BarcodeFormat.QR_CODE, 500, 500);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
-            ((ImageView) view.findViewById(R.id.user_qr_code)).setImageBitmap(bitmap);
+            ImageView qrCode = view.findViewById(R.id.user_qr_code);
+            qrCode.setImageBitmap(bitmap);
         } catch (WriterException e) {
             e.printStackTrace();
         }

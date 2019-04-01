@@ -29,6 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kitkat.group.clubs.R;
+import com.kitkat.group.clubs.ScanQRCodeActivity;
 import com.kitkat.group.clubs.data.Club;
 import com.kitkat.group.clubs.data.ClubUser;
 import com.kitkat.group.clubs.nfc.SenderActivity;
@@ -74,6 +75,12 @@ public class ViewClubActivity extends AppCompatActivity {
 
         Button nfcbutton = findViewById(R.id.nfcbutton);
         nfcbutton.setOnClickListener(v -> NfcPermission());
+
+        findViewById(R.id.scanbutton).setOnClickListener(view -> {
+            Intent intent = new Intent(this, ScanQRCodeActivity.class);
+            intent.putExtra("clubId", getIntent().getStringExtra("clubId"));
+            startActivity(intent);
+        });
 
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
