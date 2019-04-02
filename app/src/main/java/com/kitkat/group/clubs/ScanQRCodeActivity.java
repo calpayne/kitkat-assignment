@@ -1,30 +1,65 @@
 package com.kitkat.group.clubs;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.v4.content.ContextCompat;
+import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.util.SparseArray;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 import android.widget.Toast;
 
-import com.google.android.gms.vision.CameraSource;
-import com.google.android.gms.vision.Detector;
-import com.google.android.gms.vision.barcode.Barcode;
-import com.google.android.gms.vision.barcode.BarcodeDetector;
-
-import java.io.IOException;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.kitkat.group.clubs.clubs.ViewClubActivity;
 
 public class ScanQRCodeActivity extends AppCompatActivity {
 
     private static final String TAG = "ScanQRCodeActivity";
+    private DatabaseReference databaseRef;
+    private String clubId;
 
-    SurfaceView surfaceView;
-    CameraSource cameraSource;
-    BarcodeDetector barcodeDetector;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0) {
+            if (resultCode == RESULT_OK) {
+                String contents = data.getStringExtra("SCAN_RESULT");
+
+                if (clubId != null) {
+                    databaseRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            try {
+                                if (dataSnapshot.child("clubs-members").child(clubId).child(contents).exists()) {
+                                    Toast.makeText(ScanQRCodeActivity.this, "User is a club member", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(ScanQRCodeActivity.this, "User is NOT a club member", Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (Exception e) {
+                                Toast.makeText(ScanQRCodeActivity.this, "User is NOT a club member", Toast.LENGTH_SHORT).show();
+                            }
+                            finish();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            Toast.makeText(ScanQRCodeActivity.this, "User is NOT a club member", Toast.LENGTH_SHORT).show();
+                            finish();
+                        }
+                    });
+                } else {
+                    Intent intent = new Intent(this, ViewClubActivity.class);
+                    intent.putExtra("clubId", contents);
+                    startActivity(intent);
+                    finish();
+                }
+            }
+            finish();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,67 +68,17 @@ public class ScanQRCodeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_scan_qrcode);
 
-        surfaceView = (SurfaceView) findViewById(R.id.camera_preview);
-        surfaceView.setZOrderMediaOverlay(true);
+        databaseRef = FirebaseDatabase.getInstance().getReference();
+        clubId = getIntent().getStringExtra("clubId");
 
-        barcodeDetector = new BarcodeDetector.Builder(this)
-                .setBarcodeFormats(Barcode.QR_CODE)
-                .build();
-
-        if(!barcodeDetector.isOperational()) {
-            Toast.makeText(getApplicationContext(), "Sorry, couldn't setup the Barcode Detector", Toast.LENGTH_SHORT).show();
-            this.finish();
+        try {
+            Intent intent = new Intent("com.google.zxing.client.android.SCAN");
+            intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
+            startActivityForResult(intent, 0);
+        } catch (Exception e) {
+            Uri marketUri = Uri.parse("market://details?id=com.google.zxing.client.android");
+            Intent marketIntent = new Intent(Intent.ACTION_VIEW, marketUri);
+            startActivity(marketIntent);
         }
-
-        cameraSource = new CameraSource.Builder(this, barcodeDetector)
-                .setFacing(CameraSource.CAMERA_FACING_BACK)
-                .setRequestedFps(24)
-                .setAutoFocusEnabled(true)
-                .setRequestedPreviewSize(1920, 1024)
-                .build();
-
-        surfaceView.getHolder().addCallback(new SurfaceHolder.Callback() {
-            @Override
-            public void surfaceCreated(SurfaceHolder surfaceHolder) {
-                if (ContextCompat.checkSelfPermission(getApplicationContext(),
-                        android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    return;
-                }
-                try {
-                    cameraSource.start(surfaceHolder);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void surfaceChanged(SurfaceHolder surfaceHolder, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void surfaceDestroyed(SurfaceHolder surfaceHolder) {
-                cameraSource.stop();
-            }
-        });
-
-        barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
-            @Override
-            public void release() {
-
-            }
-
-            @Override
-            public void receiveDetections(Detector.Detections<Barcode> detections) {
-                final SparseArray<Barcode> qrCode = detections.getDetectedItems();
-
-                if (qrCode.size() > 0) {
-                    Intent intent = new Intent();
-                    intent.putExtra("barcode", qrCode.valueAt(0));
-                    setResult(RESULT_OK, intent);
-                    finish();
-                }
-            }
-        });
     }
 }

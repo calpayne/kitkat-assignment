@@ -87,9 +87,6 @@ public class CreateClubActivity extends AppCompatActivity {
     }
 
     public void createClub(View view) {
-        progressDialog.setMessage("Creating club...");
-        progressDialog.show();
-
         if (clubName.getText().toString().isEmpty() || clubDesc.getText().toString().isEmpty()) {
             Toast.makeText(CreateClubActivity.this, "You can't leave the club name or description boxes empty", Toast.LENGTH_SHORT).show();
         } else if (image == null) {

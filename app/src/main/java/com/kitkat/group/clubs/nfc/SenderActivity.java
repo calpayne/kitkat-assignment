@@ -26,13 +26,10 @@ import com.kitkat.group.clubs.data.Club;
 public class SenderActivity extends AppCompatActivity implements OutcomingNfcManager.NfcActivity {
 
     //private TextView tvOutcomingMessage;
-    private Button btnSetOutcomingMessage;
+    Button btnSetOutcomingMessage;
 
     private NfcAdapter nfcAdapter;
-    private OutcomingNfcManager outcomingNfccallback;
-
-
-
+    OutcomingNfcManager outcomingNfccallback;
 
     String clubId, userId, clubName, outMessage, userName;
     TextView tvClubName, tvClubId, tvUserId, tvUserName, textView;
@@ -69,7 +66,7 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
         tvClubId = findViewById(R.id.tv_clubId);
         tvUserId = findViewById(R.id.tv_userId);
         tvUserName = findViewById(R.id.tv_userName);
-        textView = findViewById(R.id.textView7);
+        //textView = findViewById(R.id.textView7);
 
         tvClubName.setText(clubName);
         tvClubId.setText(clubId);
@@ -104,7 +101,7 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
 
     private void setOutGoingMessage() {
         Toast.makeText(this, "Details verified! Tap on NFC device.", Toast.LENGTH_SHORT).show();
-        outMessage = clubName+"*"+clubId+"*"+userId+"*"+userName;
+        outMessage = clubName+"    "+clubId+"    "+userName+"    "+userId;
         //textView.setText(outMessage);
         //this.tvOutcomingMessage.setText(outMessage);
     }

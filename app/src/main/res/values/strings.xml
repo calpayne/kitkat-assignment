@@ -12,7 +12,8 @@
     <string name="message_beaming_complete">Beaming complete</string>
     <string name="hint_your_message">Your message</string>
     <string name="label_your_message">VERIFICATION</string>
-    <string name="title_btn_set">Verify</string>
+    <string name="title_btn_set">TRANSFER</string>
+    <string name="ReceiverButton">Verify</string>
     <!--Runtime Permission-->
     <string name="show_camera">Show camera preview</string>
     <string name="camera_unavailable"><b>Camera could not be opened.</b>\nThis occurs when the camera is not available (for example it is already in use) or if the system has denied access (for example when camera access has been disabled).</string>
@@ -47,6 +48,10 @@
     <string name="username">Username</string>
     <string name="continue_text">Continue</string>
     <string name="my_clubs">My Clubs</string>
+    <string name="title_activity_verification">VerificationActivity</string>
+    <string name="listview_row_text">Row Text</string>
+    <string name="change_profile_picture">Change profile picture</string>
+    <string name="scan_qr_code">Scan QR Code</string>
     <string name="action_generate_qr">Club\'s QR</string>
     <string name="action_manage">Manage</string>
     <string name="navigation_drawer_open">Open Navigation Drawer</string>
