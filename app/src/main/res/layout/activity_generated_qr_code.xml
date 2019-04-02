@@ -5,9 +5,32 @@
     android:layout_height="match_parent"
     android:background="@color/colorWhite" >
 
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/app_bar_layout"
+        android:background="@color/colorWhite" >
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/toolbar" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/club_name"
+                android:text="Placeholder"
+                android:textSize="18sp" />
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/generatedQRCode" />
+        android:id="@+id/generatedQRCode"
+        android:layout_below="@+id/app_bar_layout"/>
 
 </RelativeLayout>
