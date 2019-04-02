@@ -39,9 +39,9 @@ public class ViewClubActivity extends AppCompatActivity {
     private DatabaseReference db;
     private Club club;
     private static final String VTAG = "ViewClubActivity";
-    private NfcAdapter nfcAdapter;
-    private DatabaseReference mDatabase;
-    private FirebaseAuth mAuth;
+    NfcAdapter nfcAdapter;
+    DatabaseReference mDatabase;
+    FirebaseAuth mAuth;
 
     String userName, userId;
 
