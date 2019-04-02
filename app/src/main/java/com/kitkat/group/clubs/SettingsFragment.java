@@ -28,7 +28,6 @@ import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by Glenn on 17/02/2019.
- * (Do not remove)
  */
 
 public class SettingsFragment extends Fragment {
@@ -42,7 +41,7 @@ public class SettingsFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView: started SettingsFragment");
 
         View view = inflater.inflate(R.layout.fragment_user_settings, container, false);
