@@ -29,6 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kitkat.group.clubs.R;
+import com.kitkat.group.clubs.ScanQRCodeActivity;
 import com.kitkat.group.clubs.data.Club;
 import com.kitkat.group.clubs.data.ClubUser;
 import com.kitkat.group.clubs.nfc.SenderActivity;
@@ -75,6 +76,12 @@ public class ViewClubActivity extends AppCompatActivity {
         Button nfcbutton = findViewById(R.id.nfcbutton);
         nfcbutton.setOnClickListener(v -> NfcPermission());
 
+        findViewById(R.id.scanbutton).setOnClickListener(view -> {
+            Intent intent = new Intent(this, ScanQRCodeActivity.class);
+            intent.putExtra("clubId", getIntent().getStringExtra("clubId"));
+            startActivity(intent);
+        });
+
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -103,8 +110,8 @@ public class ViewClubActivity extends AppCompatActivity {
                 textView.setText(club.getClubDescription());
                 textView.setOnClickListener(view -> {
                     Intent intent = new Intent(ViewClubActivity.this, ViewClubMembersActivity.class);
-                    intent.putExtra("clubId",club.getClubID());
-                    intent.putExtra("isAdmin","true");
+                    intent.putExtra("clubId", club.getClubID());
+                    intent.putExtra("isAdmin", club.getClubOwner().equalsIgnoreCase(fa.getUid()) ? "true" : "false");
                     startActivity(intent);
                 });
 
@@ -116,24 +123,24 @@ public class ViewClubActivity extends AppCompatActivity {
                     fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
 
                 fab.setOnClickListener(view -> {
+                    if(!club.getClubOwner().equalsIgnoreCase(fa.getUid())) {
+                        if(dataSnapshot.child("members-clubs").child(fa.getUid()).child(clubId).exists() ||
+                                dataSnapshot.child("clubs-members").child(clubId).child(fa.getUid()).exists()){
 
-                    if(dataSnapshot.child("members-clubs").child(fa.getUid()).child(clubId).exists() ||
-                            dataSnapshot.child("clubs-members").child(clubId).child(fa.getUid()).exists()){
+                            db.child("members-clubs").child(fa.getUid()).child(clubId).removeValue();
+                            db.child("clubs-members").child(clubId).child(fa.getUid()).removeValue();
 
-                        db.child("members-clubs").child(fa.getUid()).child(clubId).removeValue();
-                        db.child("clubs-members").child(clubId).child(fa.getUid()).removeValue();
-
-                        fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
-                        Snackbar.make(view, "Left Club.", Snackbar.LENGTH_LONG)
-                                .setAction("Leave Club.", null).show();
-                    }else{
-                        db.child("members-clubs").child(fa.getUid()).child(clubId).setValue(club.getClubName());
-                        db.child("clubs-members").child(clubId).child(fa.getUid() ).setValue(ClubUser.getInstance().getUsername());
-                        fab.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
-                        Snackbar.make(view, "Joined Club", Snackbar.LENGTH_LONG)
-                                .setAction("Join Club", null).show();
+                            fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
+                            Snackbar.make(view, "Left Club.", Snackbar.LENGTH_LONG)
+                                    .setAction("Leave Club.", null).show();
+                        } else{
+                            db.child("members-clubs").child(fa.getUid()).child(clubId).setValue(club.getClubName());
+                            db.child("clubs-members").child(clubId).child(fa.getUid() ).setValue(ClubUser.getInstance().getUsername());
+                            fab.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+                            Snackbar.make(view, "Joined Club", Snackbar.LENGTH_LONG)
+                                    .setAction("Join Club", null).show();
+                        }
                     }
-
                 });
             }
             @Override
