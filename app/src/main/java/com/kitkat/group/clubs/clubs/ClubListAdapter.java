@@ -41,10 +41,10 @@ public class ClubListAdapter extends ArrayAdapter {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.listview_row, null,true);
 
-        TextView clubNameText = rowView.findViewById(R.id.club_name);
+        TextView clubNameText = rowView.findViewById(R.id.row_name);
         clubNameText.setText(data.get(position).getClubName());
 
-        final ImageView imageView = rowView.findViewById(R.id.club_logo);
+        final ImageView imageView = rowView.findViewById(R.id.row_image);
         storageRef.child(data.get(position).getClubID()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {

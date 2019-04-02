@@ -7,7 +7,7 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/club_logo"
+        android:id="@+id/row_image"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginBottom="8dp"
@@ -19,14 +19,14 @@
         app:srcCompat="@drawable/icon_logo" />
 
     <TextView
-        android:id="@+id/club_name"
+        android:id="@+id/row_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:text="@string/club_name"
+        android:text="@string/listview_row_text"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/club_logo"
+        app:layout_constraintStart_toEndOf="@+id/row_image"
         app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

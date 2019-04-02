@@ -1,6 +1,5 @@
 package com.kitkat.group.clubs.clubs;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -8,19 +7,19 @@ import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.firebase.ui.auth.data.model.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,7 +27,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.kitkat.group.clubs.GeneratedQRCode;
 import com.kitkat.group.clubs.R;
+import com.kitkat.group.clubs.ScanQRCodeActivity;
 import com.kitkat.group.clubs.data.Club;
 import com.kitkat.group.clubs.data.ClubUser;
 import com.kitkat.group.clubs.nfc.SenderActivity;
@@ -38,9 +39,9 @@ public class ViewClubActivity extends AppCompatActivity {
     private DatabaseReference db;
     private Club club;
     private static final String VTAG = "ViewClubActivity";
-    private NfcAdapter nfcAdapter;
-    private DatabaseReference mDatabase;
-    private FirebaseAuth mAuth;
+    NfcAdapter nfcAdapter;
+    DatabaseReference mDatabase;
+    FirebaseAuth mAuth;
 
     String userName, userId;
 
@@ -48,8 +49,16 @@ public class ViewClubActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_club);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         db = FirebaseDatabase.getInstance().getReference();
 
@@ -74,6 +83,12 @@ public class ViewClubActivity extends AppCompatActivity {
 
         Button nfcbutton = findViewById(R.id.nfcbutton);
         nfcbutton.setOnClickListener(v -> NfcPermission());
+
+        findViewById(R.id.scanbutton).setOnClickListener(view -> {
+            Intent intent = new Intent(this, ScanQRCodeActivity.class);
+            intent.putExtra("clubId", getIntent().getStringExtra("clubId"));
+            startActivity(intent);
+        });
 
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
@@ -103,8 +118,8 @@ public class ViewClubActivity extends AppCompatActivity {
                 textView.setText(club.getClubDescription());
                 textView.setOnClickListener(view -> {
                     Intent intent = new Intent(ViewClubActivity.this, ViewClubMembersActivity.class);
-                    intent.putExtra("clubId",club.getClubID());
-                    intent.putExtra("isAdmin","true");
+                    intent.putExtra("clubId", club.getClubID());
+                    intent.putExtra("isAdmin", club.getClubOwner().equalsIgnoreCase(fa.getUid()) ? "true" : "false");
                     startActivity(intent);
                 });
 
@@ -116,24 +131,37 @@ public class ViewClubActivity extends AppCompatActivity {
                     fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
 
                 fab.setOnClickListener(view -> {
+                    if(!club.getClubOwner().equalsIgnoreCase(fa.getUid())) {
+                        if(dataSnapshot.child("members-clubs").child(fa.getUid()).child(clubId).exists() ||
+                                dataSnapshot.child("clubs-members").child(clubId).child(fa.getUid()).exists()){
 
-                    if(dataSnapshot.child("members-clubs").child(fa.getUid()).child(clubId).exists() ||
-                            dataSnapshot.child("clubs-members").child(clubId).child(fa.getUid()).exists()){
+                            db.child("members-clubs").child(fa.getUid()).child(clubId).removeValue();
+                            db.child("clubs-members").child(clubId).child(fa.getUid()).removeValue();
 
-                        db.child("members-clubs").child(fa.getUid()).child(clubId).removeValue();
-                        db.child("clubs-members").child(clubId).child(fa.getUid()).removeValue();
-
-                        fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
-                        Snackbar.make(view, "Left Club.", Snackbar.LENGTH_LONG)
-                                .setAction("Leave Club.", null).show();
-                    }else{
-                        db.child("members-clubs").child(fa.getUid()).child(clubId).setValue(club.getClubName());
-                        db.child("clubs-members").child(clubId).child(fa.getUid() ).setValue(ClubUser.getInstance().getUsername());
-                        fab.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
-                        Snackbar.make(view, "Joined Club", Snackbar.LENGTH_LONG)
-                                .setAction("Join Club", null).show();
+                            fab.setBackgroundTintList(ColorStateList.valueOf(getResources().getColor(R.color.colorAccent)));
+                            Snackbar.make(view, "Left Club.", Snackbar.LENGTH_LONG)
+                                    .setAction("Leave Club.", null).show();
+                        } else{
+                            db.child("members-clubs").child(fa.getUid()).child(clubId).setValue(club.getClubName());
+                            db.child("clubs-members").child(clubId).child(fa.getUid() ).setValue(ClubUser.getInstance().getUsername());
+                            fab.setBackgroundTintList(ColorStateList.valueOf(Color.WHITE));
+                            Snackbar.make(view, "Joined Club", Snackbar.LENGTH_LONG)
+                                    .setAction("Join Club", null).show();
+                        }
                     }
+                });
 
+                FloatingActionButton qrCode = findViewById(R.id.fab2);
+                qrCode.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(getApplicationContext(), GeneratedQRCode.class);
+                        String clubId = ds.child("clubID").getValue(String.class);
+                        intent.putExtra("clubId", clubId);
+                        String clubName = ds.child("clubName").getValue(String.class);
+                        intent.putExtra("clubName", clubName);
+                        startActivity(intent);
+                    }
                 });
             }
             @Override
@@ -171,5 +199,26 @@ public class ViewClubActivity extends AppCompatActivity {
 
     }
 
+    /**
+     *  Unfinshed - displays the settings menu with Club's QR and Manage
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_view_club, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.action_manage:
+                break;
+            case R.id.action_generate_qr:
+                break;
+            default:
+                //unknown error
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }

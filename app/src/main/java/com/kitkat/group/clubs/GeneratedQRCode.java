@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
@@ -19,6 +22,7 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 public class GeneratedQRCode extends AppCompatActivity {
 
     private ImageView generatedQRCode;
+    private TextView setClubName;
 
     @Override
     protected void onCreate(Bundle savedInstance) {
@@ -26,15 +30,27 @@ public class GeneratedQRCode extends AppCompatActivity {
         setContentView(R.layout.activity_generated_qr_code);
 
         generatedQRCode = findViewById(R.id.generatedQRCode);
+        String clubId = getIntent().getStringExtra("clubId");
 
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
-        String txt = (String) bundle.get("clubId");
+        setClubName = findViewById(R.id.club_name);
+        String clubName = getIntent().getStringExtra("clubName");
+        setClubName.setText(clubName);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
 
         try {
-            BitMatrix bitMatrix = multiFormatWriter.encode(txt, BarcodeFormat.QR_CODE, 500, 500);
+            BitMatrix bitMatrix = multiFormatWriter.encode(clubId, BarcodeFormat.QR_CODE, 500, 500);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
             generatedQRCode.setImageBitmap(bitmap);
