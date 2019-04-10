@@ -89,7 +89,7 @@ public class ClubsFragment extends Fragment {
                 loadIntoListView(FirebaseAuth.getInstance().getCurrentUser().getUid(), true);
             }
         });
-        
+
         view.findViewById(R.id.btn_scan_qr).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
