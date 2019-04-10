@@ -102,7 +102,7 @@ public class ReceiverActivity extends AppCompatActivity {
     }
 
     public void verification() {
-        db.addValueEventListener(new ValueEventListener() {
+        db.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 DataSnapshot ds = dataSnapshot.child("clubs").child(second);

@@ -29,7 +29,7 @@ public class ScanQRCodeActivity extends AppCompatActivity {
                 String contents = data.getStringExtra("SCAN_RESULT");
 
                 if (clubId != null) {
-                    databaseRef.addValueEventListener(new ValueEventListener() {
+                    databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             try {
