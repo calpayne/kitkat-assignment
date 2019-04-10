@@ -89,10 +89,7 @@ public class ClubsFragment extends Fragment {
                 loadIntoListView(FirebaseAuth.getInstance().getCurrentUser().getUid(), true);
             }
         });
-
-        if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{ android.Manifest.permission.CAMERA}, PERMISSIONS_REQUEST);
-        }
+        
         view.findViewById(R.id.btn_scan_qr).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
