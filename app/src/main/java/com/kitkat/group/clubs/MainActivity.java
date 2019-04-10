@@ -1,6 +1,7 @@
 package com.kitkat.group.clubs;
 
 import android.app.PendingIntent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
@@ -33,6 +34,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.kitkat.group.clubs.auth.LoginActivity;
 import com.kitkat.group.clubs.clubs.ClubsFragment;
 import com.kitkat.group.clubs.data.ClubUser;
@@ -86,6 +92,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         });
+
+        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+
+        try {
+            BitMatrix bitMatrix = multiFormatWriter.encode(FirebaseAuth.getInstance().getCurrentUser().getUid().toString(), BarcodeFormat.QR_CODE, 500, 500);
+            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+            ImageView qrCode = findViewById(R.id.navbar_qr_code);
+            qrCode.setImageBitmap(bitmap);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
    }
 
     @Override
