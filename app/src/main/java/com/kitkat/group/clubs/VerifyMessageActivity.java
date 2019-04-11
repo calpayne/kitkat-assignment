@@ -22,7 +22,7 @@ public class VerifyMessageActivity extends AppCompatActivity {
 
             cl.setBackgroundColor(getResources().getColor(R.color.colorFailure));
             iv.setImageDrawable(getResources().getDrawable(R.drawable.failure));
-            tv.setText("This user is not in the club");
+            tv.setText("Not a member");
         }
     }
 }
