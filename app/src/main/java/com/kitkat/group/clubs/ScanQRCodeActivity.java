@@ -13,6 +13,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.zxing.client.android.Intents;
 import com.kitkat.group.clubs.clubs.ViewClubActivity;
 
 public class ScanQRCodeActivity extends AppCompatActivity {
@@ -29,24 +30,27 @@ public class ScanQRCodeActivity extends AppCompatActivity {
                 String contents = data.getStringExtra("SCAN_RESULT");
 
                 if (clubId != null) {
-                    databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    databaseRef.addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String isFailure = "true";
                             try {
                                 if (dataSnapshot.child("clubs-members").child(clubId).child(contents).exists()) {
-                                    Toast.makeText(ScanQRCodeActivity.this, "User is a club member", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(ScanQRCodeActivity.this, "User is NOT a club member", Toast.LENGTH_SHORT).show();
+                                    isFailure = "false";
                                 }
-                            } catch (Exception e) {
-                                Toast.makeText(ScanQRCodeActivity.this, "User is NOT a club member", Toast.LENGTH_SHORT).show();
-                            }
+                            } catch (Exception e) {}
+
+                            Intent intent = new Intent(ScanQRCodeActivity.this, VerifyMessageActivity.class);
+                            intent.putExtra("failure", isFailure);
+                            startActivity(intent);
                             finish();
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-                            Toast.makeText(ScanQRCodeActivity.this, "User is NOT a club member", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(ScanQRCodeActivity.this, VerifyMessageActivity.class);
+                            intent.putExtra("failure", "true");
+                            startActivity(intent);
                             finish();
                         }
                     });
