@@ -67,6 +67,7 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".clubs.ViewClubActivity"
+            android:label="@string/title_activity_view_club"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity

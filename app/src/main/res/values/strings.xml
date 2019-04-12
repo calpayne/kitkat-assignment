@@ -59,4 +59,5 @@
     <string name="title_activity_verify_message">VerifyMessageActivity</string>
     <string name="is_a_member">Is a member</string>
     <string name="view_members">View members</string>
+    <string name="title_activity_view_club">Club Details</string>
 </resources>
