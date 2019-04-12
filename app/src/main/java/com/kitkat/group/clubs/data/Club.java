@@ -101,4 +101,10 @@ public class Club {
         this.timestamp.put("timestamp", timestamp.toString());
     }
 
+    @Override
+    public String toString() {
+        return "Name: " + clubName + "\n"
+                + "Description: " + clubDescription;
+    }
+
 }

@@ -3,6 +3,7 @@ package com.kitkat.group.clubs.clubs;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -18,8 +19,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -27,16 +30,20 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.kitkat.group.clubs.GeneratedQRCode;
 import com.kitkat.group.clubs.R;
 import com.kitkat.group.clubs.ScanQRCodeActivity;
 import com.kitkat.group.clubs.data.Club;
 import com.kitkat.group.clubs.data.ClubUser;
 import com.kitkat.group.clubs.nfc.SenderActivity;
+import com.squareup.picasso.Picasso;
 
 public class ViewClubActivity extends AppCompatActivity {
 
     private DatabaseReference db;
+    private StorageReference storageRef;
     private Club club;
     private static final String VTAG = "ViewClubActivity";
     NfcAdapter nfcAdapter;
@@ -61,6 +68,7 @@ public class ViewClubActivity extends AppCompatActivity {
         });
 
         db = FirebaseDatabase.getInstance().getReference();
+        storageRef = FirebaseStorage.getInstance().getReference("club-logos");
 
         //DatabaseReference instance = db;
 
@@ -101,18 +109,17 @@ public class ViewClubActivity extends AppCompatActivity {
                 else
                     System.out.print(club.toString());
 
-                //ImageView imageView = (ImageView) findViewById(R.id.clubImage);
-                //imageView.setImage();
+                final ImageView imageView = findViewById(R.id.clubImage);
+                storageRef.child(club.getClubID()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.with(ViewClubActivity.this).load(uri).into(imageView);
+                    }
+                });
 
                 setTitle(club.getClubName());
                 TextView textView = findViewById(R.id.textView);
-                textView.setText(club.getClubDescription());
-                textView.setOnClickListener(view -> {
-                    Intent intent = new Intent(ViewClubActivity.this, ViewClubMembersActivity.class);
-                    intent.putExtra("clubId", club.getClubID());
-                    intent.putExtra("isAdmin", club.getClubOwner().equalsIgnoreCase(fa.getUid()) ? "true" : "false");
-                    startActivity(intent);
-                });
+                textView.setText(club.toString());
 
                 FloatingActionButton fab = findViewById(R.id.fab);
                 assert fa != null;
@@ -142,6 +149,7 @@ public class ViewClubActivity extends AppCompatActivity {
                     }
                 });
 
+                /*
                 FloatingActionButton qrCode = findViewById(R.id.fab2);
                 qrCode.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -154,6 +162,7 @@ public class ViewClubActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 });
+                */
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -202,13 +211,20 @@ public class ViewClubActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent = null;
         switch(item.getItemId()) {
             case R.id.action_manage:
+                break;
+            case R.id.action_view_members:
+                intent = new Intent(ViewClubActivity.this, ViewClubMembersActivity.class);
+                intent.putExtra("clubId", club.getClubID());
+                intent.putExtra("isAdmin", club.getClubOwner().equalsIgnoreCase(FirebaseAuth.getInstance().getCurrentUser().getUid()) ? "true" : "false");
+                startActivity(intent);
                 break;
             case R.id.action_generate_qr:
                 break;
             case R.id.action_scan_qr:
-                Intent intent = new Intent(this, ScanQRCodeActivity.class);
+                intent = new Intent(this, ScanQRCodeActivity.class);
                 intent.putExtra("clubId", getIntent().getStringExtra("clubId"));
                 startActivity(intent);
                 break;
