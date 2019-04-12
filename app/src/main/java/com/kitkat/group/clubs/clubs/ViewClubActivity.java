@@ -51,10 +51,6 @@ public class ViewClubActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     String userName, userId;
 
-    private MenuItem scan_qr;
-    private MenuItem scan_nfc;
-    private MenuItem manage;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,12 +164,6 @@ public class ViewClubActivity extends AppCompatActivity {
                 });
                 */
 
-                // disable admin options if user isn't admin
-                if (!club.getClubOwner().equalsIgnoreCase(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                    scan_qr.setVisible(false);
-                    scan_nfc.setVisible(false);
-                    manage.setVisible(false);
-                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -218,9 +208,17 @@ public class ViewClubActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_view_club, menu);
 
-        scan_qr = menu.findItem(R.id.action_scan_qr);
-        scan_nfc = menu.findItem(R.id.action_nfc);
-        manage = menu.findItem(R.id.action_manage);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu (Menu menu) {
+        // disable admin options if user isn't admin
+        if (club != null && !club.getClubOwner().equalsIgnoreCase(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+            menu.findItem(R.id.action_scan_qr).setVisible(false);
+            menu.findItem(R.id.action_nfc).setVisible(false);
+            menu.findItem(R.id.action_manage).setVisible(false);
+        }
 
         return true;
     }
