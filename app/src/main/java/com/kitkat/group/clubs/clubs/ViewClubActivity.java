@@ -81,15 +81,6 @@ public class ViewClubActivity extends AppCompatActivity {
             }
         });
 
-        Button nfcbutton = findViewById(R.id.nfcbutton);
-        nfcbutton.setOnClickListener(v -> NfcPermission());
-
-        findViewById(R.id.scanbutton).setOnClickListener(view -> {
-            Intent intent = new Intent(this, ScanQRCodeActivity.class);
-            intent.putExtra("clubId", getIntent().getStringExtra("clubId"));
-            startActivity(intent);
-        });
-
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -215,6 +206,14 @@ public class ViewClubActivity extends AppCompatActivity {
             case R.id.action_manage:
                 break;
             case R.id.action_generate_qr:
+                break;
+            case R.id.action_scan_qr:
+                Intent intent = new Intent(this, ScanQRCodeActivity.class);
+                intent.putExtra("clubId", getIntent().getStringExtra("clubId"));
+                startActivity(intent);
+                break;
+            case R.id.action_nfc:
+                NfcPermission();
                 break;
             default:
                 //unknown error
