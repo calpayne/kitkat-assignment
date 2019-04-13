@@ -61,14 +61,6 @@ public class ClubsFragment extends Fragment {
 
         loadIntoListView(null, false);
 
-        view.findViewById(R.id.btn_clubs_create).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CreateClubActivity.class);
-                startActivity(intent);
-            }
-        });
-
         view.findViewById(R.id.search_clubs_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

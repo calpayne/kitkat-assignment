@@ -35,14 +35,6 @@
             android:layout_toEndOf="@id/btn_my_clubs" />
 
         <Button
-            android:id="@+id/btn_clubs_create"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:text="@string/create_club" />
-
-        <Button
             android:id="@+id/btn_my_clubs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

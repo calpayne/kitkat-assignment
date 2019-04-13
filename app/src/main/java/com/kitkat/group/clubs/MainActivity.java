@@ -35,6 +35,7 @@ import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.kitkat.group.clubs.auth.LoginActivity;
 import com.kitkat.group.clubs.clubs.ClubsFragment;
+import com.kitkat.group.clubs.clubs.CreateClubActivity;
 import com.kitkat.group.clubs.data.ClubUser;
 import com.squareup.picasso.Picasso;
 
@@ -106,6 +107,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_clubs:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ClubsFragment()).commit();
                 break;
+            case R.id.nav_create_club:
+                Intent intent = new Intent(this, CreateClubActivity.class);
+                startActivity(intent);
+                break;
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
                 break;
@@ -122,6 +127,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                 finish();
                             }
                         });
+                break;
+            case R.id.nav_scan_qr:
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);

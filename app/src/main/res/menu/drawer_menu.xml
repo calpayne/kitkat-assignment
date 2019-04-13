@@ -10,8 +10,16 @@
             android:title="Home"/>
         <item
             android:id="@+id/nav_clubs"
-            android:icon="@drawable/ic_main_club"
-            android:title="Clubs" />
+            android:icon="@drawable/ic_main_search"
+            android:title="Search Clubs" />
+        <item
+            android:id="@+id/nav_create_club"
+            android:icon="@drawable/ic_main_create_club"
+            android:title="Create a Club" />
+        <item
+            android:id="@+id/nav_scan_qr"
+            android:icon="@drawable/ic_main_scan_qr"
+            android:title="Open Club by QR Scan" />
         <item
             android:id="@+id/nav_user"
             android:icon="@drawable/ic_main_user"
