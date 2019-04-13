@@ -139,12 +139,10 @@ public class ClubsFragment extends Fragment {
                     data = ds.getValue(Club.class);
                 }
 
-                clubs.add(data);
-                listAdapter.notifyDataSetChanged();
-            }
-
-            if (data == null) {
-                Toast.makeText(getActivity(), "None found", Toast.LENGTH_SHORT).show();
+                if (ownClubs || data.getIsPublic()) {
+                    clubs.add(data);
+                    listAdapter.notifyDataSetChanged();
+                }
             }
         }
 
