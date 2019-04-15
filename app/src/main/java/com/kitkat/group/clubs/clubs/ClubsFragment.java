@@ -1,12 +1,9 @@
 package com.kitkat.group.clubs.clubs;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,14 +61,6 @@ public class ClubsFragment extends Fragment {
 
         loadIntoListView(null, false);
 
-        view.findViewById(R.id.btn_clubs_create).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CreateClubActivity.class);
-                startActivity(intent);
-            }
-        });
-
         view.findViewById(R.id.search_clubs_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,9 +79,6 @@ public class ClubsFragment extends Fragment {
             }
         });
 
-        if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{ android.Manifest.permission.CAMERA}, PERMISSIONS_REQUEST);
-        }
         view.findViewById(R.id.btn_scan_qr).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -153,12 +139,10 @@ public class ClubsFragment extends Fragment {
                     data = ds.getValue(Club.class);
                 }
 
-                clubs.add(data);
-                listAdapter.notifyDataSetChanged();
-            }
-
-            if (data == null) {
-                Toast.makeText(getActivity(), "None found", Toast.LENGTH_SHORT).show();
+                if (ownClubs || data.getIsPublic()) {
+                    clubs.add(data);
+                    listAdapter.notifyDataSetChanged();
+                }
             }
         }
 

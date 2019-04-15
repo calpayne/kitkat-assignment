@@ -1,6 +1,8 @@
 package com.kitkat.group.clubs;
 
 import android.app.PendingIntent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,23 +17,27 @@ import android.view.MenuItem;
 
 import android.content.Intent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.kitkat.group.clubs.auth.LoginActivity;
 import com.kitkat.group.clubs.clubs.ClubsFragment;
+import com.kitkat.group.clubs.clubs.CreateClubActivity;
 import com.kitkat.group.clubs.data.ClubUser;
-import com.kitkat.group.clubs.data.Member;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -39,8 +45,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private NfcAdapter nfcAdapter;
     private TextView profileUsername;
     private DrawerLayout drawer;
-    private FirebaseUser fuser;
     private DatabaseReference databaseRef;
+    private StorageReference storageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,9 +55,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         Log.d(TAG, "onCreate: Started MainActivity.");
 
-        //profileUsername = findViewById(R.id.profile_username);
-        //setProfileUsername();
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -59,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setItemIconTintList(null);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
@@ -68,6 +72,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
         }
+
+        View navView = navigationView.getHeaderView(0);
+        storageRef = FirebaseStorage.getInstance().getReference("member-avatars");
+
+        profileUsername = navView.findViewById(R.id.profile_username);
+        profileUsername.setText(ClubUser.getInstance().getUsername());
+        final ImageView imageView = navView.findViewById(R.id.profile_image);
+        storageRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                if (uri != null) {
+                    Picasso.with(MainActivity.this).load(uri).into(imageView);
+                }
+            }
+        });
+
+        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+
+        try {
+            BitMatrix bitMatrix = multiFormatWriter.encode(FirebaseAuth.getInstance().getCurrentUser().getUid().toString(), BarcodeFormat.QR_CODE, 500, 500);
+            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+            ImageView qrCode = findViewById(R.id.navbar_qr_code);
+            qrCode.setImageBitmap(bitmap);
+        } catch (WriterException e) {
+            e.printStackTrace();
+        }
    }
 
     @Override
@@ -75,15 +106,29 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (item.getItemId()) {
             case R.id.nav_clubs:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ClubsFragment()).commit();
-                Toast.makeText(this, "Clubs", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_create_club:
+                Intent intent = new Intent(this, CreateClubActivity.class);
+                startActivity(intent);
                 break;
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
-                Toast.makeText(this, "Home", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.nav_user:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new UserFragment()).commit();
-                Toast.makeText(this, "User", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.nav_logout:
+                AuthUI.getInstance()
+                        .signOut(this)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            public void onComplete(@NonNull Task<Void> task) {
+                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                break;
+            case R.id.nav_scan_qr:
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);

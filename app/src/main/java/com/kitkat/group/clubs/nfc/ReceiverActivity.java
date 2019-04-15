@@ -14,7 +14,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kitkat.group.clubs.R;
+import com.kitkat.group.clubs.VerifyMessageActivity;
 import com.kitkat.group.clubs.data.Club;
 
 import static java.sql.DriverManager.println;
@@ -102,19 +102,22 @@ public class ReceiverActivity extends AppCompatActivity {
     }
 
     public void verification() {
-        db.addValueEventListener(new ValueEventListener() {
+        db.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String isFailure = "true";
                 DataSnapshot ds = dataSnapshot.child("clubs").child(second);
                 club = ds.getValue(Club.class);
 
                 if (dataSnapshot.child("members-clubs").child(fourth).child(second).exists() &&
                         club.getClubOwner().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                    Toast.makeText(ReceiverActivity.this, "YOU ARE ALLOWED", Toast.LENGTH_LONG).show();
+                    isFailure = "false";
                 }
-                else{
-                    Toast.makeText(ReceiverActivity.this, "YOU ARE NOT A MEMBER", Toast.LENGTH_LONG).show();
-                }
+
+                Intent intent = new Intent(ReceiverActivity.this, VerifyMessageActivity.class);
+                intent.putExtra("failure", isFailure);
+                startActivity(intent);
+                finish();
             }
 
             @Override
