@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.isDrawerOpen(GravityCompat.START);
+            drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -150,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
         nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
     }
+
     public void onPause() {
         super.onPause();
         NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
