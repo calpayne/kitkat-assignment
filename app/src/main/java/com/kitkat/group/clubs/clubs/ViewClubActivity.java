@@ -148,22 +148,6 @@ public class ViewClubActivity extends AppCompatActivity {
                         }
                     }
                 });
-
-                /*
-                FloatingActionButton qrCode = findViewById(R.id.fab2);
-                qrCode.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(getApplicationContext(), GeneratedQRCode.class);
-                        String clubId = ds.child("clubID").getValue(String.class);
-                        intent.putExtra("clubId", clubId);
-                        String clubName = ds.child("clubName").getValue(String.class);
-                        intent.putExtra("clubName", clubName);
-                        startActivity(intent);
-                    }
-                });
-                */
-
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
@@ -236,6 +220,10 @@ public class ViewClubActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.action_generate_qr:
+                intent = new Intent(getApplicationContext(), GeneratedQRCode.class);
+                intent.putExtra("clubId", club.getClubID());
+                intent.putExtra("clubName", club.getClubName());
+                startActivity(intent);
                 break;
             case R.id.action_scan_qr:
                 intent = new Intent(this, ScanQRCodeActivity.class);
