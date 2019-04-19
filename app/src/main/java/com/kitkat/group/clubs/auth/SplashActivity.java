@@ -24,6 +24,8 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
+
         databaseRef = FirebaseDatabase.getInstance().getReference();
 
         Thread myThread = new Thread() {
