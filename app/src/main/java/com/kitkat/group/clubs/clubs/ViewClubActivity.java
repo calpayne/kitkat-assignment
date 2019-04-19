@@ -35,10 +35,14 @@ import com.google.firebase.storage.StorageReference;
 import com.kitkat.group.clubs.GeneratedQRCode;
 import com.kitkat.group.clubs.R;
 import com.kitkat.group.clubs.ScanQRCodeActivity;
+import com.kitkat.group.clubs.clubs.events.CreateEventActivity;
 import com.kitkat.group.clubs.data.Club;
 import com.kitkat.group.clubs.data.ClubUser;
+import com.kitkat.group.clubs.data.Event;
 import com.kitkat.group.clubs.nfc.SenderActivity;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 public class ViewClubActivity extends AppCompatActivity {
 
@@ -99,10 +103,14 @@ public class ViewClubActivity extends AppCompatActivity {
                 DataSnapshot ds = dataSnapshot.child("clubs").child(clubId);
                 club = ds.getValue(Club.class);
 
-                System.out.println(ds.child("clubName").getValue(String.class));
-                System.out.println(ds.child("clubDescription").getValue(String.class));
-                System.out.println(ds.child("clubOwner").getValue(String.class));
-
+                String events = "\n\nEvents: ";
+                for (DataSnapshot postSnapshot: dataSnapshot.child("clubs").child(clubId).child("events").getChildren()) {
+                    Event event = postSnapshot.getValue(Event.class);
+                    events += "\nName: " + event.getEventName() + "\n" + "Description: " + event.getEventDesc() + "\n";
+                }
+                if (events.equalsIgnoreCase("\n\nEvents: ")) {
+                    events += "\nNo events.";
+                }
 
                 if(club == null)
                     System.out.println("Club instance is null.");
@@ -119,7 +127,7 @@ public class ViewClubActivity extends AppCompatActivity {
 
                 setTitle(club.getClubName());
                 TextView textView = findViewById(R.id.textView);
-                textView.setText(club.toString());
+                textView.setText(club.toString() + events);
 
                 FloatingActionButton fab = findViewById(R.id.fab);
                 assert fa != null;
@@ -218,6 +226,7 @@ public class ViewClubActivity extends AppCompatActivity {
             menu.findItem(R.id.action_scan_qr).setVisible(false);
             menu.findItem(R.id.action_nfc).setVisible(false);
             menu.findItem(R.id.action_manage).setVisible(false);
+            menu.findItem(R.id.action_create_event).setVisible(false);
         }
 
         return true;
@@ -236,6 +245,11 @@ public class ViewClubActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.action_generate_qr:
+                break;
+            case R.id.action_create_event:
+                intent = new Intent(this, CreateEventActivity.class);
+                intent.putExtra("clubId", getIntent().getStringExtra("clubId"));
+                startActivity(intent);
                 break;
             case R.id.action_scan_qr:
                 intent = new Intent(this, ScanQRCodeActivity.class);
