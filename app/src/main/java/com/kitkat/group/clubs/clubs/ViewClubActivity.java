@@ -245,6 +245,10 @@ public class ViewClubActivity extends AppCompatActivity {
                 startActivity(intent);
                 break;
             case R.id.action_generate_qr:
+                intent = new Intent(getApplicationContext(), GeneratedQRCode.class);
+                intent.putExtra("clubId", club.getClubID());
+                intent.putExtra("clubName", club.getClubName());
+                startActivity(intent);
                 break;
             case R.id.action_create_event:
                 intent = new Intent(this, CreateEventActivity.class);
