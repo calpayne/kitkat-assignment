@@ -7,19 +7,25 @@ package com.kitkat.group.clubs.data;
 public class Event {
 
     private String eventName;
+    private String eventDate;
     private String eventDesc;
 
     public Event() {
 
     }
 
-    public Event(String eventName, String eventDesc) {
+    public Event(String eventName, String eventDate, String eventDesc) {
         this.eventName = eventName;
+        this.eventDate = eventDate;
         this.eventDesc = eventDesc;
     }
 
     public String getEventName() {
         return eventName;
+    }
+
+    public String getEventDate() {
+        return eventDate;
     }
 
     public String getEventDesc() {
