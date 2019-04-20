@@ -1,5 +1,6 @@
 package com.kitkat.group.clubs.clubs;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -14,12 +15,16 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -39,10 +44,13 @@ import com.kitkat.group.clubs.clubs.events.CreateEventActivity;
 import com.kitkat.group.clubs.data.Club;
 import com.kitkat.group.clubs.data.ClubUser;
 import com.kitkat.group.clubs.data.Event;
+import com.kitkat.group.clubs.data.Member;
 import com.kitkat.group.clubs.nfc.SenderActivity;
+import com.kitkat.group.clubs.view.models.EventViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class ViewClubActivity extends AppCompatActivity {
 
@@ -55,10 +63,19 @@ public class ViewClubActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     String userName, userId;
 
+    private ListView eventsListView;
+    private ArrayList<EventViewModel> events;
+    private EventListAdapter listAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_club);
+
+        events = new ArrayList<>();
+        listAdapter = new EventListAdapter(this, events);
+        eventsListView = findViewById(R.id.eventsList);
+        eventsListView.setAdapter(listAdapter);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -103,14 +120,19 @@ public class ViewClubActivity extends AppCompatActivity {
                 DataSnapshot ds = dataSnapshot.child("clubs").child(clubId);
                 club = ds.getValue(Club.class);
 
-                String events = "\n\nEvents: ";
+                boolean hasEvents = false;
                 for (DataSnapshot postSnapshot: dataSnapshot.child("clubs").child(clubId).child("events").getChildren()) {
-                    Event event = postSnapshot.getValue(Event.class);
-                    events += "\nName: " + event.getEventName() + "\n" + "Description: " + event.getEventDesc() + "\n";
+                    EventViewModel event = postSnapshot.getValue(EventViewModel.class);
+                    event.setEventId(postSnapshot.getKey());
+                    event.setClubId(club.getClubID());
+                    event.setOwnerId(club.getClubOwner());
+                    events.add(event);
+                    hasEvents = true;
                 }
-                if (events.equalsIgnoreCase("\n\nEvents: ")) {
-                    events += "\nNo events.";
-                }
+                Collections.reverse(events);
+                listAdapter.notifyDataSetChanged();
+
+                String events = hasEvents ? "\n\n\nEvents:" : "\n\n\nEvents:\nNo events";
 
                 if(club == null)
                     System.out.println("Club instance is null.");
@@ -267,5 +289,33 @@ public class ViewClubActivity extends AppCompatActivity {
                 //unknown error
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private class EventListAdapter extends ArrayAdapter {
+
+        private final Activity context;
+        private ArrayList<EventViewModel> data;
+
+        public EventListAdapter(@NonNull Activity context, ArrayList<EventViewModel> data) {
+            super(context,R.layout.listview_event_row, data);
+            this.context = context;
+            this.data = data;
+        }
+
+        public View getView(final int position, View view, ViewGroup parent) {
+            LayoutInflater inflater = context.getLayoutInflater();
+            View rowView = inflater.inflate(R.layout.listview_event_row, null,true);
+
+            TextView eventText = rowView.findViewById(R.id.row_name);
+            eventText.setText(data.get(position).getEventName() + " on " + data.get(position).getEventDate());
+            eventText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //open activity with event info
+                }
+            });
+
+            return rowView;
+        };
     }
 }
