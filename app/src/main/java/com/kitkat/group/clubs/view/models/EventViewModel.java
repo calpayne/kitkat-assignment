@@ -1,28 +1,19 @@
 package com.kitkat.group.clubs.view.models;
 
+import com.kitkat.group.clubs.data.Event;
+
 /**
  * Created by Admin on 20/04/2019.
  */
 
-public class EventViewModel {
+public class EventViewModel extends Event {
 
     private String clubId;
     private String ownerId;
     private String eventId;
-    private String eventName;
-    private String eventDate;
-    private String eventDesc;
 
     public EventViewModel() {
 
-    }
-
-    public EventViewModel(String clubId, String ownerId, String eventName, String eventDate, String eventDesc) {
-        this.clubId = clubId;
-        this.ownerId = ownerId;
-        this.eventName = eventName;
-        this.eventDate = eventDate;
-        this.eventDesc = eventDesc;
     }
 
     public void setEventId(String eventId) {
@@ -37,16 +28,16 @@ public class EventViewModel {
         this.ownerId = ownerId;
     }
 
-    public String getEventName() {
-        return eventName;
+    public String getClubId() {
+        return clubId;
     }
 
-    public String getEventDate() {
-        return eventDate;
+    public String getOwnerId() {
+        return ownerId;
     }
 
-    public String getEventDesc() {
-        return eventDesc;
+    public String getEventId() {
+        return eventId;
     }
 
 }

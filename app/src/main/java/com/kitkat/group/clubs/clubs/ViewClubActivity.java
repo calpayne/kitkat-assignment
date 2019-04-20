@@ -41,6 +41,7 @@ import com.kitkat.group.clubs.GeneratedQRCode;
 import com.kitkat.group.clubs.R;
 import com.kitkat.group.clubs.ScanQRCodeActivity;
 import com.kitkat.group.clubs.clubs.events.CreateEventActivity;
+import com.kitkat.group.clubs.clubs.events.ViewEventActivity;
 import com.kitkat.group.clubs.data.Club;
 import com.kitkat.group.clubs.data.ClubUser;
 import com.kitkat.group.clubs.data.Event;
@@ -73,7 +74,7 @@ public class ViewClubActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_club);
 
         events = new ArrayList<>();
-        listAdapter = new EventListAdapter(this, events);
+        listAdapter = new EventListAdapter(events);
         eventsListView = findViewById(R.id.eventsList);
         eventsListView.setAdapter(listAdapter);
 
@@ -293,17 +294,15 @@ public class ViewClubActivity extends AppCompatActivity {
 
     private class EventListAdapter extends ArrayAdapter {
 
-        private final Activity context;
         private ArrayList<EventViewModel> data;
 
-        public EventListAdapter(@NonNull Activity context, ArrayList<EventViewModel> data) {
-            super(context,R.layout.listview_event_row, data);
-            this.context = context;
+        public EventListAdapter(ArrayList<EventViewModel> data) {
+            super(ViewClubActivity.this,R.layout.listview_event_row, data);
             this.data = data;
         }
 
         public View getView(final int position, View view, ViewGroup parent) {
-            LayoutInflater inflater = context.getLayoutInflater();
+            LayoutInflater inflater = ViewClubActivity.this.getLayoutInflater();
             View rowView = inflater.inflate(R.layout.listview_event_row, null,true);
 
             TextView eventText = rowView.findViewById(R.id.row_name);
@@ -311,7 +310,11 @@ public class ViewClubActivity extends AppCompatActivity {
             eventText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //open activity with event info
+                    Intent intent = new Intent(ViewClubActivity.this, ViewEventActivity.class);
+                    intent.putExtra("clubId", data.get(position).getClubId());
+                    intent.putExtra("eventId", data.get(position).getEventId());
+                    intent.putExtra("ownerId", data.get(position).getOwnerId());
+                    startActivity(intent);
                 }
             });
 

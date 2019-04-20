@@ -31,4 +31,11 @@ public class Event {
     public String getEventDesc() {
         return eventDesc;
     }
+
+    @Override
+    public String toString() {
+        return "Name: " + eventName + "\n"
+                + "Date: " + eventDate + "\n"
+                + "Description: " + eventDesc;
+    }
 }
