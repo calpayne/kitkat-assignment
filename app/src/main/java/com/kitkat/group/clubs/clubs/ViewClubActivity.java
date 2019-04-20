@@ -121,6 +121,9 @@ public class ViewClubActivity extends AppCompatActivity {
                 DataSnapshot ds = dataSnapshot.child("clubs").child(clubId);
                 club = ds.getValue(Club.class);
 
+                events.clear();
+                listAdapter.clear();
+                listAdapter.notifyDataSetChanged();
                 boolean hasEvents = false;
                 for (DataSnapshot postSnapshot: dataSnapshot.child("clubs").child(clubId).child("events").getChildren()) {
                     EventViewModel event = postSnapshot.getValue(EventViewModel.class);

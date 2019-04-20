@@ -31,6 +31,7 @@ import com.google.firebase.storage.StorageReference;
 import com.kitkat.group.clubs.R;
 import com.kitkat.group.clubs.ScanQRCodeActivity;
 import com.kitkat.group.clubs.VerifyMessageActivity;
+import com.kitkat.group.clubs.clubs.ViewClubActivity;
 import com.kitkat.group.clubs.clubs.ViewClubMembersActivity;
 import com.kitkat.group.clubs.data.Event;
 import com.kitkat.group.clubs.data.Member;
@@ -64,7 +65,7 @@ public class ViewEventActivity extends AppCompatActivity {
         membersListView.setAdapter(listAdapter);
 
         databaseRef = FirebaseDatabase.getInstance().getReference();
-        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Event event = dataSnapshot.child("clubs").child(clubId).child("events").child(eventId).getValue(Event.class);
@@ -77,13 +78,19 @@ public class ViewEventActivity extends AppCompatActivity {
                 fab.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //Scan QR code to validate them and add them to event register
+                        Intent intent = new Intent(ViewEventActivity.this, ScanQRCodeActivity.class);
+                        intent.putExtra("clubId", clubId);
+                        intent.putExtra("eventId", eventId);
+                        startActivity(intent);
                     }
                 });
 
                 TextView info = findViewById(R.id.eventInfo);
                 info.setText(event.toString());
 
+                members.clear();
+                listAdapter.clear();
+                listAdapter.notifyDataSetChanged();
                 if (isAdmin) {
                     for (DataSnapshot postSnapshot: dataSnapshot.child("clubs").child(clubId).child("events").child(eventId).child("register").getChildren()) {
                         members.add(new Member(postSnapshot.getKey(), postSnapshot.getValue(String.class)));
