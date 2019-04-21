@@ -64,4 +64,6 @@
     <string name="click_to_select_date">Click to select a date</string>
     <string name="title_activity_view_event">Details of Event</string>
     <string name="eventDetails">Loading event details...</string>
+    <string name="event_name">Event Name</string>
+    <string name="event_description">Event Description</string>
 </resources>
