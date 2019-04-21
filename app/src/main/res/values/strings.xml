@@ -11,9 +11,9 @@
     <string name="logout_text">Logout</string>
     <string name="message_beaming_complete">Beaming complete</string>
     <string name="hint_your_message">Your message</string>
-    <string name="label_your_message">VERIFICATION</string>
-    <string name="title_btn_set">TRANSFER</string>
-    <string name="ReceiverButton">Verify</string>
+    <string name="label_your_message">NFC VERIFICATION</string>
+    <string name="title_btn_set">is a member of</string>
+    <string name="ReceiverButton">VERIFY</string>
     <!--Runtime Permission-->
     <string name="show_camera">Show camera preview</string>
     <string name="camera_unavailable"><b>Camera could not be opened.</b>\nThis occurs when the camera is not available (for example it is already in use) or if the system has denied access (for example when camera access has been disabled).</string>
@@ -35,11 +35,12 @@
     <string name="club_name">Club Name</string>
     <string name="club_desc">Club Description</string>
     <string name="go_back">Go Back</string>
-    <string name="clubDetails">Loading club details...</string>
+    <string name="clubDetails">Loading club details…</string>
     <string name="public_club">Public Club?</string>
     <string name="upload_image">Choose Club Logo</string>
     <string name="clubs">Clubs</string>
     <string name="clubName">Club Name :</string>
+    <string name="fillin">is a member of</string>
     <string name="clubId">Club Id :</string>
     <string name="userId">User Id :</string>
     <string name="userName">User Name :</string>
@@ -51,7 +52,7 @@
     <string name="listview_row_text">Row Text</string>
     <string name="change_profile_picture">Change profile picture</string>
     <string name="validate_qr">Validate user with QR</string>
-    <string name="validate_nfc">Validate user with NFC</string>
+    <string name="validate_nfc">NFC validation</string>
     <string name="action_generate_qr">Club\'s QR</string>
     <string name="action_manage">Manage</string>
     <string name="navigation_drawer_open">Open Navigation Drawer</string>
@@ -60,4 +61,18 @@
     <string name="is_a_member">Is a member</string>
     <string name="view_members">View members</string>
     <string name="title_activity_view_club">Club Details</string>
+    <string name="tut_str1">START</string>
+    <string name="tut_str2">NEXT</string>
+    <string name="next">Next</string>
+    <string name="skip">Skip</string>
+    <string name="tutorial_case_image">tutorial case image</string>
+    <string name="remove_case">Remove Case</string>
+    <string name="remove_mobile_case">Remove Mobile case</string>
+    <string name="back_to_back">Back to back</string>
+    <string name="keep_mobile_back_to_back">Keep mobile back to back</string>
+    <string name="slide_device">Slide device</string>
+    <string name="slide_device_up_and_down_for_the_nfc_chip_to_get_detected">Slide device up and down for the NFC chip to get detected.</string>
+    <string name="tap_on_screen">Tap on screen</string>
+    <string name="let_the_club_member_tap_on_the_screen_to_validate">Let the club member tap on the screen to validate.</string>
+
 </resources>

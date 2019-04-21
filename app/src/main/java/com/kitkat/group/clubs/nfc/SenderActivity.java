@@ -1,17 +1,26 @@
 package com.kitkat.group.clubs.nfc;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.firebase.storage.StorageReference;
+import com.kitkat.group.clubs.NotificationFragment;
 import com.kitkat.group.clubs.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -19,35 +28,64 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.kitkat.group.clubs.RecommendFragment;
+import com.kitkat.group.clubs.SectionsPagerAdapter;
 import com.kitkat.group.clubs.nfc.OutcomingNfcManager;
 import com.kitkat.group.clubs.data.Club;
+import com.shashank.sony.fancydialoglib.Animation;
+import com.shashank.sony.fancydialoglib.FancyAlertDialog;
+import com.shashank.sony.fancydialoglib.FancyAlertDialogListener;
+import com.shashank.sony.fancydialoglib.Icon;
 
 
 public class SenderActivity extends AppCompatActivity implements OutcomingNfcManager.NfcActivity {
 
     //private TextView tvOutcomingMessage;
     Button btnSetOutcomingMessage;
-
     private NfcAdapter nfcAdapter;
     OutcomingNfcManager outcomingNfccallback;
-
     String clubId, userId, clubName, outMessage, userName;
-    TextView tvClubName, tvClubId, tvUserId, tvUserName, textView;
-
+    TextView tvClubName, tvClubId, tvUserId, tvUserName;
     //Runtime permission
     private TextView resultView;
     private View requestView;
+
+    //Firebase data fetching
+    private DatabaseReference db;
+    private StorageReference storageRef;
+    private Club club;
+    DatabaseReference mDatabase;
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sender);
 
+        Toolbar toolbar = findViewById(R.id.toolbar5);
+        setSupportActionBar(toolbar);
+
+//        db = FirebaseDatabase.getInstance().getReference();
+//        mAuth=FirebaseAuth.getInstance();
+//        userId=mAuth.getCurrentUser().getUid();
+//        mDatabase = FirebaseDatabase.getInstance().getReference();
+//        mDatabase.child("users").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                userName = String.valueOf(snapshot.child(userId).getValue());
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//            }
+//        });
+//
+//        clubName=club.getClubName();
+//        clubId=club.getClubID();
+
         clubName = getIntent().getStringExtra("clubName");
         clubId = getIntent().getStringExtra("clubId");
         userId = getIntent().getStringExtra("userId");
         userName = getIntent().getStringExtra("userName");
-        //userId = getIntent().getStringExtra("userId");
 
 
 //        requestView.setOnClickListener(view -> myMethod());
@@ -63,14 +101,15 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
         initViews();
 
         tvClubName = findViewById(R.id.tv_clubName);
-        tvClubId = findViewById(R.id.tv_clubId);
-        tvUserId = findViewById(R.id.tv_userId);
+        //tvClubId = findViewById(R.id.tv_clubId);
+        //tvUserId = findViewById(R.id.tv_userId);
         tvUserName = findViewById(R.id.tv_userName);
         //textView = findViewById(R.id.textView7);
+        //test = findViewById(R.id.button7);
 
         tvClubName.setText(clubName);
-        tvClubId.setText(clubId);
-        tvUserId.setText(userId);
+        //tvClubId.setText(clubId);
+        //tvUserId.setText(userId);
         tvUserName.setText(userName);
 
 
@@ -87,6 +126,7 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
         this.btnSetOutcomingMessage = findViewById(R.id.btn_set_out_message);
         this.btnSetOutcomingMessage.setOnClickListener((v) -> setOutGoingMessage());
     }
+
 
     @Override
     protected void onNewIntent(Intent intent) {

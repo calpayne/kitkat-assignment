@@ -38,6 +38,7 @@ import com.kitkat.group.clubs.ScanQRCodeActivity;
 import com.kitkat.group.clubs.data.Club;
 import com.kitkat.group.clubs.data.ClubUser;
 import com.kitkat.group.clubs.nfc.SenderActivity;
+import com.kitkat.group.clubs.nfc.TutorialActivity;
 import com.squareup.picasso.Picasso;
 
 public class ViewClubActivity extends AppCompatActivity {
@@ -174,6 +175,11 @@ public class ViewClubActivity extends AppCompatActivity {
         db.addValueEventListener(valueEventListener);
     }
 
+    private boolean isNfcSupported() {
+        this.nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        return this.nfcAdapter != null;
+    }
+
     public void NfcPermission(){
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (!nfcAdapter.isEnabled())
@@ -190,7 +196,7 @@ public class ViewClubActivity extends AppCompatActivity {
 
         }
         if(nfcAdapter.isEnabled()){
-            Intent intent = new Intent(this, SenderActivity.class);
+            Intent intent = new Intent(this, TutorialActivity.class);
             intent.putExtra("clubId", club.getClubID());
             intent.putExtra("clubName", club.getClubName());
             intent.putExtra("userId",userId);
@@ -216,10 +222,14 @@ public class ViewClubActivity extends AppCompatActivity {
         // disable admin options if user isn't admin
         if (club != null && !club.getClubOwner().equalsIgnoreCase(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
             menu.findItem(R.id.action_scan_qr).setVisible(false);
-            menu.findItem(R.id.action_nfc).setVisible(false);
             menu.findItem(R.id.action_manage).setVisible(false);
         }
-
+        if(!isNfcSupported()) {
+            menu.findItem(R.id.action_nfc).setVisible(false);
+        }
+        else{
+            menu.findItem(R.id.action_nfc).setVisible(true);
+        }
         return true;
     }
 
