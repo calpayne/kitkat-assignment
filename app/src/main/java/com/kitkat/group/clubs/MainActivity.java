@@ -80,14 +80,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         profileUsername = navView.findViewById(R.id.profile_username);
         profileUsername.setText(ClubUser.getInstance().getUsername());
         final ImageView imageView = navView.findViewById(R.id.profile_image);
-        storageRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                if (uri != null) {
-                    Picasso.with(MainActivity.this).load(uri).into(imageView);
+        try {
+            storageRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    if (uri != null) {
+                        Picasso.with(MainActivity.this).load(uri).into(imageView);
+                    }
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+
+        }
 
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
 
