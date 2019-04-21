@@ -113,7 +113,6 @@ public class ReceiverActivity extends AppCompatActivity {
                 DataSnapshot ds = dataSnapshot.child("clubs").child(second);
                 club = ds.getValue(Club.class);
 
-                //noinspection ConstantConditions
                 if (dataSnapshot.child("members-clubs").child(fourth).child(second).exists() &&
                         club.getClubOwner().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                     isFailure = "false";

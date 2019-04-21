@@ -1,9 +1,9 @@
 package com.kitkat.group.clubs.nfc;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.v4.view.ViewPager;
@@ -57,16 +57,25 @@ public class TutorialActivity extends AppCompatActivity {
         btnNext = findViewById(R.id.btn_next);
         btnSkip = findViewById(R.id.btn_skip);
 
-        btnSkip.setOnClickListener(v -> startSenderActivity());
+        btnSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-        btnNext.setOnClickListener(v -> {
-
-            int currentPage = viewPager.getCurrentItem()+1;
-            if(currentPage<layouts.length){
-                viewPager.setCurrentItem(currentPage);
-            }
-            else{
                 startSenderActivity();
+            }
+        });
+
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int currentPage = viewPager.getCurrentItem()+1;
+                if(currentPage<layouts.length){
+                    viewPager.setCurrentItem(currentPage);
+                }
+                else{
+                    startSenderActivity();
+                }
             }
         });
 
@@ -80,7 +89,6 @@ public class TutorialActivity extends AppCompatActivity {
 
             }
 
-            @SuppressLint("SetTextI18n")
             @Override
             public void onPageSelected(int position) {
                 if(position == layouts.length-1){
@@ -107,10 +115,10 @@ public class TutorialActivity extends AppCompatActivity {
         return ref.getBoolean("FirstTimeStartFlag",true);
     }
 
-    private void setFirstTimeStartStatus(){
+    private void setFirstTimeStartStatus(boolean stt){
         SharedPreferences ref = getApplicationContext().getSharedPreferences("IntroSliderApp", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = ref.edit();
-        editor.putBoolean("FirstTimeStartFlag", true);
+        editor.putBoolean("FirstTimeStartFlag", stt);
         editor.apply();
     }
 
@@ -129,7 +137,7 @@ public class TutorialActivity extends AppCompatActivity {
         }
     }
     private void startSenderActivity(){
-        setFirstTimeStartStatus();
+        setFirstTimeStartStatus(true);
         Intent intent = new Intent(TutorialActivity.this,SenderActivity.class);
         intent.putExtra("clubId", clubId);
         intent.putExtra("clubName", clubName);
