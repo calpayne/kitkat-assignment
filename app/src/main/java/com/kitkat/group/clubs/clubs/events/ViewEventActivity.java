@@ -128,32 +128,30 @@ public class ViewEventActivity extends AppCompatActivity {
 
             TextView memberNameText = rowView.findViewById(R.id.row_name);
             memberNameText.setText(data.get(position).getMemberName());
-            if (!data.get(position).getMemberRef().equalsIgnoreCase(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                memberNameText.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        AlertDialog.Builder alert = new AlertDialog.Builder(ViewEventActivity.this);
-                        alert.setTitle("Mark as left");
-                        alert.setMessage("Are you sure " + data.get(position).getMemberName() + " has left the event?");
-                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                databaseRef.child("clubs").child(clubId).child("events").child(eventId).child("register").child(data.get(position).getMemberRef()).removeValue();
-                                data.remove(position);
-                                notifyDataSetChanged();
-                                dialog.dismiss();
-                            }
-                        });
-                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                        alert.show();
-                    }
-                });
-            }
+            memberNameText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(ViewEventActivity.this);
+                    alert.setTitle("Mark as left");
+                    alert.setMessage("Are you sure " + data.get(position).getMemberName() + " has left the event?");
+                    alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            databaseRef.child("clubs").child(clubId).child("events").child(eventId).child("register").child(data.get(position).getMemberRef()).removeValue();
+                            data.remove(position);
+                            notifyDataSetChanged();
+                            dialog.dismiss();
+                        }
+                    });
+                    alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alert.show();
+                }
+            });
 
             final ImageView imageView = rowView.findViewById(R.id.row_image);
             storageRef.child(data.get(position).getMemberRef()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
