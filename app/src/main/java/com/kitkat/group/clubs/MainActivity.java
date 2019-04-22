@@ -36,6 +36,7 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.kitkat.group.clubs.auth.LoginActivity;
 import com.kitkat.group.clubs.clubs.ClubsFragment;
 import com.kitkat.group.clubs.clubs.CreateClubActivity;
+import com.kitkat.group.clubs.clubs.events.ViewEventActivity;
 import com.kitkat.group.clubs.data.ClubUser;
 import com.squareup.picasso.Picasso;
 
@@ -79,19 +80,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         profileUsername = navView.findViewById(R.id.profile_username);
         profileUsername.setText(ClubUser.getInstance().getUsername());
         final ImageView imageView = navView.findViewById(R.id.profile_image);
-        storageRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                if (uri != null) {
-                    Picasso.with(MainActivity.this).load(uri).into(imageView);
+        try {
+            storageRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    if (uri != null) {
+                        Picasso.with(MainActivity.this).load(uri).into(imageView);
+                    }
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+
+        }
 
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
 
         try {
-            BitMatrix bitMatrix = multiFormatWriter.encode(FirebaseAuth.getInstance().getCurrentUser().getUid().toString(), BarcodeFormat.QR_CODE, 500, 500);
+            BitMatrix bitMatrix = multiFormatWriter.encode(FirebaseAuth.getInstance().getCurrentUser().getUid().toString() + "," + ClubUser.getInstance().getUsername(), BarcodeFormat.QR_CODE, 500, 500);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
             ImageView qrCode = findViewById(R.id.navbar_qr_code);

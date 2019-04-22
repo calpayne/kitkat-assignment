@@ -76,5 +76,10 @@
     <string name="let_the_club_member_tap_on_the_screen_to_validate">Let the club member tap on the screen to validate.</string>
     <string name="user_profile_pic_in_nfc_activity">user profile pic in nfc activity</string>
     <string name="club_profile_pic_in_nfc_activity">club profile pic in nfc activity</string>
-
+    <string name="create_event">Create an Event</string>
+    <string name="click_to_select_date">Click to select a date</string>
+    <string name="title_activity_view_event">Details of Event</string>
+    <string name="eventDetails">Loading event details...</string>
+    <string name="event_name">Event Name</string>
+    <string name="event_description">Event Description</string>
 </resources>
