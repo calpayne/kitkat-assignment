@@ -184,9 +184,6 @@ public class ViewClubActivity extends AppCompatActivity {
 
     }
 
-    /**
-     *  Unfinshed - displays the settings menu with Club's QR and Manage
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

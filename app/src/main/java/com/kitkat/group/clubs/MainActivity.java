@@ -24,6 +24,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.vision.barcode.Barcode;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FirebaseStorage;
@@ -36,6 +37,7 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.kitkat.group.clubs.auth.LoginActivity;
 import com.kitkat.group.clubs.clubs.ClubsFragment;
 import com.kitkat.group.clubs.clubs.CreateClubActivity;
+import com.kitkat.group.clubs.clubs.ViewClubActivity;
 import com.kitkat.group.clubs.data.ClubUser;
 import com.squareup.picasso.Picasso;
 
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
     private DatabaseReference databaseRef;
     private StorageReference storageRef;
+
+    public static final int REQUEST_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } catch (WriterException e) {
             e.printStackTrace();
         }
-   }
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -129,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         });
                 break;
             case R.id.nav_scan_qr:
+                startActivityForResult(new Intent(this, ScanQRCodeActivity.class), REQUEST_CODE);
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
@@ -141,6 +146,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "onActivityResult: started onActivityResult");
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            if (data != null) {
+                final Barcode barcode = data.getParcelableExtra("barcode");
+                Intent intent = new Intent(this, ViewClubActivity.class);
+                intent.putExtra("clubId", barcode.displayValue);
+                this.startActivity(intent);
+                this.finish();
+            }
         }
     }
 
