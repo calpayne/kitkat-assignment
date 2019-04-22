@@ -60,4 +60,10 @@
     <string name="is_a_member">Is a member</string>
     <string name="view_members">View members</string>
     <string name="title_activity_view_club">Club Details</string>
+    <string name="create_event">Create an Event</string>
+    <string name="click_to_select_date">Click to select a date</string>
+    <string name="title_activity_view_event">Details of Event</string>
+    <string name="eventDetails">Loading event details...</string>
+    <string name="event_name">Event Name</string>
+    <string name="event_description">Event Description</string>
 </resources>

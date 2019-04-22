@@ -18,7 +18,7 @@ public class ScanQRCodeActivity extends AppCompatActivity {
 
     private static final String TAG = "ScanQRCodeActivity";
     private DatabaseReference databaseRef;
-    private String clubId;
+    private String clubId, eventId;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -32,11 +32,26 @@ public class ScanQRCodeActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             String isFailure = "true";
+                            String userIdContents = null;
+                            String userNameContents = null;
+
                             try {
-                                if (dataSnapshot.child("clubs-members").child(clubId).child(contents).exists()) {
+                                String[] qrContents = contents.split(",");
+                                userIdContents = qrContents[0];
+                                userNameContents = qrContents[1];
+                            } catch (Exception e) {
+                                finish();
+                            }
+
+                            try {
+                                if (userIdContents != null && dataSnapshot.child("clubs-members").child(clubId).child(userIdContents).exists()) {
                                     isFailure = "false";
                                 }
                             } catch (Exception e) {}
+
+                            if (eventId != null && isFailure.equalsIgnoreCase("false")) {
+                                databaseRef.child("clubs").child(clubId).child("events").child(eventId).child("register").child(userIdContents).setValue(userNameContents);
+                            }
 
                             Intent intent = new Intent(ScanQRCodeActivity.this, VerifyMessageActivity.class);
                             intent.putExtra("failure", isFailure);
@@ -72,6 +87,7 @@ public class ScanQRCodeActivity extends AppCompatActivity {
 
         databaseRef = FirebaseDatabase.getInstance().getReference();
         clubId = getIntent().getStringExtra("clubId");
+        eventId = getIntent().getStringExtra("eventId");
 
         try {
             Intent intent = new Intent("com.google.zxing.client.android.SCAN");

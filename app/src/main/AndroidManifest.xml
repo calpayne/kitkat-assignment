@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".FirebaseHandler"
         android:allowBackup="true"
         android:exported="true"
         android:fullBackupContent="@xml/backup_descriptor"
@@ -76,7 +77,12 @@
         <activity
             android:name=".clubs.ViewClubMembersActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".VerifyMessageActivity"></activity>
+        <activity android:name=".VerifyMessageActivity" />
+        <activity android:name=".clubs.events.CreateEventActivity" />
+        <activity
+            android:name=".clubs.events.ViewEventActivity"
+            android:label="@string/title_activity_view_event"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

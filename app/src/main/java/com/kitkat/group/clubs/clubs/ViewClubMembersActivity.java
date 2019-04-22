@@ -1,6 +1,8 @@
 package com.kitkat.group.clubs.clubs;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -92,17 +94,33 @@ public class ViewClubMembersActivity extends AppCompatActivity {
             LayoutInflater inflater = context.getLayoutInflater();
             View rowView = inflater.inflate(R.layout.listview_row, null,true);
 
-            TextView clubNameText = rowView.findViewById(R.id.row_name);
-            clubNameText.setText(data.get(position).getMemberName());
+            TextView memberNameText = rowView.findViewById(R.id.row_name);
+            memberNameText.setText(data.get(position).getMemberName());
 
             if (isAdmin && !data.get(position).getMemberRef().equalsIgnoreCase(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                clubNameText.setOnClickListener(new View.OnClickListener() {
+                memberNameText.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        databaseRef.child("members-clubs").child(data.get(position).getMemberRef()).child(clubId).removeValue();
-                        databaseRef.child("clubs-members").child(clubId).child(data.get(position).getMemberRef()).removeValue();
-                        data.remove(position);
-                        notifyDataSetChanged();
+                        AlertDialog.Builder alert = new AlertDialog.Builder(ViewClubMembersActivity.this);
+                        alert.setTitle("Kick");
+                        alert.setMessage("Are you sure you want to kick " + data.get(position).getMemberName() + "?");
+                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                databaseRef.child("members-clubs").child(data.get(position).getMemberRef()).child(clubId).removeValue();
+                                databaseRef.child("clubs-members").child(clubId).child(data.get(position).getMemberRef()).removeValue();
+                                data.remove(position);
+                                notifyDataSetChanged();
+                                dialog.dismiss();
+                            }
+                        });
+                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alert.show();
                     }
                 });
             }
