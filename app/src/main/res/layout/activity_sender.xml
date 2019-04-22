@@ -126,8 +126,8 @@
         android:id="@+id/gridLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="140dp"
-        android:layout_marginTop="218dp"
+        android:layout_marginBottom="110dp"
+        android:layout_marginTop="250dp"
         android:alignmentMode="alignMargins"
         android:columnCount="2"
         android:columnOrderPreserved="false"
@@ -162,7 +162,8 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:contentDescription="@string/user_profile_pic_in_nfc_activity"
-                    android:src="@drawable/user_violet" />
+                    android:src="@drawable/user_vio"
+                    android:scaleType="fitStart"/>
 
             </LinearLayout>
 
@@ -172,7 +173,6 @@
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
-            android:layout_marginBottom="5dp"
             android:layout_marginEnd="10dp"
             android:layout_marginStart="5dp"
             app:cardBackgroundColor="@color/fui_transparent"
@@ -191,7 +191,8 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:contentDescription="@string/user_profile_pic_in_nfc_activity"
-                    android:src="@drawable/icon_logo" />
+                    android:src="@drawable/icon_logo"
+                    android:scaleType="fitStart"/>
 
             </LinearLayout>
 

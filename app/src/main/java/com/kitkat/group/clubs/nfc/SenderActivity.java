@@ -49,7 +49,7 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
     Button btnSetOutcomingMessage;
     private NfcAdapter nfcAdapter;
     OutcomingNfcManager outcomingNfccallback;
-    String clubId, userId, clubName, outMessage, userName;
+    String clubId, userId, clubName, outMessage, userName, clubNameRec;
     TextView tvClubName, tvClubId, tvUserId, tvUserName;
     //Runtime permission
     private TextView resultView;
@@ -89,9 +89,12 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
 
         clubName = getIntent().getStringExtra("clubName");
         clubId = getIntent().getStringExtra("clubId");
+        clubNameRec=getIntent().getStringExtra("clubName");
         userId = getIntent().getStringExtra("userId");
         userName = getIntent().getStringExtra("userName");
 
+        Intent intent = new Intent(SenderActivity.this, ReceiverActivity.class);
+        intent.putExtra("clubNameRec", clubNameRec);
 
         StorageReference storageRef = FirebaseStorage.getInstance().getReference("member-avatars");
         final ImageView imageView = findViewById(R.id.nfc_user_image);
@@ -136,7 +139,6 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
         tvUserName = findViewById(R.id.tv_userName);
         //textView = findViewById(R.id.textView7);
         //test = findViewById(R.id.button7);
-
         tvClubName.setText(clubName);
         //tvClubId.setText(clubId);
         //tvUserId.setText(userId);

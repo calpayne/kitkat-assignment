@@ -44,7 +44,7 @@ public class ReceiverActivity extends AppCompatActivity {
     final FirebaseUser fa = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseAuth mAuth;
     private Club club;
-    String inMessage, first, second, third, fourth, VerClubOwnerId, OwnerClubId, OwnerUserId;
+    String inMessage, first, second, third, fourth, VerClubOwnerId, OwnerClubId, OwnerUserId,clubNameRec;
     Button ReceiverButton;
 
 
@@ -68,6 +68,9 @@ public class ReceiverActivity extends AppCompatActivity {
             Toast.makeText(this, "NFC disabled on this device. Turn on to proceed", Toast.LENGTH_SHORT).show();
         }
 
+        clubNameRec=getIntent().getStringExtra("clubName");
+        TextView test = findViewById(R.id.textView7);
+        test.setText(clubNameRec);
 
         BroadcastReceiver = new BroadcastReceiver() {
             @Override
