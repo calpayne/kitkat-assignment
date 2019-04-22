@@ -3,6 +3,7 @@ package com.kitkat.group.clubs.nfc;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -16,9 +17,12 @@ import android.view.View;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.kitkat.group.clubs.NotificationFragment;
 import com.kitkat.group.clubs.R;
@@ -36,6 +40,7 @@ import com.shashank.sony.fancydialoglib.Animation;
 import com.shashank.sony.fancydialoglib.FancyAlertDialog;
 import com.shashank.sony.fancydialoglib.FancyAlertDialogListener;
 import com.shashank.sony.fancydialoglib.Icon;
+import com.squareup.picasso.Picasso;
 
 
 public class SenderActivity extends AppCompatActivity implements OutcomingNfcManager.NfcActivity {
@@ -88,6 +93,31 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
         userName = getIntent().getStringExtra("userName");
 
 
+        StorageReference storageRef = FirebaseStorage.getInstance().getReference("member-avatars");
+        final ImageView imageView = findViewById(R.id.nfc_user_image);
+        try {
+            storageRef.child(userId).getDownloadUrl().addOnSuccessListener(uri -> {
+                if (uri != null) {
+                    Picasso.with(SenderActivity.this).load(uri).into(imageView);
+                }
+            });
+        } catch (Exception ignored) {
+
+        }
+
+
+        StorageReference storageRefClub = FirebaseStorage.getInstance().getReference("club-logos");
+        final ImageView imageViewClub = findViewById(R.id.nfc_club_image);
+        try {
+            storageRefClub.child(clubId).getDownloadUrl().addOnSuccessListener(uri -> {
+                if (uri != null) {
+                    Picasso.with(SenderActivity.this).load(uri).into(imageViewClub);
+                }
+            });
+        } catch (Exception ignored) {
+
+        }
+
 //        requestView.setOnClickListener(view -> myMethod());
 
         if (!isNfcSupported()) {
@@ -111,6 +141,8 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
         //tvClubId.setText(clubId);
         //tvUserId.setText(userId);
         tvUserName.setText(userName);
+
+
 
 
         // encapsulate sending logic in a separate class
