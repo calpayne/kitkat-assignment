@@ -53,6 +53,7 @@
                 android:id="@+id/navbar_qr_code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 app:srcCompat="@android:drawable/screen_background_light_transparent" />
 
         </LinearLayout>
