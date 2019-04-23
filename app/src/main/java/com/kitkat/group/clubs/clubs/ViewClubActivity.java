@@ -26,7 +26,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -47,9 +46,9 @@ import com.kitkat.group.clubs.data.ClubUser;
 import com.kitkat.group.clubs.data.Event;
 import com.kitkat.group.clubs.data.Member;
 import com.kitkat.group.clubs.nfc.SenderActivity;
+import com.kitkat.group.clubs.nfc.TutorialActivity;
 import com.kitkat.group.clubs.view.models.EventViewModel;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -208,6 +207,11 @@ public class ViewClubActivity extends AppCompatActivity {
         db.addValueEventListener(valueEventListener);
     }
 
+    private boolean isNfcSupported() {
+        this.nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        return this.nfcAdapter != null;
+    }
+
     public void NfcPermission(){
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (!nfcAdapter.isEnabled())
@@ -224,7 +228,7 @@ public class ViewClubActivity extends AppCompatActivity {
 
         }
         if(nfcAdapter.isEnabled()){
-            Intent intent = new Intent(this, SenderActivity.class);
+            Intent intent = new Intent(this, TutorialActivity.class);
             intent.putExtra("clubId", club.getClubID());
             intent.putExtra("clubName", club.getClubName());
             intent.putExtra("userId",userId);
@@ -250,11 +254,15 @@ public class ViewClubActivity extends AppCompatActivity {
         // disable admin options if user isn't admin
         if (club != null && !club.getClubOwner().equalsIgnoreCase(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
             menu.findItem(R.id.action_scan_qr).setVisible(false);
-            menu.findItem(R.id.action_nfc).setVisible(false);
             menu.findItem(R.id.action_manage).setVisible(false);
             menu.findItem(R.id.action_create_event).setVisible(false);
         }
-
+        if(!isNfcSupported()) {
+            menu.findItem(R.id.action_nfc).setVisible(false);
+        }
+        else{
+            menu.findItem(R.id.action_nfc).setVisible(true);
+        }
         return true;
     }
 

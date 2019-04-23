@@ -13,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
@@ -43,7 +44,7 @@ public class ReceiverActivity extends AppCompatActivity {
     final FirebaseUser fa = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseAuth mAuth;
     private Club club;
-    String inMessage, first, second, third, fourth, VerClubOwnerId, OwnerClubId, OwnerUserId;
+    String inMessage, first, second, third, fourth, VerClubOwnerId, OwnerClubId, OwnerUserId,clubNameRec;
     Button ReceiverButton;
 
 
@@ -53,6 +54,9 @@ public class ReceiverActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receiver);
+
+        Toolbar toolbar = findViewById(R.id.toolbar5);
+        setSupportActionBar(toolbar);
 
         db = FirebaseDatabase.getInstance().getReference();
 
@@ -64,6 +68,9 @@ public class ReceiverActivity extends AppCompatActivity {
             Toast.makeText(this, "NFC disabled on this device. Turn on to proceed", Toast.LENGTH_SHORT).show();
         }
 
+        clubNameRec=getIntent().getStringExtra("clubName");
+        TextView test = findViewById(R.id.textView7);
+        test.setText(clubNameRec);
 
         BroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -95,9 +102,9 @@ public class ReceiverActivity extends AppCompatActivity {
 
         //this.tvIncomingMessage = findViewById(R.id.tv_in_message);
         this.tvrClubName = findViewById(R.id.tvr_clubName);
-        this.tvrClubId = findViewById(R.id.tvr_clubId);
+        //this.tvrClubId = findViewById(R.id.tvr_clubId);
         this.tvrUserName = findViewById(R.id.tvr_userName);
-        this.tvrUserId = findViewById(R.id.tvr_userId);
+        //this.tvrUserId = findViewById(R.id.tvr_userId);
         this.ReceiverButton = findViewById(R.id.receiverButton);
     }
 
@@ -109,6 +116,7 @@ public class ReceiverActivity extends AppCompatActivity {
                 DataSnapshot ds = dataSnapshot.child("clubs").child(second);
                 club = ds.getValue(Club.class);
 
+                //first is clubName, second is clubId, third is userName, fourth is userID
                 if (dataSnapshot.child("members-clubs").child(fourth).child(second).exists() &&
                         club.getClubOwner().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                     isFailure = "false";
@@ -195,9 +203,9 @@ public class ReceiverActivity extends AppCompatActivity {
         third=parts[2];
         fourth=parts[3];
         tvrClubName.setText(first);
-        tvrClubId.setText(second);
+        //tvrClubId.setText(second);
         tvrUserName.setText(third);
-        tvrUserId.setText(fourth);
+        //tvrUserId.setText(fourth);
 
 
 //        Log.d(parts[0],"HERE");
