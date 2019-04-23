@@ -39,6 +39,7 @@ import com.kitkat.group.clubs.clubs.ClubsFragment;
 import com.kitkat.group.clubs.clubs.CreateClubActivity;
 import com.kitkat.group.clubs.clubs.ViewClubActivity;
 import com.kitkat.group.clubs.data.ClubUser;
+import com.kitkat.group.clubs.settings.SettingsActivity;
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -118,20 +119,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
                 break;
-            //case R.id.nav_user:
-            //    getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new UserFragment()).commit();
-            //    break;
-            //case R.id.nav_logout:
-            //    AuthUI.getInstance()
-            //            .signOut(this)
-            //            .addOnCompleteListener(new OnCompleteListener<Void>() {
-            //                public void onComplete(@NonNull Task<Void> task) {
-            //                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-            //                    startActivity(intent);
-            //                    finish();
-            //                }
-            //            });
-            //    break;
             case R.id.nav_scan_qr:
                 startActivityForResult(new Intent(this, ScanQRCodeActivity.class), REQUEST_CODE);
                 break;

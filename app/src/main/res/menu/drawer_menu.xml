@@ -18,13 +18,16 @@
             android:id="@+id/nav_create_club"
             android:icon="@drawable/ic_main_create_club"
             android:title="Create a Club" />
+    </group>
+
+    <group android:checkableBehavior="none">
         <item
             android:id="@+id/nav_scan_qr"
             android:icon="@drawable/ic_main_scan_qr"
             android:title="Open Club by QR Scan" />
         <item
             android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_main_settings"
+            android:icon="@drawable/ic_main_user_settings"
             android:title="Settings " />
     </group>
 
