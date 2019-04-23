@@ -38,7 +38,7 @@ public class ReceiverActivity extends AppCompatActivity {
     private BroadcastReceiver deliveryBroadcastReceiver;
     public static final String MIME_TEXT_PLAIN = "text/plain";
 
-    private TextView tvIncomingMessage, tvrClubName, tvrClubId, tvrUserName, tvrUserId,TextV7;
+    private TextView tvIncomingMessage, tvrClubName, tvrClubId, tvrUserName, tvrUserId,TextV7,test;
     private NfcAdapter nfcAdapter;
     private DatabaseReference db;
     final FirebaseUser fa = FirebaseAuth.getInstance().getCurrentUser();
@@ -58,6 +58,7 @@ public class ReceiverActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar5);
         setSupportActionBar(toolbar);
 
+        test=findViewById(R.id.textView7);
         db = FirebaseDatabase.getInstance().getReference();
 
         if (!isNfcSupported()) {
@@ -69,7 +70,9 @@ public class ReceiverActivity extends AppCompatActivity {
         }
 
         clubNameRec=getIntent().getStringExtra("clubName");
+
         TextView test = findViewById(R.id.textView7);
+
         test.setText(clubNameRec);
 
         BroadcastReceiver = new BroadcastReceiver() {
@@ -86,10 +89,11 @@ public class ReceiverActivity extends AppCompatActivity {
 
         
         ReceiverButton.setOnClickListener(v -> {
-            verification();
+
             //Toast.makeText(getApplicationContext(),"hi",Toast.LENGTH_LONG).show();
         });
 
+        verification();
     }
 
     // need to check NfcAdapter for nullability. Null means no NFC support on the device
@@ -117,10 +121,13 @@ public class ReceiverActivity extends AppCompatActivity {
                 club = ds.getValue(Club.class);
 
                 //first is clubName, second is clubId, third is userName, fourth is userID
+                //Checking whether userID has ClubId under it
+                //Checking whether the sender's club's ownerId and receiver's userId are same (checking ownership)
                 if (dataSnapshot.child("members-clubs").child(fourth).child(second).exists() &&
                         club.getClubOwner().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                     isFailure = "false";
                 }
+
 
                 Intent intent = new Intent(ReceiverActivity.this, VerifyMessageActivity.class);
                 intent.putExtra("failure", isFailure);
@@ -130,7 +137,10 @@ public class ReceiverActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Intent intent = new Intent(ReceiverActivity.this, VerifyMessageActivity.class);
+                intent.putExtra("failure", "true");
+                startActivity(intent);
+                finish();
             }
         });
         /*

@@ -4,17 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/nfc_bg"
+    android:background="@drawable/nfc_bg2"
     tools:context="com.kitkat.group.clubs.nfc.SenderActivity"
     tools:layout_editor_absoluteY="25dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:paddingTop="150dp"
         android:gravity="center_horizontal"
+        android:paddingEnd="1dp"
         android:paddingStart="20dp"
-        android:paddingEnd="1dp">
+        android:paddingTop="150dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/toolbar5">
 
         <TextView
             android:id="@+id/tv_userName"
@@ -162,8 +166,8 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:contentDescription="@string/user_profile_pic_in_nfc_activity"
-                    android:src="@drawable/user_vio"
-                    android:scaleType="fitStart"/>
+                    android:scaleType="fitStart"
+                    android:src="@drawable/user_vio" />
 
             </LinearLayout>
 
@@ -191,8 +195,8 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_horizontal"
                     android:contentDescription="@string/user_profile_pic_in_nfc_activity"
-                    android:src="@drawable/icon_logo"
-                    android:scaleType="fitStart"/>
+                    android:scaleType="fitStart"
+                    android:src="@drawable/icon_logo" />
 
             </LinearLayout>
 
@@ -200,22 +204,17 @@
 
     </GridLayout>
 
-    <Button
-        android:id="@+id/btn_set_out_message"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginBottom="30dp"
-        android:layout_x="159dp"
-        android:layout_y="400dp"
-        android:background="@drawable/nfc_send_button"
-        android:elevation="40dp"
-        android:text="@string/ReceiverButton"
-        android:textAllCaps="false"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gridLayout" />
 
 
 </android.support.constraint.ConstraintLayout>

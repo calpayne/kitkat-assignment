@@ -36,10 +36,6 @@ import com.kitkat.group.clubs.RecommendFragment;
 import com.kitkat.group.clubs.SectionsPagerAdapter;
 import com.kitkat.group.clubs.nfc.OutcomingNfcManager;
 import com.kitkat.group.clubs.data.Club;
-import com.shashank.sony.fancydialoglib.Animation;
-import com.shashank.sony.fancydialoglib.FancyAlertDialog;
-import com.shashank.sony.fancydialoglib.FancyAlertDialogListener;
-import com.shashank.sony.fancydialoglib.Icon;
 import com.squareup.picasso.Picasso;
 
 
@@ -49,8 +45,8 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
     Button btnSetOutcomingMessage;
     private NfcAdapter nfcAdapter;
     OutcomingNfcManager outcomingNfccallback;
-    String clubId, userId, clubName, outMessage, userName, clubNameRec;
-    TextView tvClubName, tvClubId, tvUserId, tvUserName;
+    String clubId, userId, clubName, outMessage, userName, clubIdRec;
+    TextView tvClubName, tvClubId, tvUserId, tvUserName, test;
     //Runtime permission
     private TextView resultView;
     private View requestView;
@@ -69,6 +65,8 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
 
         Toolbar toolbar = findViewById(R.id.toolbar5);
         setSupportActionBar(toolbar);
+
+        test=findViewById(R.id.textView5);
 
 //        db = FirebaseDatabase.getInstance().getReference();
 //        mAuth=FirebaseAuth.getInstance();
@@ -89,12 +87,14 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
 
         clubName = getIntent().getStringExtra("clubName");
         clubId = getIntent().getStringExtra("clubId");
-        clubNameRec=getIntent().getStringExtra("clubName");
+        clubIdRec=getIntent().getStringExtra("clubIdRec");
         userId = getIntent().getStringExtra("userId");
         userName = getIntent().getStringExtra("userName");
 
-        Intent intent = new Intent(SenderActivity.this, ReceiverActivity.class);
-        intent.putExtra("clubNameRec", clubNameRec);
+        test.setText(clubIdRec);
+
+//        Intent intent = new Intent(SenderActivity.this, ReceiverActivity.class);
+//        intent.putExtra("clubNameRec", clubNameRec);
 
         StorageReference storageRef = FirebaseStorage.getInstance().getReference("member-avatars");
         final ImageView imageView = findViewById(R.id.nfc_user_image);
@@ -131,7 +131,7 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
             Toast.makeText(this, "NFC disabled on this device. Turn on to proceed", Toast.LENGTH_SHORT).show();
         }
 
-        initViews();
+
 
         tvClubName = findViewById(R.id.tv_clubName);
         //tvClubId = findViewById(R.id.tv_clubId);
@@ -152,13 +152,16 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
         this.nfcAdapter.setOnNdefPushCompleteCallback(outcomingNfccallback, this);
         this.nfcAdapter.setNdefPushMessageCallback(outcomingNfccallback, this);
 
+        initViews();
     }
 
 
     private void initViews() {
         //this.tvOutcomingMessage = findViewById(R.id.tv_out_message);
-        this.btnSetOutcomingMessage = findViewById(R.id.btn_set_out_message);
-        this.btnSetOutcomingMessage.setOnClickListener((v) -> setOutGoingMessage());
+//        this.btnSetOutcomingMessage = findViewById(R.id.btn_set_out_message);
+//        this.btnSetOutcomingMessage.setOnClickListener((v) -> setOutGoingMessage());
+        Toast.makeText(this, "Details verified! Tap on NFC device.", Toast.LENGTH_SHORT).show();
+        outMessage = clubName+"    "+clubId+"    "+userName+"    "+userId;
     }
 
 
@@ -173,12 +176,11 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
     }
 
 
-    private void setOutGoingMessage() {
-        Toast.makeText(this, "Details verified! Tap on NFC device.", Toast.LENGTH_SHORT).show();
-        outMessage = clubName+"    "+clubId+"    "+userName+"    "+userId;
-        //textView.setText(outMessage);
-        //this.tvOutcomingMessage.setText(outMessage);
-    }
+//    private void setOutGoingMessage() {
+//
+//        //textView.setText(outMessage);
+//        //this.tvOutcomingMessage.setText(outMessage);
+//    }
 
     /*Screen rotation*******************
     @Override
