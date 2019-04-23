@@ -52,8 +52,8 @@ public class CreateClubActivity extends AppCompatActivity {
   
         databaseRef = FirebaseDatabase.getInstance().getReference();
         storageRef = FirebaseStorage.getInstance().getReference();
-        clubName = findViewById(R.id.clubName);
-        clubDesc = findViewById(R.id.clubDesc);
+        clubName = findViewById(R.id.club_name);
+        clubDesc = findViewById(R.id.club_description);
         isPublic = findViewById(R.id.isPublic);
         progressDialog = new ProgressDialog(this);
     }
