@@ -1,5 +1,6 @@
 package com.kitkat.group.clubs.clubs;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -14,14 +15,17 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
-
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,10 +39,18 @@ import com.google.firebase.storage.StorageReference;
 import com.kitkat.group.clubs.GeneratedQRCode;
 import com.kitkat.group.clubs.R;
 import com.kitkat.group.clubs.ScanQRCodeActivity;
+import com.kitkat.group.clubs.clubs.events.CreateEventActivity;
+import com.kitkat.group.clubs.clubs.events.ViewEventActivity;
 import com.kitkat.group.clubs.data.Club;
 import com.kitkat.group.clubs.data.ClubUser;
+import com.kitkat.group.clubs.data.Event;
+import com.kitkat.group.clubs.data.Member;
 import com.kitkat.group.clubs.nfc.SenderActivity;
+import com.kitkat.group.clubs.nfc.TutorialActivity;
+import com.kitkat.group.clubs.view.models.EventViewModel;
 import com.squareup.picasso.Picasso;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class ViewClubActivity extends AppCompatActivity {
 
@@ -51,10 +63,19 @@ public class ViewClubActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     String userName, userId;
 
+    private ListView eventsListView;
+    private ArrayList<EventViewModel> events;
+    private EventListAdapter listAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_club);
+
+        events = new ArrayList<>();
+        listAdapter = new EventListAdapter(events);
+        eventsListView = findViewById(R.id.eventsList);
+        eventsListView.setAdapter(listAdapter);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -99,10 +120,22 @@ public class ViewClubActivity extends AppCompatActivity {
                 DataSnapshot ds = dataSnapshot.child("clubs").child(clubId);
                 club = ds.getValue(Club.class);
 
-                System.out.println(ds.child("clubName").getValue(String.class));
-                System.out.println(ds.child("clubDescription").getValue(String.class));
-                System.out.println(ds.child("clubOwner").getValue(String.class));
+                events.clear();
+                listAdapter.clear();
+                listAdapter.notifyDataSetChanged();
+                boolean hasEvents = false;
+                for (DataSnapshot postSnapshot: dataSnapshot.child("clubs").child(clubId).child("events").getChildren()) {
+                    EventViewModel event = postSnapshot.getValue(EventViewModel.class);
+                    event.setEventId(postSnapshot.getKey());
+                    event.setClubId(club.getClubID());
+                    event.setOwnerId(club.getClubOwner());
+                    events.add(event);
+                    hasEvents = true;
+                }
+                Collections.reverse(events);
+                listAdapter.notifyDataSetChanged();
 
+                String events = hasEvents ? "\n\n\nEvents:" : "\n\n\nEvents:\nNo events";
 
                 if(club == null)
                     System.out.println("Club instance is null.");
@@ -119,7 +152,7 @@ public class ViewClubActivity extends AppCompatActivity {
 
                 setTitle(club.getClubName());
                 TextView textView = findViewById(R.id.textView);
-                textView.setText(club.toString());
+                textView.setText(club.toString() + events);
 
                 FloatingActionButton fab = findViewById(R.id.fab);
                 assert fa != null;
@@ -158,6 +191,11 @@ public class ViewClubActivity extends AppCompatActivity {
         db.addValueEventListener(valueEventListener);
     }
 
+    private boolean isNfcSupported() {
+        this.nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        return this.nfcAdapter != null;
+    }
+
     public void NfcPermission(){
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         if (!nfcAdapter.isEnabled())
@@ -174,7 +212,7 @@ public class ViewClubActivity extends AppCompatActivity {
 
         }
         if(nfcAdapter.isEnabled()){
-            Intent intent = new Intent(this, SenderActivity.class);
+            Intent intent = new Intent(this, TutorialActivity.class);
             intent.putExtra("clubId", club.getClubID());
             intent.putExtra("clubName", club.getClubName());
             intent.putExtra("userId",userId);
@@ -197,10 +235,15 @@ public class ViewClubActivity extends AppCompatActivity {
         // disable admin options if user isn't admin
         if (club != null && !club.getClubOwner().equalsIgnoreCase(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
             menu.findItem(R.id.action_scan_qr).setVisible(false);
-            menu.findItem(R.id.action_nfc).setVisible(false);
             menu.findItem(R.id.action_manage).setVisible(false);
+            menu.findItem(R.id.action_create_event).setVisible(false);
         }
-
+        if(!isNfcSupported()) {
+            menu.findItem(R.id.action_nfc).setVisible(false);
+        }
+        else{
+            menu.findItem(R.id.action_nfc).setVisible(true);
+        }
         return true;
     }
 
@@ -222,6 +265,11 @@ public class ViewClubActivity extends AppCompatActivity {
                 intent.putExtra("clubName", club.getClubName());
                 startActivity(intent);
                 break;
+            case R.id.action_create_event:
+                intent = new Intent(this, CreateEventActivity.class);
+                intent.putExtra("clubId", getIntent().getStringExtra("clubId"));
+                startActivity(intent);
+                break;
             case R.id.action_scan_qr:
                 intent = new Intent(this, ScanQRCodeActivity.class);
                 intent.putExtra("clubId", getIntent().getStringExtra("clubId"));
@@ -234,5 +282,35 @@ public class ViewClubActivity extends AppCompatActivity {
                 //unknown error
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private class EventListAdapter extends ArrayAdapter {
+
+        private ArrayList<EventViewModel> data;
+
+        public EventListAdapter(ArrayList<EventViewModel> data) {
+            super(ViewClubActivity.this,R.layout.listview_event_row, data);
+            this.data = data;
+        }
+
+        public View getView(final int position, View view, ViewGroup parent) {
+            LayoutInflater inflater = ViewClubActivity.this.getLayoutInflater();
+            View rowView = inflater.inflate(R.layout.listview_event_row, null,true);
+
+            TextView eventText = rowView.findViewById(R.id.row_name);
+            eventText.setText(data.get(position).getEventName() + " on " + data.get(position).getEventDate());
+            eventText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(ViewClubActivity.this, ViewEventActivity.class);
+                    intent.putExtra("clubId", data.get(position).getClubId());
+                    intent.putExtra("eventId", data.get(position).getEventId());
+                    intent.putExtra("ownerId", data.get(position).getOwnerId());
+                    startActivity(intent);
+                }
+            });
+
+            return rowView;
+        };
     }
 }

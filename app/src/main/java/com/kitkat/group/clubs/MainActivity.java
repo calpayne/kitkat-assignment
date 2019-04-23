@@ -37,6 +37,7 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.kitkat.group.clubs.auth.LoginActivity;
 import com.kitkat.group.clubs.clubs.ClubsFragment;
 import com.kitkat.group.clubs.clubs.CreateClubActivity;
+import com.kitkat.group.clubs.clubs.events.ViewEventActivity;
 import com.kitkat.group.clubs.clubs.ViewClubActivity;
 import com.kitkat.group.clubs.data.ClubUser;
 import com.kitkat.group.clubs.settings.SettingsActivity;
@@ -84,19 +85,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         profileUsername = navView.findViewById(R.id.profile_username);
         profileUsername.setText(ClubUser.getInstance().getUsername());
         final ImageView imageView = navView.findViewById(R.id.profile_image);
-        storageRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                if (uri != null) {
-                    Picasso.with(MainActivity.this).load(uri).into(imageView);
+        try {
+            storageRef.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    if (uri != null) {
+                        Picasso.with(MainActivity.this).load(uri).into(imageView);
+                    }
                 }
-            }
-        });
+            });
+        } catch (Exception e) {
+
+        }
 
         MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
 
         try {
-            BitMatrix bitMatrix = multiFormatWriter.encode(FirebaseAuth.getInstance().getCurrentUser().getUid().toString(), BarcodeFormat.QR_CODE, 500, 500);
+            BitMatrix bitMatrix = multiFormatWriter.encode(FirebaseAuth.getInstance().getCurrentUser().getUid().toString() + "," + ClubUser.getInstance().getUsername(), BarcodeFormat.QR_CODE, 500, 500);
             BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
             Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
             ImageView qrCode = findViewById(R.id.navbar_qr_code);
@@ -154,23 +159,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void onResume() {
         super.onResume();
-        nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-        nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
+        if(isNfcSupported()) {
+            nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
+            nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
+        }
     }
 
     public void onPause() {
         super.onPause();
-        NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-        nfcAdapter.disableForegroundDispatch(this);
+        if(isNfcSupported()) {
+            NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+            nfcAdapter.disableForegroundDispatch(this);
+        }
     }
 
     public void onNewIntent(Intent intent) {
-        if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
-            // drop NFC events
+        if(isNfcSupported()) {
+            if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
+                // drop NFC events
+            }
         }
     }
-  
+
+    private boolean isNfcSupported() {
+        this.nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        return this.nfcAdapter != null;
+    }
+
     public void logout(View view) {
         AuthUI.getInstance()
                 .signOut(this)
