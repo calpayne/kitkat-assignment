@@ -77,12 +77,19 @@
         <activity
             android:name=".clubs.ViewClubMembersActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".VerifyMessageActivity" />
+        <activity
+            android:name=".VerifyMessageActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".nfc.TutorialActivity"/>
-        <activity android:name=".clubs.events.CreateEventActivity" />
+        <activity
+            android:name=".nfc.TutorialActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".clubs.events.CreateEventActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".clubs.events.ViewEventActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_view_event"
             android:theme="@style/AppTheme"></activity>
     </application>
