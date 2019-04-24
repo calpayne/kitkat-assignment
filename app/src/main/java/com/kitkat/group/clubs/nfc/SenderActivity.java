@@ -1,5 +1,6 @@
 package com.kitkat.group.clubs.nfc;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -48,7 +49,7 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
     private NfcAdapter nfcAdapter;
     OutcomingNfcManager outcomingNfccallback;
     String clubId, userId, clubName, outMessage, userName, clubIdRec;
-    TextView tvClubName, tvClubId, tvUserId, tvUserName, test;
+    TextView tvClubName, tvClubId, tvUserId, test, userNameImage, clubNameImage, question;
     //Runtime permission
     private TextView resultView;
     private View requestView;
@@ -62,6 +63,7 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
     public static final String preference="ref";
     public static final String saveit="savekey";
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +72,6 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
         Toolbar toolbar = findViewById(R.id.toolbar5);
         setSupportActionBar(toolbar);
 
-        test=findViewById(R.id.textView5);
 
 //        db = FirebaseDatabase.getInstance().getReference();
 //        mAuth=FirebaseAuth.getInstance();
@@ -94,7 +95,6 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
         userId = getIntent().getStringExtra("userId");
         userName = getIntent().getStringExtra("userName");
 
-        test.setText(clubIdRec);
 
         SharedPreferences sf4=getSharedPreferences(preference, Context.MODE_PRIVATE);
 
@@ -142,16 +142,24 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
 
 
 
-        tvClubName = findViewById(R.id.tv_clubName);
+//        tvClubName = findViewById(R.id.tv_clubName);
         //tvClubId = findViewById(R.id.tv_clubId);
         //tvUserId = findViewById(R.id.tv_userId);
-        tvUserName = findViewById(R.id.tv_userName);
+        userNameImage=findViewById(R.id.userNameImage);
+        clubNameImage=findViewById(R.id.clubNameImage);
+        question=findViewById(R.id.textView3);
+
         //textView = findViewById(R.id.textView7);
         //test = findViewById(R.id.button7);
-        tvClubName.setText(clubName);
+        String quest= "Are you a member of the club \"";
+        String qMark = "\" ?";
+        question.setText(quest+clubName+qMark);
+        userNameImage.setText(userName);
+        clubNameImage.setText(clubName);
+//        tvClubName.setText(clubName);
+//        userNameImage.setText(userName);
         //tvClubId.setText(clubId);
         //tvUserId.setText(userId);
-        tvUserName.setText(userName);
 
 
 

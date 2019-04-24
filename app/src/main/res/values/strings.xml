@@ -40,7 +40,6 @@
     <string name="upload_image">Choose Club Logo</string>
     <string name="clubs">Clubs</string>
     <string name="clubName">Club Name :</string>
-    <string name="fillin">is a member of</string>
     <string name="clubId">Club Id :</string>
     <string name="userId">User Id :</string>
     <string name="userName">User Name :</string>
@@ -82,4 +81,11 @@
     <string name="eventDetails">Loading event details...</string>
     <string name="event_name">Event Name</string>
     <string name="event_description">Event Description</string>
+    <string name="user_name_image">user name Image</string>
+    <string name="user_image">user image</string>
+    <string name="club_image">club image</string>
+    <string name="are_you_a_member">Are you a member of the club</string>
+    <string name="question_mark">\?</string>
+    <string name="statement">Statement</string>
+    <string name="membership">Verify your club membership!</string>
 </resources>

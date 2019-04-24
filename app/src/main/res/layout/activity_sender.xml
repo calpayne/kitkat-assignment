@@ -8,86 +8,49 @@
     tools:context="com.kitkat.group.clubs.nfc.SenderActivity"
     tools:layout_editor_absoluteY="25dp">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:paddingEnd="1dp"
-        android:paddingStart="20dp"
-        android:paddingTop="150dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/toolbar5">
+    <!--<LinearLayout-->
+    <!--android:id="@+id/linearLayout"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="50dp"-->
+    <!--android:layout_marginTop="570dp"-->
+    <!--android:gravity="center_horizontal"-->
+    <!--android:paddingEnd="1dp"-->
+    <!--android:paddingStart="20dp"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintHorizontal_bias="1.0"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toTopOf="@+id/toolbar5">-->
+    <!---->
 
-        <TextView
-            android:id="@+id/tv_userName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:text="@string/userName"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/gridLayout"
-            app:layout_constraintEnd_toStartOf="@+id/tv_clubName"
-            app:layout_constraintHorizontal_bias="0.278"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_out_label"
-            app:layout_constraintVertical_bias="0.735" />
-
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:text="@string/fillin"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/gridLayout"
-            app:layout_constraintEnd_toStartOf="@+id/tv_clubName"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/tv_userName"
-            app:layout_constraintTop_toBottomOf="@+id/tv_out_label"
-            app:layout_constraintVertical_bias="0.724" />
-
-        <TextView
-            android:id="@+id/tv_clubName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="60dp"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:text="@string/clubName"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/gridLayout"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_out_label"
-            app:layout_constraintVertical_bias="0.735" />
-
-
-    </LinearLayout>
+    <!--<TextView-->
+    <!--android:id="@+id/textView3"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="50dp"-->
+    <!--android:layout_marginBottom="1dp"-->
+    <!--android:layout_marginEnd="8dp"-->
+    <!--android:layout_marginStart="5dp"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:gravity="center"-->
+    <!--android:elevation="10dp"-->
+    <!--android:text="@string/are_you_a_member"-->
+    <!--android:textColor="@color/colorWhite"-->
+    <!--android:textSize="16sp"-->
+    <!--android:textStyle="bold"/>-->
+    <!--</LinearLayout>-->
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar5"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
+        android:layout_marginBottom="389dp"
         android:layout_x="0dp"
         android:layout_y="0dp"
         android:background="?attr/colorPrimary"
         android:elevation="4dp"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -130,8 +93,8 @@
         android:id="@+id/gridLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="110dp"
-        android:layout_marginTop="250dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="245dp"
         android:alignmentMode="alignMargins"
         android:columnCount="2"
         android:columnOrderPreserved="false"
@@ -144,59 +107,83 @@
         app:layout_constraintTop_toTopOf="@+id/toolbar8">
 
         <android.support.v7.widget.CardView
-            android:layout_width="20dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
-            android:layout_marginBottom="5dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="30dp"
             app:cardBackgroundColor="@color/fui_transparent"
             app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="10dp"
+
                 android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/nfc_user_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="196dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="1dp"
+                    android:layout_marginEnd="13dp"
+                    android:layout_marginStart="5dp"
                     android:contentDescription="@string/user_profile_pic_in_nfc_activity"
+                    android:foregroundGravity="center"
                     android:scaleType="fitStart"
                     android:src="@drawable/user_vio" />
 
+                <TextView
+                    android:id="@+id/userNameImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="40dp"
+                    android:gravity="fill_horizontal"
+                    android:text="@string/user_image"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
             </LinearLayout>
 
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
-            android:layout_width="20dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_marginEnd="10dp"
-            android:layout_marginStart="5dp"
             app:cardBackgroundColor="@color/fui_transparent"
             app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginStart="10dp"
                 android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/nfc_club_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="196dp"
+                    android:layout_gravity="center"
                     android:contentDescription="@string/user_profile_pic_in_nfc_activity"
+                    android:foregroundGravity="center"
                     android:scaleType="fitStart"
                     android:src="@drawable/icon_logo" />
+
+                <TextView
+                    android:id="@+id/clubNameImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="35dp"
+                    android:text="@string/club_image"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
 
             </LinearLayout>
 
@@ -205,17 +192,34 @@
     </GridLayout>
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginTop="8dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="70dp"
+        android:text="@string/membership"
+        android:textColor="@color/colorWhite"
+        android:textSize="17sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gridLayout" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar8" />
 
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginBottom="75dp"
+        android:elevation="10dp"
+        android:gravity="center"
+        android:text="@string/are_you_a_member"
+        android:textColor="@color/colorWhite"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar5" />
 
 </android.support.constraint.ConstraintLayout>
 
