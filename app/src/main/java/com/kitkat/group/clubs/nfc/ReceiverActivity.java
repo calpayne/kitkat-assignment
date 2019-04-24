@@ -116,23 +116,37 @@ public class ReceiverActivity extends AppCompatActivity {
         db.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String isFailure = "true";
+                String isFailure;
                 DataSnapshot ds = dataSnapshot.child("clubs").child(second);
                 club = ds.getValue(Club.class);
 
                 //first is clubName, second is clubId, third is userName, fourth is userID
                 //Checking whether userID has ClubId under it
                 //Checking whether the sender's club's ownerId and receiver's userId are same (checking ownership)
-                if (dataSnapshot.child("members-clubs").child(fourth).child(second).exists() &&
-                        club.getClubOwner().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()) && second.equals(clubIdRec)) {
-                    isFailure = "false";
+                if(club.getClubOwner().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                    if (dataSnapshot.child("members-clubs").child(fourth).child(second).exists() && second.equals(clubIdRec)) {
+                        isFailure = "false";
+                        Intent intent = new Intent(ReceiverActivity.this, VerifyMessageActivity.class);
+                        intent.putExtra("failure", isFailure);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else{
+                        Intent intent = new Intent(ReceiverActivity.this, VerifyMessageActivity.class);
+                        intent.putExtra("failure", "true");
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+                else{
+                    Intent intent = new Intent(ReceiverActivity.this, unauthorisedActivity.class);
+                    startActivity(intent);
+                    finish();
+
+
                 }
 
 
-                Intent intent = new Intent(ReceiverActivity.this, VerifyMessageActivity.class);
-                intent.putExtra("failure", isFailure);
-                startActivity(intent);
-                finish();
             }
 
             @Override

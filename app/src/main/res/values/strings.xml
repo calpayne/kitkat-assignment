@@ -58,6 +58,7 @@
     <string name="navigation_drawer_close">Close Navigation Drawer</string>
     <string name="title_activity_verify_message">VerifyMessageActivity</string>
     <string name="is_a_member">Is a member</string>
+    <string name="unAuth">Invalid action!</string>
     <string name="view_members">View members</string>
     <string name="title_activity_view_club">Club Details</string>
     <string name="tut_str1">START</string>
@@ -79,6 +80,7 @@
     <string name="click_to_select_date">Click to select a date</string>
     <string name="title_activity_view_event">Details of Event</string>
     <string name="eventDetails">Loading event details...</string>
+
     <string name="event_name">Event Name</string>
     <string name="event_description">Event Description</string>
     <string name="user_name_image">user name Image</string>
@@ -88,4 +90,5 @@
     <string name="question_mark">\?</string>
     <string name="statement">Statement</string>
     <string name="membership">VERIFY YOUR CLUB MEMBERSHIP</string>
+    <string name="invalid_nfc_action">Invalid NFC action</string>
 </resources>

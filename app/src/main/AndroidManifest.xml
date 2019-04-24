@@ -44,7 +44,7 @@
         <activity
             android:name=".nfc.SenderActivity"
             android:configChanges="orientation"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".nfc.ReceiverActivity"
             android:configChanges="orientation"
@@ -79,19 +79,19 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".VerifyMessageActivity"
-            android:screenOrientation="portrait"/>
-
+            android:screenOrientation="portrait" />
         <activity
             android:name=".nfc.TutorialActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".clubs.events.CreateEventActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".clubs.events.ViewEventActivity"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_view_event"
-            android:theme="@style/AppTheme"/>
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".nfc.unauthorisedActivity"></activity>
     </application>
 
 </manifest>
