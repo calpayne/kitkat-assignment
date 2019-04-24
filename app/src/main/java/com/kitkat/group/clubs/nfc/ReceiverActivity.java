@@ -30,8 +30,6 @@ import com.kitkat.group.clubs.R;
 import com.kitkat.group.clubs.VerifyMessageActivity;
 import com.kitkat.group.clubs.data.Club;
 
-import static java.sql.DriverManager.println;
-
 public class ReceiverActivity extends AppCompatActivity {
 
     BroadcastReceiver BroadcastReceiver;

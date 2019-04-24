@@ -18,7 +18,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.kitkat.group.clubs.clubs.ViewClubActivity;
 import com.kitkat.group.clubs.clubs.events.ViewEventActivity;
 import com.kitkat.group.clubs.data.Club;
 import com.kitkat.group.clubs.view.models.EventViewModel;
