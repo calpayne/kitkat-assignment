@@ -37,8 +37,6 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.kitkat.group.clubs.auth.LoginActivity;
 import com.kitkat.group.clubs.clubs.ClubsFragment;
 import com.kitkat.group.clubs.clubs.CreateClubActivity;
-import com.kitkat.group.clubs.clubs.events.ViewEventActivity;
-import com.kitkat.group.clubs.clubs.ViewClubActivity;
 import com.kitkat.group.clubs.data.ClubUser;
 import com.kitkat.group.clubs.settings.SettingsActivity;
 import com.squareup.picasso.Picasso;

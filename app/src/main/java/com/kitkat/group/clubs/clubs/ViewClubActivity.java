@@ -1,6 +1,5 @@
 package com.kitkat.group.clubs.clubs;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -22,7 +21,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -43,9 +41,6 @@ import com.kitkat.group.clubs.clubs.events.CreateEventActivity;
 import com.kitkat.group.clubs.clubs.events.ViewEventActivity;
 import com.kitkat.group.clubs.data.Club;
 import com.kitkat.group.clubs.data.ClubUser;
-import com.kitkat.group.clubs.data.Event;
-import com.kitkat.group.clubs.data.Member;
-import com.kitkat.group.clubs.nfc.SenderActivity;
 import com.kitkat.group.clubs.nfc.TutorialActivity;
 import com.kitkat.group.clubs.view.models.EventViewModel;
 import com.squareup.picasso.Picasso;
