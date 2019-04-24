@@ -45,9 +45,9 @@ public class CreateEventActivity extends AppCompatActivity  implements DatePicke
 
         databaseRef = FirebaseDatabase.getInstance().getReference();
         progressDialog = new ProgressDialog(this);
-        eventName = findViewById(R.id.eventName);
-        eventDate = findViewById(R.id.selectDate);
-        eventDesc = findViewById(R.id.eventDesc);
+        eventName = findViewById(R.id.event_name);
+        eventDate = findViewById(R.id.select_date);
+        eventDesc = findViewById(R.id.event_description);
 
         eventDate.setOnClickListener(new View.OnClickListener() {
             @Override
