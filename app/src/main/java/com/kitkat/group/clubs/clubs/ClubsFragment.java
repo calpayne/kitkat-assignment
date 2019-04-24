@@ -38,9 +38,6 @@ public class ClubsFragment extends Fragment {
     private ClubListAdapter listAdapter;
     private EditText searchText;
 
-    public static final int REQUEST_CODE = 100;
-    public static final int PERMISSIONS_REQUEST = 200;
-
     public ClubsFragment() {
         // Empty public constructor
     }
@@ -78,27 +75,7 @@ public class ClubsFragment extends Fragment {
             }
         });
 
-        view.findViewById(R.id.btn_scan_qr).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivityForResult(new Intent(getActivity(), ScanQRCodeActivity.class), REQUEST_CODE);
-            }
-        });
-
         return view;
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "onActivityResult: started onActivityResult");
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-            if (data != null) {
-                final Barcode barcode = data.getParcelableExtra("barcode");
-                Intent intent = new Intent(getActivity(), ViewClubActivity.class);
-                intent.putExtra("clubId", barcode.displayValue);
-                getActivity().startActivity(intent);
-                getActivity().finish();
-            }
-        }
     }
 
     public void loadIntoListView(String search, boolean myClubs) {

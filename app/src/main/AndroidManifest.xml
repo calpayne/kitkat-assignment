@@ -78,13 +78,13 @@
             android:name=".clubs.ViewClubMembersActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".VerifyMessageActivity" />
-
         <activity android:name=".nfc.TutorialActivity"/>
         <activity android:name=".clubs.events.CreateEventActivity" />
         <activity
             android:name=".clubs.events.ViewEventActivity"
             android:label="@string/title_activity_view_event"
             android:theme="@style/AppTheme"></activity>
+        <activity android:name=".settings.SettingsActivity" />
     </application>
 
 </manifest>
