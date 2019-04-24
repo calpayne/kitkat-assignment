@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -29,7 +30,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.kitkat.group.clubs.R;
 import com.kitkat.group.clubs.VerifyMessageActivity;
 import com.kitkat.group.clubs.data.Club;
-
+import static com.kitkat.group.clubs.nfc.SenderActivity.preference;
+import static com.kitkat.group.clubs.nfc.SenderActivity.saveit;
 import static java.sql.DriverManager.println;
 
 public class ReceiverActivity extends AppCompatActivity {
@@ -44,7 +46,7 @@ public class ReceiverActivity extends AppCompatActivity {
     final FirebaseUser fa = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseAuth mAuth;
     private Club club;
-    String inMessage, first, second, third, fourth, VerClubOwnerId, OwnerClubId, OwnerUserId,clubNameRec;
+    String inMessage, first, second, third, fourth, VerClubOwnerId, OwnerClubId, OwnerUserId,clubIdRec;
     Button ReceiverButton;
 
 
@@ -69,11 +71,6 @@ public class ReceiverActivity extends AppCompatActivity {
             Toast.makeText(this, "NFC disabled on this device. Turn on to proceed", Toast.LENGTH_SHORT).show();
         }
 
-        clubNameRec=getIntent().getStringExtra("clubName");
-
-        TextView test = findViewById(R.id.textView7);
-
-        test.setText(clubNameRec);
 
         BroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -85,6 +82,11 @@ public class ReceiverActivity extends AppCompatActivity {
         initViews();
 
         registerReceiver(BroadcastReceiver, new IntentFilter());
+
+        SharedPreferences sf3=getSharedPreferences(preference, Context.MODE_PRIVATE);
+        clubIdRec = sf3.getString(saveit,"");
+
+        test.setText(clubIdRec);
 
 
         
@@ -124,7 +126,7 @@ public class ReceiverActivity extends AppCompatActivity {
                 //Checking whether userID has ClubId under it
                 //Checking whether the sender's club's ownerId and receiver's userId are same (checking ownership)
                 if (dataSnapshot.child("members-clubs").child(fourth).child(second).exists() &&
-                        club.getClubOwner().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                        club.getClubOwner().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()) && second.equals(clubIdRec)) {
                     isFailure = "false";
                 }
 

@@ -37,7 +37,6 @@ public class TutorialActivity extends AppCompatActivity {
 
         clubName = getIntent().getStringExtra("clubName");
         clubId = getIntent().getStringExtra("clubId");
-        clubIdRec = getIntent().getStringExtra("clubIdRec");
         userId = getIntent().getStringExtra("userId");
         userName = getIntent().getStringExtra("userName");
 
@@ -141,7 +140,6 @@ public class TutorialActivity extends AppCompatActivity {
         setFirstTimeStartStatus(true);
         Intent intent = new Intent(TutorialActivity.this,SenderActivity.class);
         intent.putExtra("clubId", clubId);
-        intent.putExtra("clubIdRec", clubIdRec);
         intent.putExtra("clubName", clubName);
         intent.putExtra("userId",userId);
         intent.putExtra("userName",userName);

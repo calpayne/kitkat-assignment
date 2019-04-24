@@ -1,7 +1,9 @@
 package com.kitkat.group.clubs.nfc;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
@@ -57,6 +59,8 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
     private Club club;
     DatabaseReference mDatabase;
     FirebaseAuth mAuth;
+    public static final String preference="ref";
+    public static final String saveit="savekey";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,11 +91,16 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
 
         clubName = getIntent().getStringExtra("clubName");
         clubId = getIntent().getStringExtra("clubId");
-        clubIdRec=getIntent().getStringExtra("clubIdRec");
         userId = getIntent().getStringExtra("userId");
         userName = getIntent().getStringExtra("userName");
 
         test.setText(clubIdRec);
+
+        SharedPreferences sf4=getSharedPreferences(preference, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor4=sf4.edit();
+        editor4.putString(saveit,clubId);
+        editor4.commit();
 
 //        Intent intent = new Intent(SenderActivity.this, ReceiverActivity.class);
 //        intent.putExtra("clubNameRec", clubNameRec);
@@ -160,7 +169,7 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
         //this.tvOutcomingMessage = findViewById(R.id.tv_out_message);
 //        this.btnSetOutcomingMessage = findViewById(R.id.btn_set_out_message);
 //        this.btnSetOutcomingMessage.setOnClickListener((v) -> setOutGoingMessage());
-        Toast.makeText(this, "Details verified! Tap on NFC device.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Tap on NFC device to verify details", Toast.LENGTH_SHORT).show();
         outMessage = clubName+"    "+clubId+"    "+userName+"    "+userId;
     }
 
