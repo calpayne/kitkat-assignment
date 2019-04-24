@@ -24,6 +24,7 @@ import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.vision.barcode.Barcode;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FirebaseStorage;
@@ -36,9 +37,9 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.kitkat.group.clubs.auth.LoginActivity;
 import com.kitkat.group.clubs.clubs.ClubsFragment;
 import com.kitkat.group.clubs.clubs.CreateClubActivity;
-import com.kitkat.group.clubs.clubs.events.ViewEventActivity;
 import com.kitkat.group.clubs.data.ClubUser;
 import com.kitkat.group.clubs.nfc.subTask;
+import com.kitkat.group.clubs.settings.SettingsActivity;
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -49,6 +50,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private DrawerLayout drawer;
     private DatabaseReference databaseRef;
     private StorageReference storageRef;
+
+    public static final int REQUEST_CODE = 100;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,21 +123,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
                 break;
-            case R.id.nav_user:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new UserFragment()).commit();
-                break;
-            case R.id.nav_logout:
-                AuthUI.getInstance()
-                        .signOut(this)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            public void onComplete(@NonNull Task<Void> task) {
-                                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                        });
-                break;
             case R.id.nav_scan_qr:
+                startActivityForResult(new Intent(this, ScanQRCodeActivity.class), REQUEST_CODE);
+                break;
+            case R.id.nav_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
                 break;
         }
         drawer.closeDrawer(GravityCompat.START);
@@ -144,9 +137,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.isDrawerOpen(GravityCompat.START);
+            drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "onActivityResult: started onActivityResult");
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+            if (data != null) {
+                final Barcode barcode = data.getParcelableExtra("barcode");
+                Intent intent = new Intent(this, ViewClubActivity.class);
+                intent.putExtra("clubId", barcode.displayValue);
+                this.startActivity(intent);
+                this.finish();
+            }
         }
     }
 
@@ -157,6 +163,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nfcAdapter=ob.Resume(this,nfcAdapter,new Intent(this,MainActivity.class));
         }
     }
+
     public void onPause() {
         super.onPause();
         if(isNfcSupported()) {

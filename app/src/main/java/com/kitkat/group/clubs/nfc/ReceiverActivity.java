@@ -32,6 +32,7 @@ import com.kitkat.group.clubs.data.Club;
 import static com.kitkat.group.clubs.nfc.SenderActivity.preference;
 import static com.kitkat.group.clubs.nfc.SenderActivity.saveit;
 
+
 public class ReceiverActivity extends AppCompatActivity {
 
     BroadcastReceiver BroadcastReceiver;
