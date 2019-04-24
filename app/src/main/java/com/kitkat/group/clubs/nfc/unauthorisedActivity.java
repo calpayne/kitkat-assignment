@@ -1,4 +1,4 @@
-package com.kitkat.group.clubs;
+package com.kitkat.group.clubs.nfc;
 
 import android.graphics.Color;
 import android.os.Build;
@@ -11,27 +11,23 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class VerifyMessageActivity extends AppCompatActivity {
+import com.kitkat.group.clubs.R;
+
+public class unauthorisedActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_verify_message);
+        setContentView(R.layout.activity_unauthorised);
 
         setStatusBarTransparent();
 
-        boolean isFailure = getIntent().getStringExtra("failure").equalsIgnoreCase("true");
-
-        if (isFailure) {
-            ConstraintLayout cl = findViewById(R.id.verifyContainer);
-            ImageView iv = findViewById(R.id.verifyImage);
             TextView tv = findViewById(R.id.verifyText);
+            String str = "Invalid action!";
+            tv.setText(str);
 
-            cl.setBackgroundColor(getResources().getColor(R.color.colorFailure));
-            iv.setImageDrawable(getResources().getDrawable(R.drawable.failure));
-            tv.setText("Not a member");
         }
-    }
+
 
     private void setStatusBarTransparent(){
         if(Build.VERSION.SDK_INT >= 21){

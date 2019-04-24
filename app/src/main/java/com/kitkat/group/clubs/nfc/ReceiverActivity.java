@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.nfc.NdefMessage;
 import android.nfc.NdefRecord;
 import android.nfc.NfcAdapter;
@@ -18,7 +19,6 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +29,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.kitkat.group.clubs.R;
 import com.kitkat.group.clubs.VerifyMessageActivity;
 import com.kitkat.group.clubs.data.Club;
+import static com.kitkat.group.clubs.nfc.SenderActivity.preference;
+import static com.kitkat.group.clubs.nfc.SenderActivity.saveit;
+
 
 public class ReceiverActivity extends AppCompatActivity {
 
@@ -36,13 +39,13 @@ public class ReceiverActivity extends AppCompatActivity {
     private BroadcastReceiver deliveryBroadcastReceiver;
     public static final String MIME_TEXT_PLAIN = "text/plain";
 
-    private TextView tvIncomingMessage, tvrClubName, tvrClubId, tvrUserName, tvrUserId,TextV7;
+    private TextView tvIncomingMessage, tvrClubName, tvrClubId, tvrUserName, tvrUserId,TextV7,test;
     private NfcAdapter nfcAdapter;
     private DatabaseReference db;
     final FirebaseUser fa = FirebaseAuth.getInstance().getCurrentUser();
     FirebaseAuth mAuth;
     private Club club;
-    String inMessage, first, second, third, fourth, VerClubOwnerId, OwnerClubId, OwnerUserId,clubNameRec;
+    String inMessage, first, second, third, fourth, VerClubOwnerId, OwnerClubId, OwnerUserId,clubIdRec;
     Button ReceiverButton;
 
 
@@ -56,6 +59,7 @@ public class ReceiverActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar5);
         setSupportActionBar(toolbar);
 
+        test=findViewById(R.id.textView7);
         db = FirebaseDatabase.getInstance().getReference();
 
         if (!isNfcSupported()) {
@@ -66,9 +70,6 @@ public class ReceiverActivity extends AppCompatActivity {
             Toast.makeText(this, "NFC disabled on this device. Turn on to proceed", Toast.LENGTH_SHORT).show();
         }
 
-        clubNameRec=getIntent().getStringExtra("clubName");
-        TextView test = findViewById(R.id.textView7);
-        test.setText(clubNameRec);
 
         BroadcastReceiver = new BroadcastReceiver() {
             @Override
@@ -81,13 +82,19 @@ public class ReceiverActivity extends AppCompatActivity {
 
         registerReceiver(BroadcastReceiver, new IntentFilter());
 
+        SharedPreferences sf3=getSharedPreferences(preference, Context.MODE_PRIVATE);
+        clubIdRec = sf3.getString(saveit,"");
+
+        test.setText(clubIdRec);
+
 
         
         ReceiverButton.setOnClickListener(v -> {
-            verification();
+
             //Toast.makeText(getApplicationContext(),"hi",Toast.LENGTH_LONG).show();
         });
 
+        verification();
     }
 
     // need to check NfcAdapter for nullability. Null means no NFC support on the device
@@ -110,25 +117,45 @@ public class ReceiverActivity extends AppCompatActivity {
         db.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String isFailure = "true";
+                String isFailure;
                 DataSnapshot ds = dataSnapshot.child("clubs").child(second);
                 club = ds.getValue(Club.class);
 
                 //first is clubName, second is clubId, third is userName, fourth is userID
-                if (dataSnapshot.child("members-clubs").child(fourth).child(second).exists() &&
-                        club.getClubOwner().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                    isFailure = "false";
+                //Checking whether userID has ClubId under it
+                //Checking whether the sender's club's ownerId and receiver's userId are same (checking ownership)
+                if(club.getClubOwner().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                    if (dataSnapshot.child("members-clubs").child(fourth).child(second).exists() && second.equals(clubIdRec)) {
+                        isFailure = "false";
+                        Intent intent = new Intent(ReceiverActivity.this, VerifyMessageActivity.class);
+                        intent.putExtra("failure", isFailure);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else{
+                        Intent intent = new Intent(ReceiverActivity.this, VerifyMessageActivity.class);
+                        intent.putExtra("failure", "true");
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+                else{
+                    Intent intent = new Intent(ReceiverActivity.this, unauthorisedActivity.class);
+                    startActivity(intent);
+                    finish();
+
+
                 }
 
-                Intent intent = new Intent(ReceiverActivity.this, VerifyMessageActivity.class);
-                intent.putExtra("failure", isFailure);
-                startActivity(intent);
-                finish();
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Intent intent = new Intent(ReceiverActivity.this, VerifyMessageActivity.class);
+                intent.putExtra("failure", "true");
+                startActivity(intent);
+                finish();
             }
         });
         /*
@@ -178,17 +205,6 @@ public class ReceiverActivity extends AppCompatActivity {
             inMessage = new String(ndefRecord_0.getPayload());
             display();
 
-
-//
-//            tvrClubName.setText(parts[0]);
-//            tvrClubId.setText(parts[1]);
-//            tvrUserName.setText(parts[2]);
-//            tvrUserId.setText(parts[3]);
-//            System.err.println(parts[0]);
-//            System.err.println(parts[1]);
-//            System.err.println(parts[2]);
-//            System.err.println(parts[3]);
-
         }
     }
     public void display(){
@@ -205,15 +221,6 @@ public class ReceiverActivity extends AppCompatActivity {
         tvrUserName.setText(third);
         //tvrUserId.setText(fourth);
 
-
-//        Log.d(parts[0],"HERE");
-//        Log.d(first,"HERE");
-//        Log.d(parts[1],"HERE");
-//        Log.d(second,"HERE");
-//        Log.d(parts[2],"HERE");
-//        Log.d(third,"HERE");
-//        Log.d(parts[3],"HERE");
-//        Log.d(fourth,"HERE");
     }
 
     // Foreground dispatch holds the highest priority for capturing NFC intents

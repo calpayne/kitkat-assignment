@@ -27,7 +27,7 @@ public class TutorialActivity extends AppCompatActivity {
     private Button btnSkip;
     private Button btnNext;
     MyPagerAdapter pagerAdapter;
-    String clubId, userId, clubName, outMessage, userName;
+    String clubId, userId, clubName, outMessage, userName, clubIdRec;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

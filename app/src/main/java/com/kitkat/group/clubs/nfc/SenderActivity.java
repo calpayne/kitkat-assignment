@@ -1,5 +1,9 @@
 package com.kitkat.group.clubs.nfc;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.Intent;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
@@ -10,7 +14,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.kitkat.group.clubs.R;
@@ -26,8 +29,8 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
     Button btnSetOutcomingMessage;
     private NfcAdapter nfcAdapter;
     OutcomingNfcManager outcomingNfccallback;
-    String clubId, userId, clubName, outMessage, userName, clubNameRec;
-    TextView tvClubName, tvClubId, tvUserId, tvUserName;
+    String clubId, userId, clubName, outMessage, userName;
+    TextView tvClubName, tvClubId, tvUserId, test, userNameImage, clubNameImage, question;
     //Runtime permission
     private TextView resultView;
     private View requestView;
@@ -38,7 +41,10 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
     private Club club;
     DatabaseReference mDatabase;
     FirebaseAuth mAuth;
+    public static final String preference="ref";
+    public static final String saveit="savekey";
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +52,7 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
 
         Toolbar toolbar = findViewById(R.id.toolbar5);
         setSupportActionBar(toolbar);
+
 
 //        db = FirebaseDatabase.getInstance().getReference();
 //        mAuth=FirebaseAuth.getInstance();
@@ -66,12 +73,18 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
 
         clubName = getIntent().getStringExtra("clubName");
         clubId = getIntent().getStringExtra("clubId");
-        clubNameRec=getIntent().getStringExtra("clubName");
         userId = getIntent().getStringExtra("userId");
         userName = getIntent().getStringExtra("userName");
 
-        Intent intent = new Intent(SenderActivity.this, ReceiverActivity.class);
-        intent.putExtra("clubNameRec", clubNameRec);
+
+        SharedPreferences sf4=getSharedPreferences(preference, Context.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor4=sf4.edit();
+        editor4.putString(saveit,clubId);
+        editor4.apply();
+
+//        Intent intent = new Intent(SenderActivity.this, ReceiverActivity.class);
+//        intent.putExtra("clubNameRec", clubNameRec);
 
         StorageReference storageRef = FirebaseStorage.getInstance().getReference("member-avatars");
         final ImageView imageView = findViewById(R.id.nfc_user_image);
@@ -108,20 +121,16 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
             Toast.makeText(this, "NFC disabled on this device. Turn on to proceed", Toast.LENGTH_SHORT).show();
         }
 
-        initViews();
 
-        tvClubName = findViewById(R.id.tv_clubName);
-        //tvClubId = findViewById(R.id.tv_clubId);
-        //tvUserId = findViewById(R.id.tv_userId);
-        tvUserName = findViewById(R.id.tv_userName);
-        //textView = findViewById(R.id.textView7);
-        //test = findViewById(R.id.button7);
-        tvClubName.setText(clubName);
-        //tvClubId.setText(clubId);
-        //tvUserId.setText(userId);
-        tvUserName.setText(userName);
+        userNameImage=findViewById(R.id.userNameImage);
+        clubNameImage=findViewById(R.id.clubNameImage);
+        question=findViewById(R.id.textView3);
 
-
+        String quest= "Are you a member of the club ";
+        String qMark = " ?";
+        question.setText(quest+clubName+qMark);
+        userNameImage.setText(userName);
+        clubNameImage.setText(clubName);
 
 
         // encapsulate sending logic in a separate class
@@ -129,13 +138,16 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
         this.nfcAdapter.setOnNdefPushCompleteCallback(outcomingNfccallback, this);
         this.nfcAdapter.setNdefPushMessageCallback(outcomingNfccallback, this);
 
+        initViews();
     }
 
 
     private void initViews() {
         //this.tvOutcomingMessage = findViewById(R.id.tv_out_message);
-        this.btnSetOutcomingMessage = findViewById(R.id.btn_set_out_message);
-        this.btnSetOutcomingMessage.setOnClickListener((v) -> setOutGoingMessage());
+//        this.btnSetOutcomingMessage = findViewById(R.id.btn_set_out_message);
+//        this.btnSetOutcomingMessage.setOnClickListener((v) -> setOutGoingMessage());
+        Toast.makeText(this, "Tap on NFC device to verify details", Toast.LENGTH_SHORT).show();
+        outMessage = clubName+"    "+clubId+"    "+userName+"    "+userId;
     }
 
 
@@ -150,12 +162,11 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
     }
 
 
-    private void setOutGoingMessage() {
-        Toast.makeText(this, "Details verified! Tap on NFC device.", Toast.LENGTH_SHORT).show();
-        outMessage = clubName+"    "+clubId+"    "+userName+"    "+userId;
-        //textView.setText(outMessage);
-        //this.tvOutcomingMessage.setText(outMessage);
-    }
+//    private void setOutGoingMessage() {
+//
+//        //textView.setText(outMessage);
+//        //this.tvOutcomingMessage.setText(outMessage);
+//    }
 
     /*Screen rotation*******************
     @Override
