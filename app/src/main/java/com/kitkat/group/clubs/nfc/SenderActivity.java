@@ -1,43 +1,23 @@
 package com.kitkat.group.clubs.nfc;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.kitkat.group.clubs.NotificationFragment;
 import com.kitkat.group.clubs.R;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.kitkat.group.clubs.RecommendFragment;
-import com.kitkat.group.clubs.SectionsPagerAdapter;
-import com.kitkat.group.clubs.nfc.OutcomingNfcManager;
 import com.kitkat.group.clubs.data.Club;
 import com.squareup.picasso.Picasso;
 
@@ -48,7 +28,7 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
     Button btnSetOutcomingMessage;
     private NfcAdapter nfcAdapter;
     OutcomingNfcManager outcomingNfccallback;
-    String clubId, userId, clubName, outMessage, userName, clubIdRec;
+    String clubId, userId, clubName, outMessage, userName;
     TextView tvClubName, tvClubId, tvUserId, test, userNameImage, clubNameImage, question;
     //Runtime permission
     private TextView resultView;
@@ -100,7 +80,7 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
 
         SharedPreferences.Editor editor4=sf4.edit();
         editor4.putString(saveit,clubId);
-        editor4.commit();
+        editor4.apply();
 
 //        Intent intent = new Intent(SenderActivity.this, ReceiverActivity.class);
 //        intent.putExtra("clubNameRec", clubNameRec);
@@ -141,27 +121,15 @@ public class SenderActivity extends AppCompatActivity implements OutcomingNfcMan
         }
 
 
-
-//        tvClubName = findViewById(R.id.tv_clubName);
-        //tvClubId = findViewById(R.id.tv_clubId);
-        //tvUserId = findViewById(R.id.tv_userId);
         userNameImage=findViewById(R.id.userNameImage);
         clubNameImage=findViewById(R.id.clubNameImage);
         question=findViewById(R.id.textView3);
 
-        //textView = findViewById(R.id.textView7);
-        //test = findViewById(R.id.button7);
-        String quest= "Are you a member of the club \"";
-        String qMark = "\" ?";
+        String quest= "Are you a member of the club ";
+        String qMark = " ?";
         question.setText(quest+clubName+qMark);
         userNameImage.setText(userName);
         clubNameImage.setText(clubName);
-//        tvClubName.setText(clubName);
-//        userNameImage.setText(userName);
-        //tvClubId.setText(clubId);
-        //tvUserId.setText(userId);
-
-
 
 
         // encapsulate sending logic in a separate class

@@ -66,13 +66,13 @@
     <string name="skip">Skip</string>
     <string name="tutorial_case_image">tutorial case image</string>
     <string name="remove_case">Remove Case</string>
-    <string name="remove_mobile_case">Remove Mobile case</string>
-    <string name="back_to_back">Back to back</string>
-    <string name="keep_mobile_back_to_back">Keep mobile back to back</string>
-    <string name="slide_device">Slide device</string>
-    <string name="slide_device_up_and_down_for_the_nfc_chip_to_get_detected">Slide device up and down for the NFC chip to get detected.</string>
-    <string name="tap_on_screen">Tap on screen</string>
-    <string name="let_the_club_member_tap_on_the_screen_to_validate">Let the club member tap on the screen to validate.</string>
+    <string name="remove_mobile_case">Remove the case if it is on</string>
+    <string name="back_to_back">Back to Back</string>
+    <string name="keep_mobile_back_to_back">Bring the devices back to back</string>
+    <string name="slide_device">Slide Device</string>
+    <string name="slide_device_up_and_down_for_the_nfc_chip_to_get_detected">Slide the device up and down for the NFC chip to get detected</string>
+    <string name="tap_on_screen">Tap on Screen</string>
+    <string name="let_the_club_member_tap_on_the_screen_to_validate">Tap on the screen for the club owner to validate your membership</string>
     <string name="user_profile_pic_in_nfc_activity">user profile pic in nfc activity</string>
     <string name="club_profile_pic_in_nfc_activity">club profile pic in nfc activity</string>
     <string name="create_event">Create an Event</string>
@@ -84,8 +84,8 @@
     <string name="user_name_image">user name Image</string>
     <string name="user_image">user image</string>
     <string name="club_image">club image</string>
-    <string name="are_you_a_member">Are you a member of the club</string>
+    <string name="are_you_a_member">ARE YOU A MEMBER OF THE CLUB</string>
     <string name="question_mark">\?</string>
     <string name="statement">Statement</string>
-    <string name="membership">Verify your club membership!</string>
+    <string name="membership">VERIFY YOUR CLUB MEMBERSHIP</string>
 </resources>

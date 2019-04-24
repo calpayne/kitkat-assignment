@@ -19,7 +19,6 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,7 +31,6 @@ import com.kitkat.group.clubs.VerifyMessageActivity;
 import com.kitkat.group.clubs.data.Club;
 import static com.kitkat.group.clubs.nfc.SenderActivity.preference;
 import static com.kitkat.group.clubs.nfc.SenderActivity.saveit;
-import static java.sql.DriverManager.println;
 
 public class ReceiverActivity extends AppCompatActivity {
 
@@ -192,17 +190,6 @@ public class ReceiverActivity extends AppCompatActivity {
             inMessage = new String(ndefRecord_0.getPayload());
             display();
 
-
-//
-//            tvrClubName.setText(parts[0]);
-//            tvrClubId.setText(parts[1]);
-//            tvrUserName.setText(parts[2]);
-//            tvrUserId.setText(parts[3]);
-//            System.err.println(parts[0]);
-//            System.err.println(parts[1]);
-//            System.err.println(parts[2]);
-//            System.err.println(parts[3]);
-
         }
     }
     public void display(){
@@ -219,15 +206,6 @@ public class ReceiverActivity extends AppCompatActivity {
         tvrUserName.setText(third);
         //tvrUserId.setText(fourth);
 
-
-//        Log.d(parts[0],"HERE");
-//        Log.d(first,"HERE");
-//        Log.d(parts[1],"HERE");
-//        Log.d(second,"HERE");
-//        Log.d(parts[2],"HERE");
-//        Log.d(third,"HERE");
-//        Log.d(parts[3],"HERE");
-//        Log.d(fourth,"HERE");
     }
 
     // Foreground dispatch holds the highest priority for capturing NFC intents

@@ -8,36 +8,6 @@
     tools:context="com.kitkat.group.clubs.nfc.SenderActivity"
     tools:layout_editor_absoluteY="25dp">
 
-    <!--<LinearLayout-->
-    <!--android:id="@+id/linearLayout"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="50dp"-->
-    <!--android:layout_marginTop="570dp"-->
-    <!--android:gravity="center_horizontal"-->
-    <!--android:paddingEnd="1dp"-->
-    <!--android:paddingStart="20dp"-->
-    <!--app:layout_constraintEnd_toEndOf="parent"-->
-    <!--app:layout_constraintHorizontal_bias="1.0"-->
-    <!--app:layout_constraintStart_toStartOf="parent"-->
-    <!--app:layout_constraintTop_toTopOf="@+id/toolbar5">-->
-    <!---->
-
-    <!--<TextView-->
-    <!--android:id="@+id/textView3"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="50dp"-->
-    <!--android:layout_marginBottom="1dp"-->
-    <!--android:layout_marginEnd="8dp"-->
-    <!--android:layout_marginStart="5dp"-->
-    <!--android:layout_marginTop="20dp"-->
-    <!--android:gravity="center"-->
-    <!--android:elevation="10dp"-->
-    <!--android:text="@string/are_you_a_member"-->
-    <!--android:textColor="@color/colorWhite"-->
-    <!--android:textSize="16sp"-->
-    <!--android:textStyle="bold"/>-->
-    <!--</LinearLayout>-->
-
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar5"
         android:layout_width="0dp"
@@ -94,7 +64,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="10dp"
-        android:layout_marginTop="245dp"
+        android:layout_marginTop="260dp"
         android:alignmentMode="alignMargins"
         android:columnCount="2"
         android:columnOrderPreserved="false"
@@ -195,7 +165,7 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
+        android:layout_marginTop="80dp"
         android:text="@string/membership"
         android:textColor="@color/colorWhite"
         android:textSize="17sp"
