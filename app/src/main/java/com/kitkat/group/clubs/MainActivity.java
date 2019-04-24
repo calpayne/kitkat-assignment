@@ -38,6 +38,7 @@ import com.kitkat.group.clubs.clubs.ClubsFragment;
 import com.kitkat.group.clubs.clubs.CreateClubActivity;
 import com.kitkat.group.clubs.clubs.events.ViewEventActivity;
 import com.kitkat.group.clubs.data.ClubUser;
+import com.kitkat.group.clubs.nfc.subTask;
 import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } catch (WriterException e) {
             e.printStackTrace();
         }
-   }
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -152,23 +153,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onResume() {
         super.onResume();
         if(isNfcSupported()) {
-            nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this, getClass()).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP), 0);
-            nfcAdapter.enableForegroundDispatch(this, pendingIntent, null, null);
+            subTask ob=new subTask();
+            nfcAdapter=ob.Resume(this,nfcAdapter,new Intent(this,MainActivity.class));
         }
     }
     public void onPause() {
         super.onPause();
         if(isNfcSupported()) {
-            NfcAdapter nfcAdapter = NfcAdapter.getDefaultAdapter(this);
-            nfcAdapter.disableForegroundDispatch(this);
+            subTask ob=new subTask();
+            nfcAdapter=ob.Pause(this,nfcAdapter);
         }
     }
 
     public void onNewIntent(Intent intent) {
         if(isNfcSupported()) {
             if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
-                // drop NFC events
+                // drop NFC events //No Nothing
+                //Makes the activity stay same after NFC intent
             }
         }
     }

@@ -3,6 +3,7 @@ package com.kitkat.group.clubs.clubs;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.nfc.NfcAdapter;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -27,8 +28,10 @@ import com.kitkat.group.clubs.MainActivity;
 import com.kitkat.group.clubs.R;
 import com.kitkat.group.clubs.data.Club;
 import com.kitkat.group.clubs.data.ClubUser;
+import com.kitkat.group.clubs.nfc.subTask;
 
 import java.util.UUID;
+
 
 public class CreateClubActivity extends AppCompatActivity {
 
@@ -42,6 +45,7 @@ public class CreateClubActivity extends AppCompatActivity {
     private EditText clubDesc;
     private Switch isPublic;
     private ProgressDialog progressDialog;
+    private NfcAdapter nfcAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +67,34 @@ public class CreateClubActivity extends AppCompatActivity {
         intent.setType("image/png");
 
         startActivityForResult(intent, GALLERY_INTENT);
+    }
+
+    public void onResume() {
+        super.onResume();
+        if(isNfcSupported()) {
+            subTask ob=new subTask();
+            nfcAdapter=ob.Resume(this,nfcAdapter,new Intent(this,CreateClubActivity.class));
+        }
+    }
+    public void onPause() {
+        super.onPause();
+        if(isNfcSupported()) {
+            subTask ob=new subTask();
+            nfcAdapter=ob.Pause(this,nfcAdapter);
+        }
+    }
+
+    public void onNewIntent(Intent intent) {
+        if(isNfcSupported()) {
+            if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
+                // drop NFC events (No Nothing)
+            }
+        }
+    }
+
+    private boolean isNfcSupported() {
+        this.nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        return this.nfcAdapter != null;
     }
 
     @Override
