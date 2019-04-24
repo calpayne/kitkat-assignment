@@ -26,6 +26,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     private Button logout;
     private static final String TAG = "SettingsActivity";
+    private static final int GALLERY_INTENT = 2;
+    private StorageReference storageRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,8 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
 
         Log.d(TAG, "onCreateView: started SettingsActivity");
+
+        storageRef = FirebaseStorage.getInstance().getReference();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -44,17 +48,43 @@ public class SettingsActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        findViewById(R.id.change_profile_picture).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType("image/png");
+
+                startActivityForResult(intent, GALLERY_INTENT);
+            }
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == GALLERY_INTENT && resultCode == RESULT_OK) {
+            Uri image = data.getData();
+            StorageReference filePath = storageRef.child("member-avatars").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            filePath.putFile(image).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(SettingsActivity.this, "Profile picture changed.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     public void logout(View view) {
         AuthUI.getInstance()
-                .signOut(this)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
+            .signOut(this)
+            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                public void onComplete(@NonNull Task<Void> task) {
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
     }
 }
