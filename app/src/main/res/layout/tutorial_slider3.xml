@@ -26,7 +26,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_margin="20dp"
         android:text="@string/slide_device_up_and_down_for_the_nfc_chip_to_get_detected"
         android:textAlignment="center"
         android:textSize="20sp"

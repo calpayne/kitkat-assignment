@@ -3,8 +3,8 @@ package com.kitkat.group.clubs.nfc;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.kitkat.group.clubs.MainActivity;
 import com.kitkat.group.clubs.R;
 
 public class TutorialActivity extends AppCompatActivity {
@@ -28,7 +29,8 @@ public class TutorialActivity extends AppCompatActivity {
     private Button btnSkip;
     private Button btnNext;
     MyPagerAdapter pagerAdapter;
-    String clubId, userId, clubName, outMessage, userName;
+    String clubId, userId, clubName, outMessage, userName, clubIdRec;
+    NfcAdapter nfcAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +111,35 @@ public class TutorialActivity extends AppCompatActivity {
         });
         setDotStatus(0);
     }
+
+    //This this code to stop NFC restarting the app
+    public void onResume() {
+        super.onResume();
+        if(isNfcSupported()) {
+            subTask ob=new subTask();
+            nfcAdapter=ob.Resume(this,nfcAdapter,new Intent(this,TutorialActivity.class));
+        }
+    }
+    public void onPause() {
+        super.onPause();
+        if(isNfcSupported()) {
+            subTask ob=new subTask();
+            nfcAdapter=ob.Pause(this,nfcAdapter);
+        }
+    }
+    public void onNewIntent(Intent intent) {
+        if(isNfcSupported()) {
+            if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
+                // drop NFC events //No Nothing
+                //Makes the activity stay same after NFC intent
+            }
+        }
+    }
+    private boolean isNfcSupported() {
+        this.nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        return this.nfcAdapter != null;
+    }
+    //This this code to stop NFC restarting the app
 
     private boolean isFirstTimeStartApp(){
         SharedPreferences ref = getApplicationContext().getSharedPreferences("IntroSliderApp", Context.MODE_PRIVATE);

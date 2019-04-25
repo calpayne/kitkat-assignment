@@ -7,21 +7,21 @@
     android:background="#f64c73">
 
     <ImageView
-        android:contentDescription="@string/tutorial_case_image"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="207dp"
+        android:layout_height="217dp"
         android:layout_gravity="center"
-        android:src="@drawable/tutorial_case"/>
+        android:contentDescription="@string/tutorial_case_image"
+        android:src="@drawable/tutorial_case" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:text="@string/remove_case"
         android:textAlignment="center"
         android:textColor="@color/colorWhite"
         android:textSize="30sp"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp"/>
+        android:textStyle="bold" />
     
     <TextView
         android:layout_width="match_parent"

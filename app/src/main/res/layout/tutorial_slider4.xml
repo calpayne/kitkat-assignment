@@ -26,7 +26,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_margin="20dp"
         android:text="@string/let_the_club_member_tap_on_the_screen_to_validate"
         android:textAlignment="center"
         android:textSize="20sp"
