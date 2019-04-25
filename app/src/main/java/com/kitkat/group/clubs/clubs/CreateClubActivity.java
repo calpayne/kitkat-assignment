@@ -26,6 +26,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.kitkat.group.clubs.MainActivity;
 import com.kitkat.group.clubs.R;
+import com.kitkat.group.clubs.clubs.events.CreateEventActivity;
 import com.kitkat.group.clubs.data.Club;
 import com.kitkat.group.clubs.data.ClubUser;
 import com.kitkat.group.clubs.nfc.subTask;
@@ -45,7 +46,7 @@ public class CreateClubActivity extends AppCompatActivity {
     private EditText clubDesc;
     private Switch isPublic;
     private ProgressDialog progressDialog;
-    private NfcAdapter nfcAdapter;
+    NfcAdapter nfcAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +70,7 @@ public class CreateClubActivity extends AppCompatActivity {
         startActivityForResult(intent, GALLERY_INTENT);
     }
 
+    //This this code to stop NFC restarting the app
     public void onResume() {
         super.onResume();
         if(isNfcSupported()) {
@@ -83,19 +85,19 @@ public class CreateClubActivity extends AppCompatActivity {
             nfcAdapter=ob.Pause(this,nfcAdapter);
         }
     }
-
     public void onNewIntent(Intent intent) {
         if(isNfcSupported()) {
             if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
-                // drop NFC events (No Nothing)
+                // drop NFC events //No Nothing
+                //Makes the activity stay same after NFC intent
             }
         }
     }
-
     private boolean isNfcSupported() {
         this.nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         return this.nfcAdapter != null;
     }
+    //This this code to stop NFC restarting the app
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
