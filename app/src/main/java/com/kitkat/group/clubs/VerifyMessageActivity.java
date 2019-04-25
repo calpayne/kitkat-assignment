@@ -35,7 +35,8 @@ public class VerifyMessageActivity extends AppCompatActivity {
 
             cl.setBackgroundColor(getResources().getColor(R.color.colorFailure));
             iv.setImageDrawable(getResources().getDrawable(R.drawable.failure));
-            tv.setText("Not a member");
+            String str="User is not a member";
+            tv.setText(str);
         }
     }
 
