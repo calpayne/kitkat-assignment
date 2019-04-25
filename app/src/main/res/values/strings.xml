@@ -57,7 +57,7 @@
     <string name="navigation_drawer_open">Open Navigation Drawer</string>
     <string name="navigation_drawer_close">Close Navigation Drawer</string>
     <string name="title_activity_verify_message">VerifyMessageActivity</string>
-    <string name="is_a_member">Is a member</string>
+    <string name="is_a_member">User is a member</string>
     <string name="unAuth">Invalid action!</string>
     <string name="view_members">View members</string>
     <string name="title_activity_view_club">Club Details</string>
@@ -69,11 +69,11 @@
     <string name="remove_case">Remove Case</string>
     <string name="remove_mobile_case">Remove the device case</string>
     <string name="back_to_back">Back to Back</string>
-    <string name="keep_mobile_back_to_back">Bring the devices back to back</string>
+    <string name="keep_mobile_back_to_back">Bring the devices back to back  and wait for a few seconds</string>
     <string name="slide_device">Slide Device</string>
-    <string name="slide_device_up_and_down_for_the_nfc_chip_to_get_detected">Slide the device up and down for the NFC chip to get detected</string>
+    <string name="slide_device_up_and_down_for_the_nfc_chip_to_get_detected">Slide the device up and down for the NFC chip to get detected. Once detected you will hear a tone</string>
     <string name="tap_on_screen">Tap on Screen</string>
-    <string name="let_the_club_member_tap_on_the_screen_to_validate">Tap on the screen for the club owner to validate your membership</string>
+    <string name="let_the_club_member_tap_on_the_screen_to_validate">Now you will see a visual of a device on your screen. Tap on the visual for the club owner to validate your membership</string>
     <string name="user_profile_pic_in_nfc_activity">user profile pic in nfc activity</string>
     <string name="club_profile_pic_in_nfc_activity">club profile pic in nfc activity</string>
     <string name="create_event">Create Event</string>
@@ -93,4 +93,5 @@
     <string name="invalid_nfc_action">Invalid NFC action</string>
     <string name="go_back">Go Back</string>
     <string name="try_nfc_again">Try NFC the other way around again</string>
+    <string name="follow_the_tutorial">Follow this tutorial to validate your membership when you enter a club.</string>
 </resources>
