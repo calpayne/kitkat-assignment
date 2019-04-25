@@ -56,4 +56,6 @@
     <string name="action_manage">Manage</string>
     <string name="navigation_drawer_open">Open Navigation Drawer</string>
     <string name="navigation_drawer_close">Close Navigation Drawer</string>
+    <string name="edit">Edit</string>
+    <string name="disband_club">Disband Club</string>
 </resources>

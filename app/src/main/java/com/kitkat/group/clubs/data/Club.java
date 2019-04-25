@@ -101,4 +101,12 @@ public class Club {
         this.timestamp.put("timestamp", timestamp.toString());
     }
 
+    @Override
+    public String toString(){
+        return "Club ID: " + clubID + "\n" +
+                "Club Name: " + clubName + "\n" +
+                "Club Owner: " + clubOwner + "\n" +
+                "Club Description: " + clubDescription + "\n" +
+                "Club Location: " + clubLocation + "\n";
+    }
 }

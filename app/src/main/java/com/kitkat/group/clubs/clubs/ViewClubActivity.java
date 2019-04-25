@@ -19,7 +19,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.common.internal.Objects;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -61,8 +63,6 @@ public class ViewClubActivity extends AppCompatActivity {
         });
 
         db = FirebaseDatabase.getInstance().getReference();
-
-        //DatabaseReference instance = db;
 
         //DocumentReference docRef = db.collection("cities").document(getIntent().getStringExtra("clubId"));
 
@@ -200,7 +200,7 @@ public class ViewClubActivity extends AppCompatActivity {
     }
 
     /**
-     *  Unfinshed - displays the settings menu with Club's QR and Manage
+     *  Unfinished - displays the settings menu with Club's QR and Manage
      */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -213,7 +213,14 @@ public class ViewClubActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.action_manage:
-                break;
+                System.out.println(club.getClubOwner());
+                System.out.println(mAuth.getUid());
+                if(Objects.equal(club.getClubOwner(),mAuth.getUid())){
+                    Intent management = new Intent(this,ClubSettingsActivity.class);
+                    management.putExtra("clubId", club.getClubID());
+                    startActivity(management);
+                }else
+                    Toast.makeText(this,"Access Denied",Toast.LENGTH_SHORT).show();
             case R.id.action_generate_qr:
                 break;
             default:
