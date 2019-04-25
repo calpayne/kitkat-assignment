@@ -67,7 +67,7 @@
     <string name="skip">Skip</string>
     <string name="tutorial_case_image">tutorial case image</string>
     <string name="remove_case">Remove Case</string>
-    <string name="remove_mobile_case">Remove the case if it is on</string>
+    <string name="remove_mobile_case">Remove the device case</string>
     <string name="back_to_back">Back to Back</string>
     <string name="keep_mobile_back_to_back">Bring the devices back to back</string>
     <string name="slide_device">Slide Device</string>
@@ -80,7 +80,6 @@
     <string name="click_to_select_date">Click to select a date</string>
     <string name="title_activity_view_event">Details of Event</string>
     <string name="eventDetails">Loading event details...</string>
-
     <string name="event_name">Event Name</string>
     <string name="event_description">Event Description</string>
     <string name="user_name_image">user name Image</string>
@@ -91,4 +90,6 @@
     <string name="statement">Statement</string>
     <string name="membership">VERIFY YOUR CLUB MEMBERSHIP</string>
     <string name="invalid_nfc_action">Invalid NFC action</string>
+    <string name="go_back">Go Back</string>
+    <string name="try_nfc_again">Try NFC the other way around again</string>
 </resources>

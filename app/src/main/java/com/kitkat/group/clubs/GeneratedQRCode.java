@@ -1,6 +1,8 @@
 package com.kitkat.group.clubs;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
+import android.nfc.NfcAdapter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +15,8 @@ import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 import com.journeyapps.barcodescanner.BarcodeEncoder;
+import com.kitkat.group.clubs.clubs.events.CreateEventActivity;
+import com.kitkat.group.clubs.nfc.subTask;
 
 /**
  * Created by Glenn on 14/03/2019.
@@ -22,6 +26,7 @@ public class GeneratedQRCode extends AppCompatActivity {
 
     private ImageView generatedQRCode;
     private TextView setClubName;
+    NfcAdapter nfcAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstance) {
@@ -57,4 +62,33 @@ public class GeneratedQRCode extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    //This this code to stop NFC restarting the app
+    public void onResume() {
+        super.onResume();
+        if(isNfcSupported()) {
+            subTask ob=new subTask();
+            nfcAdapter=ob.Resume(this,nfcAdapter,new Intent(this,GeneratedQRCode.class));
+        }
+    }
+    public void onPause() {
+        super.onPause();
+        if(isNfcSupported()) {
+            subTask ob=new subTask();
+            nfcAdapter=ob.Pause(this,nfcAdapter);
+        }
+    }
+    public void onNewIntent(Intent intent) {
+        if(isNfcSupported()) {
+            if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
+                // drop NFC events //No Nothing
+                //Makes the activity stay same after NFC intent
+            }
+        }
+    }
+    private boolean isNfcSupported() {
+        this.nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        return this.nfcAdapter != null;
+    }
+    //This this code to stop NFC restarting the app
 }

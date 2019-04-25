@@ -19,6 +19,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,6 +38,7 @@ import com.journeyapps.barcodescanner.BarcodeEncoder;
 import com.kitkat.group.clubs.auth.LoginActivity;
 import com.kitkat.group.clubs.clubs.ClubsFragment;
 import com.kitkat.group.clubs.clubs.CreateClubActivity;
+import com.kitkat.group.clubs.clubs.ViewClubActivity;
 import com.kitkat.group.clubs.data.ClubUser;
 import com.kitkat.group.clubs.nfc.subTask;
 import com.kitkat.group.clubs.settings.SettingsActivity;
@@ -45,11 +47,13 @@ import com.squareup.picasso.Picasso;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "MainActivity";
-    private NfcAdapter nfcAdapter;
+    NfcAdapter nfcAdapter;
     private TextView profileUsername;
     private DrawerLayout drawer;
     private DatabaseReference databaseRef;
     private StorageReference storageRef;
+    private long backPressedTime;
+    private Toast backToast;
 
     public static final int REQUEST_CODE = 100;
 
@@ -110,6 +114,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
@@ -139,7 +145,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if(backPressedTime + 2000 > System.currentTimeMillis()){
+                backToast.cancel();
+                super.onBackPressed();
+                return;
+            }
+            else{
+                backToast=Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT);
+                backToast.show();
+            }
+            backPressedTime = System.currentTimeMillis();
         }
     }
 
@@ -156,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    //This this code to stop NFC restarting the app
     public void onResume() {
         super.onResume();
         if(isNfcSupported()) {
@@ -163,7 +179,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nfcAdapter=ob.Resume(this,nfcAdapter,new Intent(this,MainActivity.class));
         }
     }
-
     public void onPause() {
         super.onPause();
         if(isNfcSupported()) {
@@ -171,7 +186,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nfcAdapter=ob.Pause(this,nfcAdapter);
         }
     }
-
     public void onNewIntent(Intent intent) {
         if(isNfcSupported()) {
             if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
@@ -180,11 +194,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         }
     }
-
     private boolean isNfcSupported() {
         this.nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         return this.nfcAdapter != null;
     }
+    //This this code to stop NFC restarting the app
 
     public void logout(View view) {
         AuthUI.getInstance()

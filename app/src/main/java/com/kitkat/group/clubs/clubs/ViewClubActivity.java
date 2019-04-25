@@ -10,6 +10,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -35,6 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.kitkat.group.clubs.GeneratedQRCode;
+import com.kitkat.group.clubs.MainActivity;
 import com.kitkat.group.clubs.R;
 import com.kitkat.group.clubs.ScanQRCodeActivity;
 import com.kitkat.group.clubs.clubs.events.CreateEventActivity;
@@ -42,6 +44,7 @@ import com.kitkat.group.clubs.clubs.events.ViewEventActivity;
 import com.kitkat.group.clubs.data.Club;
 import com.kitkat.group.clubs.data.ClubUser;
 import com.kitkat.group.clubs.nfc.TutorialActivity;
+import com.kitkat.group.clubs.nfc.subTask;
 import com.kitkat.group.clubs.view.models.EventViewModel;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
@@ -186,10 +189,41 @@ public class ViewClubActivity extends AppCompatActivity {
         db.addValueEventListener(valueEventListener);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent myIntent = new Intent(ViewClubActivity.this, MainActivity.class);
+        ViewClubActivity.this.startActivity(myIntent);
+     }
+
+    //This this code to stop NFC restarting the app
+    public void onResume() {
+        super.onResume();
+        if(isNfcSupported()) {
+            subTask ob=new subTask();
+            nfcAdapter=ob.Resume(this,nfcAdapter,new Intent(this,ViewClubActivity.class));
+        }
+    }
+    public void onPause() {
+        super.onPause();
+        if(isNfcSupported()) {
+            subTask ob=new subTask();
+            nfcAdapter=ob.Pause(this,nfcAdapter);
+        }
+    }
+    public void onNewIntent(Intent intent) {
+        if(isNfcSupported()) {
+            if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
+                // drop NFC events //No Nothing
+                //Makes the activity stay same after NFC intent
+            }
+        }
+    }
     private boolean isNfcSupported() {
         this.nfcAdapter = NfcAdapter.getDefaultAdapter(this);
         return this.nfcAdapter != null;
     }
+    //This this code to stop NFC restarting the app
 
     public void NfcPermission(){
         nfcAdapter = NfcAdapter.getDefaultAdapter(this);

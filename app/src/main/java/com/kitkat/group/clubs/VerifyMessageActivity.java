@@ -1,6 +1,8 @@
 package com.kitkat.group.clubs;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.nfc.NfcAdapter;
 import android.os.Build;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -11,8 +13,12 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kitkat.group.clubs.clubs.events.CreateEventActivity;
+import com.kitkat.group.clubs.nfc.subTask;
+
 public class VerifyMessageActivity extends AppCompatActivity {
 
+    NfcAdapter nfcAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +38,35 @@ public class VerifyMessageActivity extends AppCompatActivity {
             tv.setText("Not a member");
         }
     }
+
+    //This this code to stop NFC restarting the app
+    public void onResume() {
+        super.onResume();
+        if(isNfcSupported()) {
+            subTask ob=new subTask();
+            nfcAdapter=ob.Resume(this,nfcAdapter,new Intent(this,VerifyMessageActivity.class));
+        }
+    }
+    public void onPause() {
+        super.onPause();
+        if(isNfcSupported()) {
+            subTask ob=new subTask();
+            nfcAdapter=ob.Pause(this,nfcAdapter);
+        }
+    }
+    public void onNewIntent(Intent intent) {
+        if(isNfcSupported()) {
+            if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
+                // drop NFC events //No Nothing
+                //Makes the activity stay same after NFC intent
+            }
+        }
+    }
+    private boolean isNfcSupported() {
+        this.nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        return this.nfcAdapter != null;
+    }
+    //This this code to stop NFC restarting the app
 
     private void setStatusBarTransparent(){
         if(Build.VERSION.SDK_INT >= 21){
