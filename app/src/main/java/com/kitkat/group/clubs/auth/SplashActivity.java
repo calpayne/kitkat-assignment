@@ -1,8 +1,10 @@
 package com.kitkat.group.clubs.auth;
 
 import android.content.Intent;
+import android.support.v4.view.GravityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,12 +20,13 @@ import com.kitkat.group.clubs.data.ClubUser;
 public class SplashActivity extends AppCompatActivity {
 
     private DatabaseReference databaseRef;
-
+    private long time;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        time = System.currentTimeMillis();
         databaseRef = FirebaseDatabase.getInstance().getReference();
 
         Thread myThread = new Thread() {
@@ -40,6 +43,13 @@ public class SplashActivity extends AppCompatActivity {
         myThread.start();
     }
 
+    @Override
+    public void onBackPressed() {
+            if(System.currentTimeMillis() > time+2000){
+                super.onBackPressed();
+                return;
+            }
+        }
     private void redirect() {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             final FirebaseUser fa = FirebaseAuth.getInstance().getCurrentUser();
