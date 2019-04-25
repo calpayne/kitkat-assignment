@@ -1,7 +1,5 @@
 package com.kitkat.group.clubs.data;
 
-import java.text.DateFormat;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -99,6 +97,12 @@ public class Club {
     public void setTimestamp(Long timestamp) {
         this.timestamp = new HashMap<>();
         this.timestamp.put("timestamp", timestamp.toString());
+    }
+
+    @Override
+    public String toString() {
+        return "Name: " + clubName + "\n"
+                + "Description: " + clubDescription;
     }
 
 }

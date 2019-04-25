@@ -27,26 +27,19 @@
         android:layout_height="match_parent" >
 
         <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
             android:id="@+id/btn_scan_qr"
-            android:text="Scan QR"
-            android:layout_alignParentBottom="true"
-            android:layout_toEndOf="@id/btn_my_clubs" />
-
-        <Button
-            android:id="@+id/btn_clubs_create"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
-            android:text="@string/create_club" />
+            android:text="Scan QR" />
 
         <Button
             android:id="@+id/btn_my_clubs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
+            android:layout_toStartOf="@+id/btn_scan_qr"
             android:text="@string/my_clubs" />
 
         <ListView

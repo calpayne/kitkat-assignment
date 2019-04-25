@@ -2,11 +2,11 @@ package com.kitkat.group.clubs;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.nfc.NfcAdapter;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -14,13 +14,15 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.kitkat.group.clubs.clubs.ViewClubActivity;
+import com.kitkat.group.clubs.clubs.events.CreateEventActivity;
+import com.kitkat.group.clubs.nfc.subTask;
 
 public class ScanQRCodeActivity extends AppCompatActivity {
 
     private static final String TAG = "ScanQRCodeActivity";
     private DatabaseReference databaseRef;
-    private String clubId;
-
+    private String clubId, eventId;
+    NfcAdapter nfcAdapter;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -29,24 +31,42 @@ public class ScanQRCodeActivity extends AppCompatActivity {
                 String contents = data.getStringExtra("SCAN_RESULT");
 
                 if (clubId != null) {
-                    databaseRef.addValueEventListener(new ValueEventListener() {
+                    databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String isFailure = "true";
+                            String userIdContents = null;
+                            String userNameContents = null;
+
                             try {
-                                if (dataSnapshot.child("clubs-members").child(clubId).child(contents).exists()) {
-                                    Toast.makeText(ScanQRCodeActivity.this, "User is a club member", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    Toast.makeText(ScanQRCodeActivity.this, "User is NOT a club member", Toast.LENGTH_SHORT).show();
-                                }
+                                String[] qrContents = contents.split(",");
+                                userIdContents = qrContents[0];
+                                userNameContents = qrContents[1];
                             } catch (Exception e) {
-                                Toast.makeText(ScanQRCodeActivity.this, "User is NOT a club member", Toast.LENGTH_SHORT).show();
+                                finish();
                             }
+
+                            try {
+                                if (userIdContents != null && dataSnapshot.child("clubs-members").child(clubId).child(userIdContents).exists()) {
+                                    isFailure = "false";
+                                }
+                            } catch (Exception e) {}
+
+                            if (eventId != null && isFailure.equalsIgnoreCase("false")) {
+                                databaseRef.child("clubs").child(clubId).child("events").child(eventId).child("register").child(userIdContents).setValue(userNameContents);
+                            }
+
+                            Intent intent = new Intent(ScanQRCodeActivity.this, VerifyMessageActivity.class);
+                            intent.putExtra("failure", isFailure);
+                            startActivity(intent);
                             finish();
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-                            Toast.makeText(ScanQRCodeActivity.this, "User is NOT a club member", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(ScanQRCodeActivity.this, VerifyMessageActivity.class);
+                            intent.putExtra("failure", "true");
+                            startActivity(intent);
                             finish();
                         }
                     });
@@ -70,6 +90,7 @@ public class ScanQRCodeActivity extends AppCompatActivity {
 
         databaseRef = FirebaseDatabase.getInstance().getReference();
         clubId = getIntent().getStringExtra("clubId");
+        eventId = getIntent().getStringExtra("eventId");
 
         try {
             Intent intent = new Intent("com.google.zxing.client.android.SCAN");
@@ -81,4 +102,33 @@ public class ScanQRCodeActivity extends AppCompatActivity {
             startActivity(marketIntent);
         }
     }
+
+    //This this code to stop NFC restarting the app
+    public void onResume() {
+        super.onResume();
+        if(isNfcSupported()) {
+            subTask ob=new subTask();
+            nfcAdapter=ob.Resume(this,nfcAdapter,new Intent(this,ScanQRCodeActivity.class));
+        }
+    }
+    public void onPause() {
+        super.onPause();
+        if(isNfcSupported()) {
+            subTask ob=new subTask();
+            nfcAdapter=ob.Pause(this,nfcAdapter);
+        }
+    }
+    public void onNewIntent(Intent intent) {
+        if(isNfcSupported()) {
+            if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
+                // drop NFC events //No Nothing
+                //Makes the activity stay same after NFC intent
+            }
+        }
+    }
+    private boolean isNfcSupported() {
+        this.nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        return this.nfcAdapter != null;
+    }
+    //This this code to stop NFC restarting the app
 }

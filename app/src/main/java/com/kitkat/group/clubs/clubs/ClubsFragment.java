@@ -1,19 +1,15 @@
 package com.kitkat.group.clubs.clubs;
 
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,9 +38,6 @@ public class ClubsFragment extends Fragment {
     private ClubListAdapter listAdapter;
     private EditText searchText;
 
-    public static final int REQUEST_CODE = 100;
-    public static final int PERMISSIONS_REQUEST = 200;
-
     public ClubsFragment() {
         // Empty public constructor
     }
@@ -64,14 +57,6 @@ public class ClubsFragment extends Fragment {
 
         loadIntoListView(null, false);
 
-        view.findViewById(R.id.btn_clubs_create).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CreateClubActivity.class);
-                startActivity(intent);
-            }
-        });
-
         view.findViewById(R.id.search_clubs_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,30 +75,7 @@ public class ClubsFragment extends Fragment {
             }
         });
 
-        if (ContextCompat.checkSelfPermission(getActivity(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{ android.Manifest.permission.CAMERA}, PERMISSIONS_REQUEST);
-        }
-        view.findViewById(R.id.btn_scan_qr).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivityForResult(new Intent(getActivity(), ScanQRCodeActivity.class), REQUEST_CODE);
-            }
-        });
-
         return view;
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.d(TAG, "onActivityResult: started onActivityResult");
-        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
-            if (data != null) {
-                final Barcode barcode = data.getParcelableExtra("barcode");
-                Intent intent = new Intent(getActivity(), ViewClubActivity.class);
-                intent.putExtra("clubId", barcode.displayValue);
-                getActivity().startActivity(intent);
-                getActivity().finish();
-            }
-        }
     }
 
     public void loadIntoListView(String search, boolean myClubs) {
@@ -153,12 +115,10 @@ public class ClubsFragment extends Fragment {
                     data = ds.getValue(Club.class);
                 }
 
-                clubs.add(data);
-                listAdapter.notifyDataSetChanged();
-            }
-
-            if (data == null) {
-                Toast.makeText(getActivity(), "None found", Toast.LENGTH_SHORT).show();
+                if (ownClubs || data.getIsPublic()) {
+                    clubs.add(data);
+                    listAdapter.notifyDataSetChanged();
+                }
             }
         }
 

@@ -7,75 +7,102 @@
     tools:context="com.kitkat.group.clubs.nfc.ReceiverActivity"
     tools:layout_editor_absoluteY="25dp">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginBottom="10dp"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintBottom_toTopOf="@+id/tv_out_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@color/colorWhite" />
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar8"
+        android:layout_width="0dp"
+        android:layout_height="46dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/toolbar5"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar5">
+
+    </android.support.v7.widget.Toolbar>
+
+    <TextView
+        android:id="@+id/tv_out_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/toolbar8"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:text="@string/label_your_message"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/colorWhite"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar5" />
+
     <TextView
         android:id="@+id/tv_in_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="66dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginBottom="28dp"
+        android:layout_marginStart="148dp"
         android:text="@string/title_btn_set"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintBottom_toTopOf="@+id/tvr_clubName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="@+id/tvr_clubName" />
 
     <TextView
         android:id="@+id/tvr_clubName"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="160dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/tvr_clubId"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/tvr_clubId"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvr_clubId"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="32dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/tvr_userName"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/tvr_userName"
-        app:layout_constraintTop_toBottomOf="@+id/tvr_clubName" />
+        android:layout_marginBottom="224dp"
+        android:text="@string/clubName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
         android:id="@+id/tvr_userName"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="32dp"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="@+id/tvr_userId"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@+id/tvr_userId"
-        app:layout_constraintTop_toBottomOf="@+id/tvr_clubId" />
-
-    <TextView
-        android:id="@+id/tvr_userId"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="36dp"
-        android:text="TextView"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvr_userName" />
+        android:layout_marginBottom="38dp"
+        android:text="@string/userName"
+        app:layout_constraintBottom_toTopOf="@+id/tv_in_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/receiverButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="92dp"
-        android:layout_marginTop="92dp"
         android:text="@string/ReceiverButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvr_userId" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="23dp"
+        android:text="TextView"
+        app:layout_constraintStart_toStartOf="@+id/receiverButton"
+        app:layout_constraintTop_toBottomOf="@+id/tvr_clubName" />
 
 </android.support.constraint.ConstraintLayout>

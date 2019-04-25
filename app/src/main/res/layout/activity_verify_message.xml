@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/verifyContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorSuccess"
+    tools:context="com.kitkat.group.clubs.VerifyMessageActivity">
+
+    <ImageView
+        android:id="@+id/verifyImage"
+        android:layout_width="343dp"
+        android:layout_height="320dp"
+        android:layout_marginTop="88dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/success" />
+
+    <TextView
+        android:id="@+id/verifyText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="@string/is_a_member"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/verifyImage"
+        app:layout_constraintVertical_bias="0.444" />
+</android.support.constraint.ConstraintLayout>
