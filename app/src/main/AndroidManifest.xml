@@ -75,6 +75,20 @@
         <activity
             android:name=".clubs.ViewClubMembersActivity"
             android:screenOrientation="portrait" />
+        <activity android:name=".clubs.ClubSettingsActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".clubs.MapViewActivity"
+            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".auth.RegisterActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".clubs.ViewClubMembersActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".VerifyMessageActivity"></activity>
+
         <activity
             android:name=".VerifyMessageActivity"
             android:screenOrientation="portrait" />

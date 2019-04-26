@@ -100,9 +100,11 @@ public class Club {
     }
 
     @Override
-    public String toString() {
-        return "Name: " + clubName + "\n"
-                + "Description: " + clubDescription;
+    public String toString(){
+        return "Club ID: " + clubID + "\n" +
+                "Club Name: " + clubName + "\n" +
+                "Club Owner: " + clubOwner + "\n" +
+                "Club Description: " + clubDescription + "\n" +
+                "Club Location: " + clubLocation + "\n";
     }
-
 }
