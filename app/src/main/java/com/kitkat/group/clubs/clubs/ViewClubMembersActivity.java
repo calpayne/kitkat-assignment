@@ -1,7 +1,11 @@
 package com.kitkat.group.clubs.clubs;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
+import android.nfc.NfcAdapter;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,8 +26,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.kitkat.group.clubs.MainActivity;
 import com.kitkat.group.clubs.R;
+import com.kitkat.group.clubs.clubs.events.CreateEventActivity;
 import com.kitkat.group.clubs.data.Member;
+import com.kitkat.group.clubs.nfc.subTask;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -36,6 +43,7 @@ public class ViewClubMembersActivity extends AppCompatActivity {
     private MemberListAdapter listAdapter;
     private boolean isAdmin;
     private String clubId;
+    NfcAdapter nfcAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +61,35 @@ public class ViewClubMembersActivity extends AppCompatActivity {
 
         loadIntoListView(clubId);
     }
+
+    //This this code to stop NFC restarting the app
+    public void onResume() {
+        super.onResume();
+        if(isNfcSupported()) {
+            subTask ob=new subTask();
+            nfcAdapter=ob.Resume(this,nfcAdapter,new Intent(this,ViewClubMembersActivity.class));
+        }
+    }
+    public void onPause() {
+        super.onPause();
+        if(isNfcSupported()) {
+            subTask ob=new subTask();
+            nfcAdapter=ob.Pause(this,nfcAdapter);
+        }
+    }
+    public void onNewIntent(Intent intent) {
+        if(isNfcSupported()) {
+            if (NfcAdapter.ACTION_TAG_DISCOVERED.equals(intent.getAction())) {
+                // drop NFC events //No Nothing
+                //Makes the activity stay same after NFC intent
+            }
+        }
+    }
+    private boolean isNfcSupported() {
+        this.nfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        return this.nfcAdapter != null;
+    }
+    //This this code to stop NFC restarting the app
 
     private void loadIntoListView(String clubId) {
         members.clear();
@@ -92,17 +129,33 @@ public class ViewClubMembersActivity extends AppCompatActivity {
             LayoutInflater inflater = context.getLayoutInflater();
             View rowView = inflater.inflate(R.layout.listview_row, null,true);
 
-            TextView clubNameText = rowView.findViewById(R.id.row_name);
-            clubNameText.setText(data.get(position).getMemberName());
+            TextView memberNameText = rowView.findViewById(R.id.row_name);
+            memberNameText.setText(data.get(position).getMemberName());
 
             if (isAdmin && !data.get(position).getMemberRef().equalsIgnoreCase(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                clubNameText.setOnClickListener(new View.OnClickListener() {
+                memberNameText.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        databaseRef.child("members-clubs").child(data.get(position).getMemberRef()).child(clubId).removeValue();
-                        databaseRef.child("clubs-members").child(clubId).child(data.get(position).getMemberRef()).removeValue();
-                        data.remove(position);
-                        notifyDataSetChanged();
+                        AlertDialog.Builder alert = new AlertDialog.Builder(ViewClubMembersActivity.this);
+                        alert.setTitle("Kick");
+                        alert.setMessage("Are you sure you want to kick " + data.get(position).getMemberName() + "?");
+                        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                databaseRef.child("members-clubs").child(data.get(position).getMemberRef()).child(clubId).removeValue();
+                                databaseRef.child("clubs-members").child(clubId).child(data.get(position).getMemberRef()).removeValue();
+                                data.remove(position);
+                                notifyDataSetChanged();
+                                dialog.dismiss();
+                            }
+                        });
+                        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        alert.show();
                     }
                 });
             }

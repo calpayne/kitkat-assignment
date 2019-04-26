@@ -7,4 +7,5 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorSuccess">#02B875</color>
     <color name="colorFailure">#E73E5F</color>
+    <color name="colorInvalid">#fbc02d</color>
 </resources>

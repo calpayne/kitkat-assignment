@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
@@ -16,18 +18,17 @@
             android:id="@+id/nav_create_club"
             android:icon="@drawable/ic_main_create_club"
             android:title="Create a Club" />
+    </group>
+
+    <group android:checkableBehavior="none">
         <item
             android:id="@+id/nav_scan_qr"
             android:icon="@drawable/ic_main_scan_qr"
             android:title="Open Club by QR Scan" />
         <item
-            android:id="@+id/nav_user"
-            android:icon="@drawable/ic_main_user"
-            android:title="User" />
-        <item
-            android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_main_logout"
-            android:title="Logout"/>
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_main_user_settings"
+            android:title="Settings " />
     </group>
 
 </menu>
