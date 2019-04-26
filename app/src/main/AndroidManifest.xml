@@ -79,19 +79,7 @@
             android:screenOrientation="portrait" />
         <activity android:name=".clubs.MapViewActivity"
             android:screenOrientation="portrait" />
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".auth.RegisterActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".clubs.ViewClubMembersActivity"
-            android:screenOrientation="portrait" />
-        <activity android:name=".VerifyMessageActivity"></activity>
-
-        <activity
-            android:name=".VerifyMessageActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".VerifyMessageActivity" />
         <activity
             android:name=".nfc.TutorialActivity"
             android:screenOrientation="portrait" />
@@ -103,7 +91,7 @@
             android:label="@string/title_activity_view_event"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
-        <activity android:name=".nfc.unauthorisedActivity"></activity>
+        <activity android:name=".nfc.unauthorisedActivity" />
         <activity android:name=".settings.SettingsActivity"
                   android:screenOrientation="portrait"/>
     </application>
