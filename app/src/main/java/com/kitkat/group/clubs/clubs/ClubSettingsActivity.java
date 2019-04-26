@@ -234,11 +234,18 @@ public class ClubSettingsActivity extends AppCompatActivity {
         if(!Objects.equals(club.toString(),temp.toString())){
            new AlertDialog.Builder(this)
                    .setTitle("Save Changes?")
-                   .setPositiveButton("OK", (dialogInterface, i) -> db.child("clubs").child(club.getClubID()).setValue(club))
+                   .setPositiveButton("OK", (dialogInterface, i) -> updateClubInDatabase())
                    .setNegativeButton("CANCEL", (dialogInterface, i) -> dialogInterface.cancel())
                    .show();
         }
     }
 
+    private void updateClubInDatabase() {
+        db.child("clubs").child(club.getClubID()).child("clubName").setValue(club.getClubName());
+        db.child("clubs").child(club.getClubID()).child("clubNameSearch").setValue(club.getClubName().toLowerCase());
+        db.child("clubs").child(club.getClubID()).child("clubDescription").setValue(club.getClubDescription());
+        db.child("clubs").child(club.getClubID()).child("clubLocation").setValue(club.getClubLocation());
+        db.child("clubs").child(club.getClubID()).child("isPublic").setValue(club.getIsPublic());
+    }
 
 }
