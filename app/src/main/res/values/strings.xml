@@ -56,6 +56,8 @@
     <string name="action_manage">Manage</string>
     <string name="navigation_drawer_open">Open Navigation Drawer</string>
     <string name="navigation_drawer_close">Close Navigation Drawer</string>
+    <string name="edit">Edit</string>
+    <string name="disband_club">Disband Club</string>
     <string name="title_activity_verify_message">VerifyMessageActivity</string>
     <string name="is_a_member">User is a member</string>
     <string name="unAuth">Invalid action!</string>
@@ -94,6 +96,4 @@
     <string name="go_back">Go Back</string>
     <string name="try_nfc_again">Try NFC the other way around again</string>
     <string name="follow_the_tutorial">Follow this tutorial to validate your membership when you enter a club.</string>
-    <string name="details_of_event">Details of Event</string>
-    <string name="delete_event">Delete Event</string>
 </resources>

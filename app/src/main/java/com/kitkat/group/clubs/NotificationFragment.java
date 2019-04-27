@@ -64,12 +64,14 @@ public class NotificationFragment extends Fragment {
                     DataSnapshot clubSnapshot = dataSnapshot.child("clubs").child(postSnapshot.getKey());
                     Club club = clubSnapshot.getValue(Club.class);
 
-                    for (DataSnapshot eventSnapshot: dataSnapshot.child("clubs").child(club.getClubID()).child("events").getChildren()) {
-                        EventViewModel event = eventSnapshot.getValue(EventViewModel.class);
-                        event.setEventId(eventSnapshot.getKey());
-                        event.setClubId(club.getClubID());
-                        event.setOwnerId(club.getClubOwner());
-                        events.add(event);
+                    if(club != null) {
+                        for (DataSnapshot eventSnapshot : dataSnapshot.child("clubs").child(club.getClubID()).child("events").getChildren()) {
+                            EventViewModel event = eventSnapshot.getValue(EventViewModel.class);
+                            event.setEventId(eventSnapshot.getKey());
+                            event.setClubId(club.getClubID());
+                            event.setOwnerId(club.getClubOwner());
+                            events.add(event);
+                        }
                     }
                 }
                 Collections.reverse(events);
