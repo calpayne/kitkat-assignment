@@ -15,9 +15,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,8 +53,17 @@ public class ViewEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_event);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         clubId = getIntent().getStringExtra("clubId");
         eventId = getIntent().getStringExtra("eventId");
@@ -91,7 +102,7 @@ public class ViewEventActivity extends AppCompatActivity {
                 listAdapter.clear();
                 listAdapter.notifyDataSetChanged();
                 if (isAdmin) {
-                    for (DataSnapshot postSnapshot: dataSnapshot.child("clubs").child(clubId).child("events").child(eventId).child("register").getChildren()) {
+                    for (DataSnapshot postSnapshot : dataSnapshot.child("clubs").child(clubId).child("events").child(eventId).child("register").getChildren()) {
                         members.add(new Member(postSnapshot.getKey(), postSnapshot.getValue(String.class)));
                         listAdapter.notifyDataSetChanged();
                     }
@@ -106,6 +117,27 @@ public class ViewEventActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        Button buttonDelete = (Button) findViewById(R.id.btnDeleteEvent);
+        if (isAdmin) {
+            buttonDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    deleteEvent(clubId, eventId);
+                }
+            });
+        }
+        else {
+            buttonDelete.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void deleteEvent(String clubId, String eventId){
+        DatabaseReference dbDeleteEvent = FirebaseDatabase.getInstance().getReference("clubs").child(clubId).child("events").child(eventId);
+        dbDeleteEvent.removeValue();
+        dbDeleteEvent.keepSynced(true);
+
+        Toast.makeText(this, "Event Deleted!", Toast.LENGTH_SHORT).show();
     }
 
     //This this code to stop NFC restarting the app

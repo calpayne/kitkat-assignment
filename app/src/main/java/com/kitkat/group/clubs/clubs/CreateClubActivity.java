@@ -20,13 +20,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ServerValue;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.kitkat.group.clubs.MainActivity;
 import com.kitkat.group.clubs.R;
-import com.kitkat.group.clubs.clubs.events.CreateEventActivity;
 import com.kitkat.group.clubs.data.Club;
 import com.kitkat.group.clubs.data.ClubUser;
 import com.kitkat.group.clubs.nfc.subTask;
@@ -134,7 +132,7 @@ public class CreateClubActivity extends AppCompatActivity {
             progressDialog.show();
             final FirebaseUser fa = FirebaseAuth.getInstance().getCurrentUser();
 
-            Club club = new Club(clubID, clubName.getText().toString(), clubDesc.getText().toString(), null, fa.getUid(), isPublic.isChecked(), ServerValue.TIMESTAMP);
+            Club club = new Club(clubID, clubName.getText().toString(), clubDesc.getText().toString(), null, fa.getUid(), isPublic.isChecked());
 
             databaseRef.child("clubs").child(clubID).setValue(club, new DatabaseReference.CompletionListener() {
                 @Override
