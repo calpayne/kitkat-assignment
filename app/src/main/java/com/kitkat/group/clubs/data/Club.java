@@ -1,10 +1,5 @@
 package com.kitkat.group.clubs.data;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import static java.text.DateFormat.getDateTimeInstance;
-
 /**
  * Created by Admin on 14/02/2019.
  */
@@ -13,7 +8,6 @@ public class Club {
 
     private String clubID, clubName, clubNameSearch, clubDescription, clubLocation, clubOwner;
     private boolean isPublic;
-    private Map<String, String> timestamp;
 
     public Club() {
 
@@ -26,7 +20,7 @@ public class Club {
         this.clubOwner = clubOwner;
     }
 
-    public Club(String clubID, String clubName, String clubDescription, String clubLocation, String clubOwner, boolean isPublic, Map<String, String> timestamp) {
+    public Club(String clubID, String clubName, String clubDescription, String clubLocation, String clubOwner, boolean isPublic) {
         this.clubID = clubID;
         this.clubDescription = clubDescription;
         this.clubName = clubName;
@@ -34,7 +28,6 @@ public class Club {
         this.clubLocation = clubLocation;
         this.clubOwner = clubOwner;
         this.isPublic = isPublic;
-        this.timestamp = timestamp;
     }
 
     public String getClubID() {
@@ -90,19 +83,12 @@ public class Club {
         this.isPublic = isPublic;
     }
 
-    public Map<String, String> getTimestamp() {
-        return timestamp;
-    }
-
-    public void setTimestamp(Long timestamp) {
-        this.timestamp = new HashMap<>();
-        this.timestamp.put("timestamp", timestamp.toString());
-    }
-
     @Override
-    public String toString() {
-        return "Name: " + clubName + "\n"
-                + "Description: " + clubDescription;
+    public String toString(){
+        return "Club ID: " + clubID + "\n" +
+                "Club Name: " + clubName + "\n" +
+                "Club Owner: " + clubOwner + "\n" +
+                "Club Description: " + clubDescription + "\n" +
+                "Club Location: " + clubLocation + "\n";
     }
-
 }
