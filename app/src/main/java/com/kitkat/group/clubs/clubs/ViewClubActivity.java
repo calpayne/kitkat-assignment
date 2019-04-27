@@ -25,6 +25,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.android.gms.common.internal.Objects;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -88,8 +91,6 @@ public class ViewClubActivity extends AppCompatActivity {
 
         db = FirebaseDatabase.getInstance().getReference();
         storageRef = FirebaseStorage.getInstance().getReference("club-logos");
-
-        //DatabaseReference instance = db;
 
         //DocumentReference docRef = db.collection("cities").document(getIntent().getStringExtra("clubId"));
 
@@ -281,6 +282,14 @@ public class ViewClubActivity extends AppCompatActivity {
         Intent intent = null;
         switch(item.getItemId()) {
             case R.id.action_manage:
+                System.out.println(club.getClubOwner());
+                System.out.println(mAuth.getUid());
+                if(Objects.equal(club.getClubOwner(),mAuth.getUid())){
+                    Intent management = new Intent(this,ClubSettingsActivity.class);
+                    management.putExtra("clubId", club.getClubID());
+                    startActivity(management);
+                }else
+                    Toast.makeText(this,"Access Denied",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.action_view_members:
                 intent = new Intent(ViewClubActivity.this, ViewClubMembersActivity.class);
