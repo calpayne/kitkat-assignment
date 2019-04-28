@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 import android.util.Log;
-
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

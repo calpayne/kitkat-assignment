@@ -70,6 +70,40 @@
         android:padding="8dp"
         android:background="@drawable/circular_background_no_fill" />
 
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:background="@color/colorPrimary"
+        android:drawableBottom="@drawable/ic_go_back"
+        android:onClick="goBack"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout"
+        android:layout_width="match_parent"
+        android:layout_height="184dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout_editor_absoluteY="0dp">
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/create_club"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
+            android:textColor="@color/colorWhite"
+            android:textSize="65px" />
+      
+    </RelativeLayout>
+
     <Switch
         android:layout_below="@+id/club_description"
         android:id="@+id/isPublic"

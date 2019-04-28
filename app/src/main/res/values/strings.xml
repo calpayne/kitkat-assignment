@@ -100,4 +100,5 @@
     <string name="delete_event">Delete Event</string>
     <string name="member_title">Members</string>
     <string name="manage_title">Manage</string>
+    <string name="add_to_calender">Add to Calender</string>
 </resources>
