@@ -20,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -30,15 +29,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.kitkat.group.clubs.MainActivity;
 import com.kitkat.group.clubs.R;
 import com.kitkat.group.clubs.ScanQRCodeActivity;
 import com.kitkat.group.clubs.data.Event;
 import com.kitkat.group.clubs.data.Member;
 import com.kitkat.group.clubs.nfc.subTask;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
+
 
 public class ViewEventActivity extends AppCompatActivity {
 
@@ -48,6 +46,7 @@ public class ViewEventActivity extends AppCompatActivity {
     private MemberListAdapter listAdapter;
     NfcAdapter nfcAdapter;
     private String clubId, eventId;
+    String frmActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +66,7 @@ public class ViewEventActivity extends AppCompatActivity {
 
         clubId = getIntent().getStringExtra("clubId");
         eventId = getIntent().getStringExtra("eventId");
+        frmActivity = getIntent().getStringExtra("FROM_ACTIVITY");
         boolean isAdmin = getIntent().getStringExtra("ownerId").equalsIgnoreCase(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         members = new ArrayList<>();
@@ -119,6 +119,7 @@ public class ViewEventActivity extends AppCompatActivity {
         });
 
         Button buttonDelete = (Button) findViewById(R.id.btnDeleteEvent);
+        if(frmActivity.equals("main")){buttonDelete.setVisibility(View.INVISIBLE);}
         if (isAdmin) {
             buttonDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -126,11 +127,12 @@ public class ViewEventActivity extends AppCompatActivity {
                     deleteEvent(clubId, eventId);
                 }
             });
-        }
-        else {
+        } else {
             buttonDelete.setVisibility(View.INVISIBLE);
         }
-    }
+
+   }
+
 
     public void deleteEvent(String clubId, String eventId){
         DatabaseReference dbDeleteEvent = FirebaseDatabase.getInstance().getReference("clubs").child(clubId).child("events").child(eventId);
