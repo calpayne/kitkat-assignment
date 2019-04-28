@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
-
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -22,7 +21,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.kitkat.group.clubs.R;
 import com.kitkat.group.clubs.auth.LoginActivity;
-import com.kitkat.group.clubs.clubs.events.CreateEventActivity;
 import com.kitkat.group.clubs.nfc.subTask;
 
 public class SettingsActivity extends AppCompatActivity {

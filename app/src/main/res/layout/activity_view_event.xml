@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.kitkat.group.clubs.clubs.events.ViewEventActivity">
+    tools:context="com.kitkat.group.clubs.clubs.events.ViewEventActivity"
+    tools:layout_editor_absoluteY="25dp">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -35,11 +36,13 @@
     <include
         android:id="@+id/include"
         layout="@layout/content_view_event"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnDeleteEvent"
+        app:layout_constraintStart_toStartOf="@+id/btnDeleteEvent"
         app:layout_constraintTop_toBottomOf="@+id/appBarLayout" />
 
     <android.support.design.widget.FloatingActionButton
@@ -47,21 +50,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
         android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:srcCompat="@drawable/ic_scan_qr" />
 
     <Button
         android:id="@+id/btnDeleteEvent"
-        android:layout_width="wrap_content"
+        android:layout_width="125dp"
         android:layout_height="43dp"
         android:layout_marginBottom="16dp"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="15dp"
         android:text="@string/delete_event"
+        android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/fab"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:background="@drawable/circular_background"/>
+
 
 </android.support.constraint.ConstraintLayout>
