@@ -109,6 +109,7 @@ public class NotificationFragment extends Fragment {
                     intent.putExtra("clubId", data.get(position).getClubId());
                     intent.putExtra("eventId", data.get(position).getEventId());
                     intent.putExtra("ownerId", data.get(position).getOwnerId());
+                    intent.putExtra("FROM_ACTIVITY","main");
                     startActivity(intent);
                 }
             });

@@ -61,20 +61,19 @@
         android:singleLine="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/clubName" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="30dp"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:background="@color/colorPrimary"
+        android:drawableBottom="@drawable/ic_go_back"
         android:onClick="goBack"
-        android:text="@string/go_back"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button3"
         app:layout_constraintStart_toStartOf="parent" />
 
     <RelativeLayout
@@ -111,22 +110,13 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:id="@+id/btn_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="goBack"
-        android:text="@string/cancel"
-        android:layout_alignParentBottom="true"
-        android:layout_margin="10dp" />
-
-    <Button
         android:id="@+id/btn_create_club"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="createClub"
-        android:text="@string/create_club"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="10dp" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="21dp"
+        android:onClick="createClub"
+        android:text="@string/create_club" />
 
 </RelativeLayout>

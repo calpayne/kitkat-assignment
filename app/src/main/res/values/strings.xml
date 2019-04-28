@@ -98,4 +98,5 @@
     <string name="follow_the_tutorial">Follow this tutorial to validate your membership when you enter a club.</string>
     <string name="details_of_event">Details of Event</string>
     <string name="delete_event">Delete Event</string>
+    <string name="add_to_calender">Add to Calender</string>
 </resources>

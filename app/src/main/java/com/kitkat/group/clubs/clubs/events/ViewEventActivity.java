@@ -2,11 +2,16 @@ package com.kitkat.group.clubs.clubs.events;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.net.ParseException;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -39,6 +44,7 @@ import com.kitkat.group.clubs.nfc.subTask;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.TimeZone;
 
 public class ViewEventActivity extends AppCompatActivity {
 
@@ -48,6 +54,7 @@ public class ViewEventActivity extends AppCompatActivity {
     private MemberListAdapter listAdapter;
     NfcAdapter nfcAdapter;
     private String clubId, eventId;
+    String frmActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +74,7 @@ public class ViewEventActivity extends AppCompatActivity {
 
         clubId = getIntent().getStringExtra("clubId");
         eventId = getIntent().getStringExtra("eventId");
+        frmActivity = getIntent().getStringExtra("FROM_ACTIVITY");
         boolean isAdmin = getIntent().getStringExtra("ownerId").equalsIgnoreCase(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         members = new ArrayList<>();
@@ -119,6 +127,7 @@ public class ViewEventActivity extends AppCompatActivity {
         });
 
         Button buttonDelete = (Button) findViewById(R.id.btnDeleteEvent);
+        if(frmActivity.equals("main")){buttonDelete.setVisibility(View.INVISIBLE);}
         if (isAdmin) {
             buttonDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -126,11 +135,12 @@ public class ViewEventActivity extends AppCompatActivity {
                     deleteEvent(clubId, eventId);
                 }
             });
-        }
-        else {
+        } else {
             buttonDelete.setVisibility(View.INVISIBLE);
         }
-    }
+
+   }
+
 
     public void deleteEvent(String clubId, String eventId){
         DatabaseReference dbDeleteEvent = FirebaseDatabase.getInstance().getReference("clubs").child(clubId).child("events").child(eventId);
