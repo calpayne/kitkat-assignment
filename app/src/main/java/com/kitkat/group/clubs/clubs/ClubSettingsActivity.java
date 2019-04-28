@@ -43,8 +43,17 @@ public class ClubSettingsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         System.out.println("Screen Accessed");
         setContentView(R.layout.activity_club_settings);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         db = FirebaseDatabase.getInstance().getReference();
 
