@@ -55,13 +55,15 @@
 
     <Button
         android:id="@+id/btnDeleteEvent"
-        android:layout_width="wrap_content"
+        android:layout_width="125dp"
         android:layout_height="43dp"
         android:layout_marginBottom="16dp"
         android:layout_marginEnd="24dp"
         android:text="@string/delete_event"
+        android:textColor="@color/colorWhite"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/fab"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"
+        android:background="@drawable/circular_background"/>
 
 </android.support.constraint.ConstraintLayout>

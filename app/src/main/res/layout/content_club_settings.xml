@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -80,8 +81,10 @@
         android:layout_height="48dp"
         android:layout_marginEnd="16dp"
         android:text="@string/edit"
+        android:textColor="@color/colorWhite"
         app:layout_constraintBaseline_toBaselineOf="@+id/txt_nameContent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/circular_background" />
 
     <Button
         android:id="@+id/btn_editOwner"
@@ -89,8 +92,10 @@
         android:layout_height="48dp"
         android:layout_marginEnd="16dp"
         android:text="@string/edit"
+        android:textColor="@color/colorWhite"
         app:layout_constraintBaseline_toBaselineOf="@+id/txt_ownerContent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/circular_background" />
 
     <Button
         android:id="@+id/btn_editDesc"
@@ -98,8 +103,10 @@
         android:layout_height="48dp"
         android:layout_marginEnd="16dp"
         android:text="@string/edit"
+        android:textColor="@color/colorWhite"
         app:layout_constraintBaseline_toBaselineOf="@+id/txt_descContent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/circular_background" />
 
     <Button
         android:id="@+id/btn_disband"
@@ -119,8 +126,10 @@
         android:layout_height="48dp"
         android:layout_marginEnd="16dp"
         android:text="@string/edit"
+        android:textColor="@color/colorWhite"
         app:layout_constraintBaseline_toBaselineOf="@+id/txt_locationContent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/circular_background" />
 
     <Switch
         android:id="@+id/switch_publicity"
@@ -130,6 +139,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="Public"
+        android:theme="@style/Switch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_location" />
