@@ -85,10 +85,8 @@ public class Club {
 
     @Override
     public String toString(){
-        return "Club ID: " + clubID + "\n" +
-                "Club Name: " + clubName + "\n" +
-                "Club Owner: " + clubOwner + "\n" +
+        return "Club Name: " + clubName + "\n" +
                 "Club Description: " + clubDescription + "\n" +
-                "Club Location: " + clubLocation + "\n";
+                "Club Location: " + (clubLocation == null ? "Not set" : clubLocation) + "\n";
     }
 }
