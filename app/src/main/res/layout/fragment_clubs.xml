@@ -11,15 +11,17 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/search_clubs_button"
         android:layout_toStartOf="@+id/search_clubs_button"
-        android:hint="SEARCH..." />
+        android:hint="SEARCH..."
+        android:layout_margin="5dp" />
 
-    <Button
+    <ImageButton
         android:id="@+id/search_clubs_button"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentEnd="true"
-        android:text="?"
-        />
+        android:background="@drawable/ic_search"
+        android:layout_margin="5dp"
+        android:contentDescription="@string/search" />
 
     <RelativeLayout
         android:layout_marginTop="56dp"
@@ -27,19 +29,11 @@
         android:layout_height="match_parent" >
 
         <Button
-            android:id="@+id/btn_scan_qr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentEnd="true"
-            android:text="Scan QR" />
-
-        <Button
             android:id="@+id/btn_my_clubs"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_toStartOf="@+id/btn_scan_qr"
+            android:layout_alignParentEnd="true"
             android:text="@string/my_clubs" />
 
         <ListView
