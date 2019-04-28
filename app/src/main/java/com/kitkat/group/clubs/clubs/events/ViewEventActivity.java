@@ -2,16 +2,11 @@ package com.kitkat.group.clubs.clubs.events;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.ParseException;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.os.Bundle;
-import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -25,7 +20,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -35,16 +29,14 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.kitkat.group.clubs.MainActivity;
 import com.kitkat.group.clubs.R;
 import com.kitkat.group.clubs.ScanQRCodeActivity;
 import com.kitkat.group.clubs.data.Event;
 import com.kitkat.group.clubs.data.Member;
 import com.kitkat.group.clubs.nfc.subTask;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
-import java.util.TimeZone;
+
 
 public class ViewEventActivity extends AppCompatActivity {
 
