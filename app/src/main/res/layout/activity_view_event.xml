@@ -36,8 +36,10 @@
     <include
         android:id="@+id/include"
         layout="@layout/content_view_event"
-        android:layout_width="384dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnDeleteEvent"
         app:layout_constraintStart_toStartOf="@+id/btnDeleteEvent"
